@@ -23,7 +23,7 @@ Here are instructions on how to download, run and edit the code.
 5. On the main page of GitHub Desktop, click on `Current Branch` which should say `main` currently.
 6. You want to change this branch to the section of the project you are working on (`client` or `server`). Branch `main` should only be used when merging the two sections together and testing of the whole system.
 
-**AVOID EDITING THE MAIN BRANCH SINCE THIS WILL MAKE COMBINING CHANGES DIFFERENT PEOPLE HAVE MADE DIFFICULT**
+**AVOID EDITING THE MAIN BRANCH SINCE THIS WILL MAKE COMBINING CHANGES DIFFERENT PEOPLE HAVE DIFFICULT**
 
 7. When you want to commit your code changes, go onto GitHub Desktop, select this repository and write a commit message.
 8. Then click commit and `Publish` them to GitHub
