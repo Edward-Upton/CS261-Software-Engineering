@@ -32,3 +32,4 @@ Here are instructions on how to download, run and edit the code.
 
 - Before editing code, make sure you `Fetch` the latest code by going onto GitHub Desktop and clicking `Fetch origin`.
 - When changes are needed accross different branches, we will merge the `client` and `server` into the `main` branch which will update them.
+- We can go through it all in our next meeting.
