@@ -15,6 +15,7 @@ The Flask REST API and data analysis.
 ## Using this Repository
 
 Here are instructions on how to download, run and edit the code.
+**This will all need to change with the new way we will be doing branches**
 
 1. First I advise to download [GitHub Desktop](https://desktop.github.com/) to help managing the repository.
 2. Open GitHub Desktop, click `Add` and go to `Clone Repository...`.
