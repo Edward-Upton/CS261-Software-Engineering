@@ -34,3 +34,47 @@ Here are instructions on how to download, run and edit the code.
 - Before editing code, make sure you `Fetch` the latest code by going onto GitHub Desktop and clicking `Fetch origin`.
 - When changes are needed accross different branches, we will merge the `client` and `server` into the `main` branch which will update them.
 - We can go through it all in our next meeting (Wednesday 20th Jan).
+
+## Tutorials Used To Set Up
+
+- Setting up Python Environment (pipenv): https://www.datacamp.com/community/tutorials/virtual-environment-in-python
+- Connect Flask to MongoDB Atlas Database: https://medium.com/@summerxialinqiao/connect-flask-app-to-mongodb-atlas-using-pymongo-328e119a7bd8
+- Creating REST API in Python: https://medium.com/better-programming/api-development-in-python-with-flask-resful-and-mongodb-71e56a70b3a6
+- Created React project using `npx create-react-app frontend --template tyepscript`
+
+## Set Up
+
+### Dependencies
+
+This will outline how to set up your device to be able to code.
+
+#### Python
+
+- Install `Python3` and make sure `pip` is installed.
+- Run `pip3 install pipenv` which will be used for the Python virtual environment.
+- Run `cd server` in the repository's root.
+- Run `pipenv shell` to go into the Python environment.
+- Run `pipenv install` to install all dependencies for this Python project.
+
+#### React
+
+- Install `nodeJS` (https://nodejs.org/en/download/).
+- Run `npm install --global yarn` to install the yarn package manager (might have to run it in sudo).
+- Run `cd frontend` in the repository's root.
+- Run `yarn` to install all dependencies for this React project.
+  
+### Development
+
+This will outline how to start coding each time you come to work on the project.
+
+#### Python
+
+- Run `cd server` in the repository root.
+- Run `pipenv shell`, this will turn your terminal to be inside the Python environment.
+- Add any dependencies using `pipenv install <dependencyName>` which will correctly add it to the environment.
+- When in this environment, you can run any Python file using `python3 <fileName>`.
+
+#### React
+
+- Run `cd frontend` in the repository root.
+- Run `yarn start` to start the React project.
