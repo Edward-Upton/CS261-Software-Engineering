@@ -14,6 +14,8 @@ class UsersApi(Resource):
         body = request.get_json()
         user = User(**body).save()
         id = user.id
+        users = User.objects.get()
+        print(type(users), users)
         return {'id': str(id)}, 200
 
 # This resource is used by a user with a user ID to get, modify or delete their account
@@ -30,3 +32,5 @@ class UserApi(Resource):
     def delete(self, id):
         User.objects.get(id = id).delete()
         return '', 200
+
+
