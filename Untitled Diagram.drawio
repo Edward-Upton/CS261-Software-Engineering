@@ -1,1 +1,123 @@
-<mxfile host="app.diagrams.net" modified="2021-01-27T14:05:14.732Z" agent="5.0 (Macintosh)" etag="oWX6306y0TfVaBsn9dDf" version="14.2.7" type="github"><diagram id="kEJS7GYe4vapTDvjzmlF" name="Page-1">5Vtbd6M2EP41Pqd9SA5I+JLHxHG626bnbNfNZvPUI4MCagC5Qr7tr68EElfjkBjCOnlJmEEaxMx8M6MRHsBpsP2NoaX3J3WwPwCGsx3A6wEApmlC8U9ydglnPBolDJcRRw3KGHPyAyumobgr4uCoMJBT6nOyLDJtGobY5gUeYoxuisMeqV986hK5uMKY28ivcu+Jw72EOwHjjP8JE9fTTzZHF8mdAOnB6k0iDzl0k2PB2QBOGaU8uQq2U+xL5Wm9JPNuau6mC2M45E0mTDd398HK+Ob9EVHb++sJ0R0+02qO+E6/MXaEAhRJGfeoS0PkzzLuFaOr0MFSrCGobMwtpUvBNAXzX8z5TlkTrTgVLI8HvrorVsx23/PEgxR2PtTk9VYJT6idopK1ygXW6kCxIrpiNj7w4soLOWIu5gfGXaSWEi6OaYDFesQ8hn3Eybq4DqR8zU3HZeYQF8oiL7GOAs8a+Sv1qE804ntNdosWAnoFNSOfuKG4toV2MBOMNWacCN++VDcC4jiJRXFEfqBFLE8qeklJyOO3GV4Nhtep6qUAvB3sAZ6anLl73igHXK+qWiX+zDg3gJQkhangodTRWPlK+Bf5NplkWJB5Borz6eNjhHnFdOkCj7Am6BVrxk+PNdPsFWxWBWxfkMQLWaLwvWAOPIc507KsIj6sVkB3VpKqQ1v3sBvVxFCDMvEnNTHHFRNHnNGnNO2DoqFFOl/KccHWlZXP+aNPN7YnpJ072CYRocLYVxuPcDxfohgeGzHukFUr0Kq1ExwaBW2aI0VvshLFNBTPy5cnmtk6ekA/wW1L+PcsnAnqIXcni2yS0IEtC4hZDHwohMD9ATGmvmBGhMIkstuOkhcNoySYHBkl9wM0DSLapyYlV0kWpma1D1MLftDs2NTuVk299DK7XzKGdrkBKuvUuoVZDjVmaZfxzHgLDEvekqygXd+ppu4BGPlCm1cOWYtLV17OsS93iMCYrXG8ZD1mwfQQzRGryE3cI+veI36cRL6uwpCEbt3E91A0JMg8XDSMx0UvOa5m6L4ouGjiMKl/aMaU4bhO0B6U2nzxYgf6JUSBkDSVPQmMnQWyn2T+FpWmCGcxOxIRIVZG6MhQEzq/NvfXkttlYdKsKUryzriIqL/i+JLZKmzG3IyyZPVTKY1aKGvMcTF2TBpWNaPOihqrj5zUYm4xdcvs2aKiBuNvtPUyK3D8XYSCDGin6c9D+Dp/trryZ3NyMkW6IMq19s9auJvjhiAb9YqxcQVjt9SNQRZvhL9il0RSPy3tguP09U8dPltAV3kT3Hu2gB+1l647qs9nmV676bCXbN539OvDzrDXagJUT00KBbiht1uC+99KHr9dqY1XSutK+tK28fLVW8UXPOhzuCZc6Iam8bjrJ95FciMzpQ5uuInophta2fp2UHelPYn+2qPQrOjzY3S3wOQ0cgOoxIy5cN+4s6NA8h5aOfAwcIxzA4JRATvtHLmelc5cSwK66/PAfnY8J4S7o3P1q9rK5dMGaL1Bmxg26vrFqVjmxrsogf8sQMR/zw1eWHOilPsSwxgdeQzcPdS1xze07hHN/9xnAVGvxVMLtVK555rS/dVKKhScbtcVND7S6/WDF1ANh7Nkr6AqHkPoCBjvoRMLJ0Uvb9wsGnbm5ON+C5PemgiwaRPhaHC8qjAZljxFe07deffQHB4a31EhU+1wpJ0Kfbid7yicJmjL23gIegetUdH7N4I3gnONIm9BEXPE9T0Rq8sMcZMd734OHykLTtoooGQUy9hjFPimRqkeHiqj3BDsOwLrxt8yj81Xi4AUDXKaJrDKn9h0aAJBZr9QSMJX9jsPOPsf</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-01-27T16:27:41.000Z" agent="5.0 (Macintosh)" etag="0d4vaauc3rpUHxwnKHvP" version="14.2.7" type="github">
+  <diagram id="kEJS7GYe4vapTDvjzmlF" name="Page-1">
+    <mxGraphModel dx="788" dy="543" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="CwUWmu0VhKsochQkaoye-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="CwUWmu0VhKsochQkaoye-6" target="CwUWmu0VhKsochQkaoye-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-13" value="Host" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="CwUWmu0VhKsochQkaoye-10" vertex="1" connectable="0">
+          <mxGeometry x="-0.0222" y="3" relative="1" as="geometry">
+            <mxPoint x="3" y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="CwUWmu0VhKsochQkaoye-6" target="CwUWmu0VhKsochQkaoye-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-14" value="Participant" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="CwUWmu0VhKsochQkaoye-12" vertex="1" connectable="0">
+          <mxGeometry x="-0.1444" y="-4" relative="1" as="geometry">
+            <mxPoint x="-4" y="-13" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-6" value="Host or Participate" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="350" y="100" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="E_DURaKCawPtjk9vcbm5-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="CwUWmu0VhKsochQkaoye-9" target="CwUWmu0VhKsochQkaoye-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="E_DURaKCawPtjk9vcbm5-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="CwUWmu0VhKsochQkaoye-9" target="CwUWmu0VhKsochQkaoye-40">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="250" y="150" />
+              <mxPoint x="190" y="150" />
+              <mxPoint x="190" y="280" />
+              <mxPoint x="275" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-9" value="&lt;div&gt;&lt;b&gt;Create Event&lt;/b&gt;&lt;/div&gt;&lt;div&gt;(name, feedback wanted, start and end)&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="200" y="80" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="CwUWmu0VhKsochQkaoye-11" target="CwUWmu0VhKsochQkaoye-23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-11" value="Join Event" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="500" y="90" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="CwUWmu0VhKsochQkaoye-17" target="CwUWmu0VhKsochQkaoye-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-17" value="Login or Register" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.start_1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="350" y="20" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="CwUWmu0VhKsochQkaoye-23" target="CwUWmu0VhKsochQkaoye-33" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="170" />
+              <mxPoint x="670" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="E_DURaKCawPtjk9vcbm5-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="CwUWmu0VhKsochQkaoye-23" target="CwUWmu0VhKsochQkaoye-29">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-23" value="&lt;div align=&quot;center&quot;&gt;Accept &lt;br&gt;&lt;/div&gt;&lt;div align=&quot;center&quot;&gt;Invitation or &lt;br&gt;&lt;/div&gt;&lt;div align=&quot;center&quot;&gt;Use Code&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;align=center;" parent="1" vertex="1">
+          <mxGeometry x="630" y="60" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="CwUWmu0VhKsochQkaoye-28" target="CwUWmu0VhKsochQkaoye-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-32" value="Sharing Code" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="CwUWmu0VhKsochQkaoye-31" vertex="1" connectable="0">
+          <mxGeometry x="0.0326" y="3" relative="1" as="geometry">
+            <mxPoint x="-3" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="CwUWmu0VhKsochQkaoye-28" target="CwUWmu0VhKsochQkaoye-33" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="260" />
+              <mxPoint x="600" y="260" />
+              <mxPoint x="600" y="215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-39" value="&lt;div&gt;Invite Using Email&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="CwUWmu0VhKsochQkaoye-38" vertex="1" connectable="0">
+          <mxGeometry x="-0.0064" relative="1" as="geometry">
+            <mxPoint x="-50.83" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-28" value="&lt;div&gt;Invite &lt;br&gt;&lt;/div&gt;&lt;div&gt;Participants&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="70" y="60" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="CwUWmu0VhKsochQkaoye-29" target="CwUWmu0VhKsochQkaoye-41" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="280" />
+              <mxPoint x="585" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-29" value="Enter Code to Join Event" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="480" y="190" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="E_DURaKCawPtjk9vcbm5-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="CwUWmu0VhKsochQkaoye-33" target="CwUWmu0VhKsochQkaoye-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-33" value="Accept Event Invitation" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="620" y="190" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-40" value="View Dashboard With Event Feedback Information" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="210" y="300" width="130" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="CwUWmu0VhKsochQkaoye-41" value="View Fields To Submit Feedback" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="520" y="300" width="130" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
