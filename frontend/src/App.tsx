@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import socketIOClient from 'socket.io-client';
 import logo from './logo.svg';
 import './App.css';
+import { Button } from "@material-ui/core";
 
 const ENDPOINT = "127.0.0.1"
 
@@ -31,28 +32,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <p>Response: {response}</p>
-        <p>Data: {data}</p>
-        <p>Count: {count}</p>
-        <ul>
-          {users.map((email) => {
-            return <li>{email}</li>
-          })}
-        </ul>
-      </header>
+      <h1>App</h1>
+      <Button variant="contained">Button</Button>
     </div>
   );
 }
