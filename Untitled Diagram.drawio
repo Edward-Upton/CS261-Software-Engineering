@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-01-28T17:52:35.180Z" agent="5.0 (Macintosh)" etag="DoedYgI3VyE-O4MZXGew" version="14.2.7" type="github">
+<mxfile host="app.diagrams.net" modified="2021-01-28T18:00:45.221Z" agent="5.0 (Macintosh)" etag="uUcQwZDuwkig1RLzXiqM" version="14.2.7" type="github">
   <diagram id="kEJS7GYe4vapTDvjzmlF" name="Page-1">
     <mxGraphModel dx="450" dy="310" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -11,11 +11,21 @@
             </Array>
           </mxGeometry>
         </mxCell>
+        <mxCell id="cZuZbTssmCdgK3H7z-G_-32" value="Participate" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cZuZbTssmCdgK3H7z-G_-12">
+          <mxGeometry x="-0.3061" relative="1" as="geometry">
+            <mxPoint x="5.710000000000001" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="cZuZbTssmCdgK3H7z-G_-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="CwUWmu0VhKsochQkaoye-6" target="CwUWmu0VhKsochQkaoye-9">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="190" y="430" />
             </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cZuZbTssmCdgK3H7z-G_-33" value="Host" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="cZuZbTssmCdgK3H7z-G_-13">
+          <mxGeometry x="0.1565" y="-1" relative="1" as="geometry">
+            <mxPoint x="-10.48" y="9" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="CwUWmu0VhKsochQkaoye-6" value="Host or Participate" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
