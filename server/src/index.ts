@@ -1,25 +1,31 @@
-import 'dotenv/config';
-import express from 'express';
-import { json } from 'body-parser';
-import { userRouter } from './routes/user';
-import mongoose from 'mongoose';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+import userRouter from "./routes/user";
+
+dotenv.config();
 
 const app = express();
-app.use(json());
-app.use(userRouter);
 
-mongoose.connect(process.env.MONGODB_URI!, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}, () => {
-    console.log('Connected to Mongoose database');
-})
+const PORT = process.env.PORT || 3000;
 
-app.get("/", (_, res) => {
-    res.send("Server is working");
-})
+const DB_URI = process.env.MONGODB_URI!;
+const DB_OPTIONS = {
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+};
 
-app.listen(3000, () => {
-    console.log("Server listening on port 3000");
-})
+mongoose
+  .connect(DB_URI, DB_OPTIONS)
+  .then(() => console.log("Connected to database."))
+  .catch((error) => console.log(error));
+
+app.use(express.json());
+
+app.use("/api/user", userRouter);
+
+app.get("/", (req, res) => res.status(200).json({ message: "GET /" }));
+
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));

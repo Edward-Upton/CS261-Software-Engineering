@@ -1,19 +1,27 @@
-import express from 'express';
-import { User } from '../models/user';
+import { Router, Request, Response } from "express";
 
-const router = express.Router();
+import User from "../models/user";
 
-router.get("/api/user", async (_req, res) => {
-    const user = await User.find({});
-    return res.status(200).send(user);
-})
+const router = Router();
 
-router.post("/api/user", async (req, res) => {
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({});
+    return res.status(200).json({ users, count: users.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.post("/", async (req: Request, res: Response) => {
+  try {
     const { email, password } = req.body;
-
-    const user = User.build({ email, password });
+    const user = new User({ email, password });
     await user.save();
-    return res.status(201).send(user);
-})
+    return res.status(201).send({ user });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
 
-export { router as userRouter }
+export default router;

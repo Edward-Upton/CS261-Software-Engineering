@@ -1,1 +1,6 @@
-Used tutorial https://medium.com/swlh/typescript-with-mongoose-and-node-express-24073d51d2ee
+# Server
+
+- Install dependencies with `yarn` or `npm i`.
+- Run server using `yarn start` or `npm start`.
+- Run development server using `yarn dev` or `npm run dev`.
+- Compile typescript using `yarn build` or `npm run build`.
