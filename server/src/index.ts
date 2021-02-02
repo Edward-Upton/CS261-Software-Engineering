@@ -1,12 +1,12 @@
+import http from "http";
+import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import socketio, { Socket } from "socket.io";
 
 import userRouter from "./routes/user";
 
 dotenv.config();
-
-const app = express();
 
 const PORT = process.env.PORT || 3000;
 
@@ -22,10 +22,16 @@ mongoose
   .then(() => console.log("Connected to database."))
   .catch((error) => console.log(error));
 
+const app = express();
+const server = http.createServer(app);
+const io = new socketio.Server(server);
+
 app.use(express.json());
 
 app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => res.status(200).json({ message: "GET /" }));
 
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
+io.on("connection", (socket: Socket) => console.log("Socket connected."));
+
+server.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
