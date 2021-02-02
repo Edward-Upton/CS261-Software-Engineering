@@ -1,4 +1,3 @@
-import http from "http";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
@@ -23,8 +22,16 @@ mongoose
   .catch((error) => console.log(error));
 
 const app = express();
-const server = http.createServer(app);
-const io = new socketio.Server(server);
+
+const server = app.listen(PORT, () =>
+  console.log(`Server listening on port ${PORT}.`)
+);
+
+const IO_OPTIONS = {
+  cors: { origin: "http://localhost:3000" },
+};
+
+const io = new socketio.Server(server, IO_OPTIONS);
 
 app.use(express.json());
 
@@ -32,6 +39,9 @@ app.use("/api/user", userRouter);
 
 app.get("/", (req, res) => res.status(200).json({ message: "GET /" }));
 
-io.on("connection", (socket: Socket) => console.log("Socket connected."));
-
-server.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
+io.on("connection", (socket: Socket) => {
+  console.log("Socket connected.");
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected.");
+  });
+});
