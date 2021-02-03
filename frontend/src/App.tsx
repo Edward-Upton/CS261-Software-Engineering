@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import socketIOClient from 'socket.io-client';
-import logo from './logo.svg';
-import './App.css';
 import { Button } from "@material-ui/core";
 
-const ENDPOINT = "127.0.0.1"
+const ENDPOINT = "127.0.0.1:3000"
 
 function App() {
   const [response, setResponse] = useState("no response yet");
@@ -13,7 +11,7 @@ function App() {
   const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
-    const socket = socketIOClient(ENDPOINT)
+    const socket = socketIOClient(ENDPOINT, { transports: ['websocket']})
 
     socket.on("message", (data: string) => {
       console.log(data)
