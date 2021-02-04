@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import socketio, { Socket } from "socket.io";
 
 import userRouter from "./routes/user";
+import eventRouter from "./routes/event";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ const io = new socketio.Server(server, IO_OPTIONS);
 app.use(express.json());
 
 app.use("/api/user", userRouter);
+app.use("/api/event", eventRouter);
 
 app.get("/", (req, res) => res.status(200).json({ message: "GET /" }));
 
