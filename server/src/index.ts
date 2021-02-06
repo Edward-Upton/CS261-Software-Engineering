@@ -1,22 +1,12 @@
-import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import socketio, { Socket } from "socket.io";
+import { Server } from "socket.io";
 
+import { PORT, DB_URI, DB_OPTIONS } from "./config";
 import userRouter from "./routes/user";
 import eventRouter from "./routes/event";
-
-dotenv.config();
-
-const PORT = process.env.PORT || 5000;
-
-const DB_URI = process.env.MONGODB_URI!;
-const DB_OPTIONS = {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+import socket from "./socket";
 
 mongoose
   .connect(DB_URI, DB_OPTIONS)
@@ -24,16 +14,6 @@ mongoose
   .catch((error) => console.log(error));
 
 const app = express();
-
-const server = app.listen(PORT, () =>
-  console.log(`Server listening on port ${PORT}.`)
-);
-
-const IO_OPTIONS = {
-  cors: { origin: "http://localhost:3000" },
-};
-
-const io = new socketio.Server(server, IO_OPTIONS);
 
 app.use(express.json());
 app.use(morgan("dev"));
@@ -43,9 +23,9 @@ app.use("/api/event", eventRouter);
 
 app.get("/", (req, res) => res.status(200).json({ message: "GET /" }));
 
-io.on("connection", (socket: Socket) => {
-  console.log("Socket connected.");
-  socket.on("disconnect", () => {
-    console.log("Socket disconnected.");
-  });
-});
+const server = app.listen(PORT, () =>
+  console.log(`Server listening on port ${PORT}.`)
+);
+
+const io = new Server(server, { cors: { origin: "*" } });
+socket(io);
