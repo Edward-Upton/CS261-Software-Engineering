@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import morgan from "morgan";
 import socketio, { Socket } from "socket.io";
 
 import userRouter from "./routes/user";
@@ -35,6 +36,7 @@ const IO_OPTIONS = {
 const io = new socketio.Server(server, IO_OPTIONS);
 
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use("/api/user", userRouter);
 app.use("/api/event", eventRouter);
