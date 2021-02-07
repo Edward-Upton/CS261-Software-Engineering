@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 
+import { Container, Typography } from "@material-ui/core";
+
 import { User } from "../App";
 
 const SOCKET_URI = "ws://localhost:5000";
@@ -19,10 +21,12 @@ const Host: React.FC<Props> = ({ user }) => {
   }, [user]);
 
   return (
-    <div>
-      <h1>Host</h1>
-      <p>{user.email}</p>
-    </div>
+    <Container maxWidth="xs">
+      <Typography component="h1" variant="h3">
+        Host
+      </Typography>
+      <Typography variant="body1">{user.email}</Typography>
+    </Container>
   );
 };
 

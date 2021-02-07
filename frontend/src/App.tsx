@@ -34,11 +34,11 @@ const App: React.FC = () => {
 
   return user ? (
     <>
-      <Host user={user} />
-      <Participant user={user} />
       <Button variant="contained" onClick={logout}>
         Logout
       </Button>
+      <Host user={user} />
+      <Participant user={user} />
     </>
   ) : (
     <>

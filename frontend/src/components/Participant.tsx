@@ -1,3 +1,5 @@
+import { Container, Typography } from "@material-ui/core";
+
 import { User } from "../App";
 
 interface Props {
@@ -6,10 +8,12 @@ interface Props {
 
 const Participant: React.FC<Props> = ({ user }) => {
   return (
-    <div>
-      <h1>Participant</h1>
-      <p>{user.email}</p>
-    </div>
+    <Container maxWidth="xs">
+      <Typography component="h1" variant="h3">
+        Participant
+      </Typography>
+      <Typography variant="body1">{user.email}</Typography>
+    </Container>
   );
 };
 
