@@ -1,38 +1,50 @@
-import { useEffect } from "react";
-import { io } from "socket.io-client";
+import { useState, useEffect } from "react";
 
 import { Button } from "@material-ui/core";
 
-function App() {
-  // const [response, setResponse] = useState("no response yet");
-  // const [data, setData] = useState<string[]>([]);
-  // const [count, setCount] = useState<number>(0);
-  // const [users, setUsers] = useState<string[]>([]);
+import Login from "./components/Login";
+import Host from "./components/Host";
+import Participant from "./components/Participant";
+
+export interface User {
+  _id: string;
+  email: string;
+}
+
+const App: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+
+  const login = (user: User) => {
+    setUser(user);
+    localStorage.setItem("_id", user._id);
+    localStorage.setItem("email", user.email);
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem("_id");
+    localStorage.removeItem("email");
+  };
 
   useEffect(() => {
-    const socket = io("http://localhost:5000");
-
-    // socket.on("message", (data: string) => {
-    //   console.log(data);
-    // });
-
-    // socket.on("count", (data: { newCount: number }) => {
-    //   console.log("new count received");
-    //   setCount(data.newCount);
-    // });
-
-    // socket.on("usersUpdate", (data: { newUsers: string[] }) => {
-    //   console.log("new users received");
-    //   setUsers(data.newUsers);
-    // });
+    const _id = localStorage.getItem("_id");
+    const email = localStorage.getItem("email");
+    if (_id && email) setUser({ _id, email });
   }, []);
 
-  return (
-    <div className="App">
-      <h1>App</h1>
-      <Button variant="contained">Button</Button>
-    </div>
+  return user ? (
+    <>
+      <Host user={user} />
+      <Participant user={user} />
+      <Button variant="contained" onClick={logout}>
+        Logout
+      </Button>
+    </>
+  ) : (
+    <>
+      <Login login={login} />
+    </>
   );
-}
+};
 
 export default App;

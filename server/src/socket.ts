@@ -1,11 +1,13 @@
 import { Server, Socket } from "socket.io";
+import { IUser } from "./models/user";
 
 export default function (io: Server): void {
   io.on("connection", (socket: Socket) => {
-    console.log("Socket connected.");
+    const user = socket.handshake.auth as IUser;
+    console.log(`${user.email} socket connected.`);
 
     socket.on("disconnect", () => {
-      console.log("Socket disconnected.");
+      console.log(`${user.email} socket disconnected.`);
     });
   });
 }
