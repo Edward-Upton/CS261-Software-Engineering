@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import { stringify } from "querystring";
 import { analyseData } from "../data-analysis";
 
-import Event, { IField } from "../models/event";
+import Event, { IEvent, IField } from "../models/event";
 
 const router = Router();
 
@@ -86,7 +86,7 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     const { eventId, userId, fieldId, data } = req.body;
 
     // Here need to make sure that the user is actually part of the event
-    const eventDocument = await Event.findById(eventId);
+    const eventDocument: IEvent = await Event.findById(eventId);
     if (!eventDocument.participants.includes(userId)) {
       // User is not a participant
       return res
@@ -113,7 +113,7 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
 
     // Here we need to send the current field results and new piece of data to the python data analysis
 
-    analyseData(data, field);
+    analyseData(data, field, eventDocument);
 
     return res
       .status(200)

@@ -1,7 +1,10 @@
 from flask import Flask, request
+from datetime import datetime, timezone
+from process import Processor
 
 app = Flask(__name__)
 
+processor = Processor()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -15,7 +18,11 @@ def emoji():
     newValue = data["newValue"]
     field = data["field"]
 
-    return {"newValue": newValue, "field": field}
+    curUTC = datetime.now(timezone.utc)
+    field["data"]["average"] = processor.emoji(newValue, field["data"]["average"], len(field["data"]["timeSeries"]))
+    field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
+
+    return {"field": field}
 
 
 if __name__ == "__main__":
