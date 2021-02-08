@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { stringify } from "querystring";
 
-import Event from "../models/event";
+import Event, { IField } from "../models/event";
 
 const router = Router();
 
@@ -80,38 +80,45 @@ router.post("/", async (req: Request, res: Response) => {
 });
 
 // Add feedback to an event's feedback field
-router.post(
-  "/submit-feedback/:eventId",
-  async (req: Request, res: Response) => {
-    try {
-      const eventId = req.params["eventId"];
-      const { userId, fieldId, data } = req.body;
+router.post("/submit-feedback", async (req: Request, res: Response) => {
+  try {
+    const { eventId, userId, fieldId, data } = req.body;
 
-      // Here need to make sure that the user is actually part of the event
-      const eventDocument = await Event.findById(eventId);
-      if (!eventDocument.participants.includes(userId)) {
-        // User is not a participant
-        return res
-          .status(500)
-          .send({ message: "User not participant in this event" });
-      }
-
-      // Get the feedback field we are submitting data to.
-      const field = eventDocument.feedback.find((f) => f._id === fieldId);
-      if (!field) {
-        return res
-          .status(500)
-          .send({ message: "Cannot find feedback field with ID given" });
-      }
-
-      // Here we need to send the current field results and new piece of data to the python data analysis
-
-      return res.status(200).send({ message: "Feedback received" });
-    } catch (error) {
-      return res.status(500).json({ error });
+    // Here need to make sure that the user is actually part of the event
+    const eventDocument = await Event.findById(eventId);
+    if (!eventDocument.participants.includes(userId)) {
+      // User is not a participant
+      return res
+        .status(500)
+        .send({ message: "User not participant in this event" });
     }
+
+    // Get the feedback field we are submitting data to.
+    let field: IField | undefined;
+    for (let i = 0; i < eventDocument.feedback.length; i++) {
+      if (eventDocument.feedback[i]._id.toString() === fieldId) {
+        field = eventDocument.feedback[i];
+        break;
+      }
+    }
+
+    if (!field) {
+      return res
+        .status(500)
+        .send({ message: "Cannot find feedback field with ID given" });
+    }
+
+    console.log(data);
+
+    // Here we need to send the current field results and new piece of data to the python data analysis
+
+    return res
+      .status(200)
+      .send({ message: `Feedback received for field '${field.name}'` });
+  } catch (error) {
+    return res.status(500).json({ error });
   }
-);
+});
 
 // Inspiration from https://stackoverflow.com/a/1349426/9192218
 const makeCode = () => {

@@ -8,21 +8,24 @@ export interface IEvent extends Document {
   host: string;
   participants: string[];
   inviteCode: string;
-  feedback: {
-    // Will have an array of fields
-    name: string;
-    description: string;
-    fieldType: "mood" | "rating" | "slider" | "text";
-    constraints: {
-      range?: number[];
-      limit?: number;
-    }; // This will contain specific constraints for the type of field
-    data: {
-      average?: number;
-      wordFreq?: { word: string; freq: number };
-      timeSeries?: { value: number; date: Date };
-    }; // This will contain the feedback data for this type of field
-  }[];
+  feedback: IField[];
+}
+
+export interface IField {
+  // Will have an array of fields
+  _id: string,
+  name: string;
+  description: string;
+  fieldType: "mood" | "rating" | "slider" | "text";
+  constraints: {
+    range?: number[];
+    limit?: number;
+  }; // This will contain specific constraints for the type of field
+  data: {
+    average?: number;
+    wordFreq?: { word: string; freq: number };
+    timeSeries?: { value: number; date: Date };
+  }; // This will contain the feedback data for this type of field
 }
 
 const EventSchema: Schema = new Schema({
