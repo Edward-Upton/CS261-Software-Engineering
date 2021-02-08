@@ -37,6 +37,7 @@ router.post("/", async (req: Request, res: Response) => {
         fieldType: string;
         constraints: any;
       }) => {
+        // Create the feedback data for the different types.
         const { name, description, fieldType, constraints } = field;
         if (fieldType === "mood") {
           feedback.push({ ...field, data: { average: 2.5, timeSeries: [] } });
@@ -53,6 +54,7 @@ router.post("/", async (req: Request, res: Response) => {
       }
     );
 
+    // Create a unique code
     let inviteCode = makeCode();
     let duplicateCode = await Event.findOne({ inviteCode: inviteCode });
     while (duplicateCode) {
@@ -61,6 +63,7 @@ router.post("/", async (req: Request, res: Response) => {
       duplicateCode = await Event.findOne({ inviteCode: inviteCode });
     }
 
+    // Create the event entity
     const event = new Event({
       name,
       eventType,
@@ -103,6 +106,7 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
       }
     }
 
+    // Check the field ID has found a matching field
     if (!field) {
       return res
         .status(500)
@@ -112,7 +116,6 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     console.log(data);
 
     // Here we need to send the current field results and new piece of data to the python data analysis
-
     analyseData(data, field, eventDocument);
 
     return res
