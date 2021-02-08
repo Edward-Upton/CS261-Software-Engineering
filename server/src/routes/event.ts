@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { stringify } from "querystring";
+import { analyseData } from "../data-analysis";
 
 import Event, { IField } from "../models/event";
 
@@ -111,6 +112,8 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     console.log(data);
 
     // Here we need to send the current field results and new piece of data to the python data analysis
+
+    analyseData(data, field);
 
     return res
       .status(200)
