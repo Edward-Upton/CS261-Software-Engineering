@@ -16,6 +16,7 @@ router.get("/", async (req: Request, res: Response) => {
   }
 });
 
+// Create a new event
 router.post("/", async (req: Request, res: Response) => {
   try {
     const {
@@ -67,7 +68,7 @@ router.post("/", async (req: Request, res: Response) => {
       host,
       participants,
       inviteCode,
-      feedback
+      feedback,
     });
     await event.save();
 
@@ -77,6 +78,40 @@ router.post("/", async (req: Request, res: Response) => {
     return res.status(500).json({ error });
   }
 });
+
+// Add feedback to an event's feedback field
+router.post(
+  "/submit-feedback/:eventId",
+  async (req: Request, res: Response) => {
+    try {
+      const eventId = req.params["eventId"];
+      const { userId, fieldId, data } = req.body;
+
+      // Here need to make sure that the user is actually part of the event
+      const eventDocument = await Event.findById(eventId);
+      if (!eventDocument.participants.includes(userId)) {
+        // User is not a participant
+        return res
+          .status(500)
+          .send({ message: "User not participant in this event" });
+      }
+
+      // Get the feedback field we are submitting data to.
+      const field = eventDocument.feedback.find((f) => f._id === fieldId);
+      if (!field) {
+        return res
+          .status(500)
+          .send({ message: "Cannot find feedback field with ID given" });
+      }
+
+      // Here we need to send the current field results and new piece of data to the python data analysis
+
+      return res.status(200).send({ message: "Feedback received" });
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
+  }
+);
 
 // Inspiration from https://stackoverflow.com/a/1349426/9192218
 const makeCode = () => {
