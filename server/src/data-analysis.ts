@@ -9,7 +9,7 @@ export const analyseData = async (
   newValue: number | string,
   field: IField,
   eventDocument: IEvent
-): Promise<undefined> => {
+): Promise<void> => {
   try {
     if (field.fieldType === "mood") {
       if (typeof newValue !== "number") {
@@ -38,5 +38,5 @@ export const analyseData = async (
   } catch (error) {
     console.log(error);
   }
-  return Promise;
+  return;
 };
