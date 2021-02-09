@@ -27,6 +27,21 @@ def emoji():
 
     return {"field": field}
 
+@app.route('/rating', methods=['POST'])
+def rating():
+    data = request.json
+    print(data)
+    newValue = data["newValue"]
+    field = data["field"]
+
+    curUTC = datetime.now(timezone.utc)
+    field["data"]["average"] = processor.emoji(
+        newValue, field["data"]["average"], field["data"]["num"])
+    field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
+    field["data"]["num"] += 1
+
+    return {"field": field}
+
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=4000, debug=True)
