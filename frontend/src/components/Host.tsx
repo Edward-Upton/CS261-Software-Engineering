@@ -12,18 +12,24 @@ interface Props {
 }
 
 const Host: React.FC<Props> = ({ user }) => {
+  var socket: any;
   useEffect(() => {
     if (!user) return;
-    const socket = io(SOCKET_URI, { auth: user });
+    socket = io(SOCKET_URI, { auth: user });
     return () => {
       socket.disconnect();
     };
   }, [user]);
 
+  const socketTest = () => {
+    socket.emit("email");
+  }
+
   return (
     <Container maxWidth="xs">
       <Typography component="h1" variant="h3">
         Host
+        <button onClick={socketTest}>Test</button>
       </Typography>
       <Typography variant="body1">{user.email}</Typography>
     </Container>
