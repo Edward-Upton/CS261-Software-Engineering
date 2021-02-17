@@ -41,6 +41,10 @@
   color: #754646;
 }
 
+.textField__input:focus {
+  outline: none;
+}
+
 .textField__sepLine {
   position: absolute;
   width: 1px;
