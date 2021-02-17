@@ -29,7 +29,7 @@
   top: calc(50% - 28px / 2);
 
   font-family: Roboto;
-  font-weight: 200;
+  font-weight: 400;
   font-size: 24px;
   line-height: 28px;
   display: flex;
@@ -38,11 +38,19 @@
   background: none;
   border: none;
 
-  color: #754646;
+  color: #465775;
 }
 
 .textField__input:focus {
   outline: none;
+}
+
+.textField__input::placeholder {
+  outline: none;
+  color: #465775;
+  font-family: Roboto;
+  font-weight: 200;
+  font-size: 24px;
 }
 
 .textField__sepLine {
