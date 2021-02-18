@@ -2,12 +2,8 @@
 # the new value to send to the database.
 
 from textblob import TextBlob
-from rake_nltk import Rake
 
 class Processor:
-
-    def __init__(self):
-        self.r = Rake()
 
     def emoji(self, value, runningAvg, entryCount):
 
@@ -51,36 +47,56 @@ class Processor:
 
         toAnalyse = TextBlob(text)
 
-        # # Correct spelling mistakes
-        # toAnalyse.correct()
-
-        # Extract key phrases
-        self.r.extract_keywords_from_text(text)
-
         # Take all adjectives from the text to ensure they are definitely included in key phrases
         for tag in toAnalyse.tags:
             if ((tag[1] == 'JJ') & (len(tag[0]) >= 3)):
                 extracted.append(tag[0].lemmatize())
 
         # Remove all duplicates
-        return list(set(extracted) | set(self.r.get_ranked_phrases()))
         #return list(set(extracted) | (set(self.r.get_ranked_phrases()) - set(extracted)))
+        return list(set(extracted) | set(toAnalyse.noun_phrases))
 
 if __name__ == '__main__':
     processor = Processor()
 
-    statement1 = "The host was amazing, and the overall event was an incredible experience!"
-    statement2 = "I disliked this project, it was a terrible experience."
-    statement3 = "This workshop was alright, I learned something."
+    statement1 = "Great workshop, I leared a lot and there were very inteesting topics."
+    statement2 = "This was a pretty good poject, but the host had lots of technical issues which was not good."
+    statement3 = "I hated evry secnd of this lectre, the content was uninteresting and boring and I fell asleep."
+
+    print("")
+
+    for i in range(0, 100):
+        print("#",end='')
+
+    print("\n")
 
     print("Statement 1 (", statement1 ,"):")
     print("Sentiment: ", processor.textSentiment(statement1))
     print("Key phrases/adjectives: ", processor.textKeyPhrases(statement1))
 
-    print("\nStatement 2 (", statement2 ,"):")
+    print("")
+
+    for i in range(0, 100):
+        print("#",end='')
+
+    print("\n")
+
+    print("Statement 2 (", statement2 ,"):")
     print("Sentiment: ", processor.textSentiment(statement2))
     print("Key phrases/adjectives: ", processor.textKeyPhrases(statement2))
 
-    print("\nStatement 3 (", statement3 ,"):")
+    print("")
+
+    for i in range(0, 100):
+        print("#",end='')
+
+    print("\n")
+
+    print("Statement 3 (", statement3 ,"):")
     print("Sentiment: ", processor.textSentiment(statement3))
     print("Key phrases/adjectives: ", processor.textKeyPhrases(statement3))
+
+    print("")
+
+    for i in range(0, 100):
+        print("#",end='')
