@@ -66,7 +66,11 @@ const Login: React.FC<Props> = ({ login }) => {
       >
         <HiOutlineKey />
       </MyTextField>
-      <MyButton text="Login" onClick={submit} styled={{ margin: 5, backgroundColor: "#59c9a5" }}></MyButton>
+      <MyButton
+        text="Login"
+        onClick={submit}
+        styled={{ margin: 5, backgroundColor: "#59c9a5" }}
+      ></MyButton>
       <MyButton
         text="Register"
         onClick={register}

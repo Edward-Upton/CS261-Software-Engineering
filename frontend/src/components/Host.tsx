@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { io } from "socket.io-client";
+import { useEffect, useRef } from "react";
+import { io, Socket } from "socket.io-client";
 
 import { Container, Typography } from "@material-ui/core";
 
@@ -12,18 +12,18 @@ interface Props {
 }
 
 const Host: React.FC<Props> = ({ user }) => {
-  var socket: any;
+  const socket = useRef<Socket | null>(null);
   useEffect(() => {
     if (!user) return;
-    socket = io(SOCKET_URI, { auth: user });
+    socket.current = io(SOCKET_URI, { auth: user });
     return () => {
-      socket.disconnect();
+      socket.current?.disconnect();
     };
   }, [user]);
 
   const socketTest = () => {
-    socket.emit("email");
-  }
+    socket.current?.emit("email");
+  };
 
   return (
     <Container maxWidth="xs">
