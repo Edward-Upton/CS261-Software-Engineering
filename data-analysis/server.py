@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 processor = Processor()
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return "WORKING"
@@ -19,8 +20,25 @@ def emoji():
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
-    field["data"]["average"] = processor.emoji(newValue, field["data"]["average"], len(field["data"]["timeSeries"]))
+    field["data"]["average"] = processor.emoji(
+        newValue, field["data"]["average"], field["data"]["num"])
     field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
+    field["data"]["num"] += 1
+
+    return {"field": field}
+
+@app.route('/rating', methods=['POST'])
+def rating():
+    data = request.json
+    print(data)
+    newValue = data["newValue"]
+    field = data["field"]
+
+    curUTC = datetime.now(timezone.utc)
+    field["data"]["average"] = processor.emoji(
+        newValue, field["data"]["average"], field["data"]["num"])
+    field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
+    field["data"]["num"] += 1
 
     return {"field": field}
 

@@ -25,6 +25,7 @@ export interface IField {
     average?: number;
     wordFreq?: { word: string; freq: number };
     timeSeries?: { value: number; date: Date };
+    num: number; // This will store the number of data points added
   }; // This will contain the feedback data for this type of field
 }
 
@@ -51,6 +52,7 @@ const EventSchema: Schema = new Schema({
           average: Number,
           wordFreq: [{ word: String, freq: Number }],
           timeSeries: [{ value: Number, date: Date }],
+          num: Number,
         },
       },
     ],

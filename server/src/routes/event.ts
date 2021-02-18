@@ -40,15 +40,15 @@ router.post("/", async (req: Request, res: Response) => {
         // Create the feedback data for the different types.
         const { name, description, fieldType, constraints } = field;
         if (fieldType === "mood") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [] } });
+          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
         } else if (fieldType === "rating") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [] } });
+          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
         } else if (fieldType === "slider") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [] } });
+          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
         } else if (fieldType === "text") {
           feedback.push({
             ...field,
-            data: { average: 0, wordFreq: {}, timeSeries: [] },
+            data: { average: 0, wordFreq: {}, timeSeries: [], num: 0 },
           });
         }
       }
