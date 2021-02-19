@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 
 import Host from "./Host";
-import Participant from "./Participant";
+import Participate from "./Participate";
 
 import "./Tab.css";
 
@@ -34,8 +34,10 @@ const Header: React.FC<Props> = (props) => {
           Host
         </div>
       </div>
-      {selected === "participate" && <Participant user={props.user} />}
-      {selected === "host" && <Host user={props.user} />}
+      <div className="tab__content">
+        {selected === "participate" && <Participate user={props.user} />}
+        {selected === "host" && <Host user={props.user} />}
+      </div>
     </div>
   );
 };

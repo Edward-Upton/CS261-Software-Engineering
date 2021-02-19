@@ -1,9 +1,14 @@
 .tab {
   width: 100%;
   max-width: 50rem;
-  height: 25rem;
   border: 2px solid #59c9a5;
   background-color: rgb(235, 235, 235);
+}
+
+.tab__content {
+  /* padding: 10rem; */
+  margin: 0.5rem;
+  max-height: 22rem;
 }
 
 .tab__select {

@@ -35,13 +35,10 @@ const App: React.FC = () => {
   return user ? (
     <div
       style={{
-        height: "15rem",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
         alignItems: "center",
         margin: "1rem",
-        fontFamily: "Roboto",
       }}
     >
       <Header email={user.email} logout={logout} />
