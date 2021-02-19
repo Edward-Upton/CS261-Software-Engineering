@@ -1,0 +1,38 @@
+.header {
+  width: 100%;
+  max-width: 50rem;
+  height: 4rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__email {
+  width: 167px;
+  padding-bottom: 0.2rem;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.2rem;
+
+  color: #59c9a5;
+}
+
+.header__logout {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.3rem;
+  text-decoration-line: underline;
+
+  color: #59c9a5;
+}
+
+.header__logout:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}

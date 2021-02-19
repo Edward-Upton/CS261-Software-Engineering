@@ -1,0 +1,6 @@
+.participate__code {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}

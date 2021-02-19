@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 
-import { Button } from "@material-ui/core";
-
 import Login from "./components/Login";
-import Host from "./components/Host";
-import Participant from "./components/Participant";
+import Header from "./components/Header";
+import Tab from "./components/Tab";
 
 export interface User {
   _id: string;
@@ -33,13 +31,17 @@ const App: React.FC = () => {
   }, []);
 
   return user ? (
-    <>
-      <Button variant="contained" onClick={logout}>
-        Logout
-      </Button>
-      <Host user={user} />
-      <Participant user={user} />
-    </>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        margin: "1rem",
+      }}
+    >
+      <Header email={user.email} logout={logout} />
+      <Tab user={user}></Tab>
+    </div>
   ) : (
     <>
       <Login login={login} />

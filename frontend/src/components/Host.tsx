@@ -1,32 +1,65 @@
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-
-import { Container, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
 import { User } from "../App";
 
-const SOCKET_URI = "ws://localhost:5000";
+import MyButton from "./MyButton";
+import HostEvent from "./HostEvent";
+
+import "./Host.css";
+import { IEvent } from "../types";
+import axios from "axios";
 
 interface Props {
   user: User;
 }
 
 const Host: React.FC<Props> = ({ user }) => {
+  const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
+
   useEffect(() => {
-    if (!user) return;
-    const socket = io(SOCKET_URI, { auth: user });
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+    getEvents();
+    return;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getEvents = async () => {
+    try {
+      const res = await axios.get("/api/event/hosting", {
+        params: { userId: user._id },
+      });
+      setJoinedEvents(res.data.events);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Container maxWidth="xs">
-      <Typography component="h1" variant="h3">
-        Host
-      </Typography>
-      <Typography variant="body1">{user.email}</Typography>
-    </Container>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <MyButton text="Create Event" onClick={() => {}} />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "30rem",
+          padding: "0.5rem",
+          marginTop: "0.5rem",
+          border: "1px solid #465775",
+        }}
+      >
+        <div style={{ fontSize: "1.2rem", color: "#465775" }}>
+          Events Joined
+        </div>
+        {joinedEvents.map((event: IEvent) => (
+          <HostEvent key={event._id} event={event} />
+        ))}
+      </div>
+    </div>
   );
 };
 

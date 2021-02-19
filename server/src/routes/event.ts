@@ -12,7 +12,7 @@ const router = Router();
  * Returns 200 OK with all the events in the database.
  * Returns 500 Internal Server Error if server error.
  */
-router.get("/", async (req: Request, res: Response) => {
+router.get("/allEvents", async (req: Request, res: Response) => {
   try {
     // Retrieve all events from database
     const events: [IEvent] = await Event.find({});
@@ -20,6 +20,48 @@ router.get("/", async (req: Request, res: Response) => {
     return res.status(200).json({ events, count: events.length });
   } catch (error) {
     // If error, return error object.
+    return res.status(500).json({ error });
+  }
+});
+
+router.get("/participating", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const joinedEvents = await Event.find({ participants: userId?.toString() });
+    return res
+      .status(200)
+      .json({ events: joinedEvents, count: joinedEvents.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.get("/hosting", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const joinedEvents = await Event.find({ host: userId?.toString() });
+    return res
+      .status(200)
+      .json({ events: joinedEvents, count: joinedEvents.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.post("/join", async (req: Request, res: Response) => {
+  try {
+    const { userId, inviteCode } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: "No userId supplied" });
+    }
+    if (!inviteCode) {
+      return res.status(400).json({ message: "No invite code supplied" });
+    }
+    await Event.updateOne({ inviteCode }, { $push: { participants: userId } });
+    return res.status(200).json({ message: "Successfully joined event." });
+  } catch (error) {
     return res.status(500).json({ error });
   }
 });

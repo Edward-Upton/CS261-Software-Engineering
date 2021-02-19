@@ -1,0 +1,28 @@
+.button {
+  /* Register Button */
+  width: 19rem;
+  height: 2.5rem;
+  /* top: calc(50% - 50px/2 + 35.5px); */
+
+  background: #465775;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+div.button:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
+
+div.button__text {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5rem;
+
+  color: #ffffff;
+}
