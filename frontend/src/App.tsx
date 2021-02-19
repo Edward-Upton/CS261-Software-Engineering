@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
 
 import Login from "./components/Login";
-import Host from "./components/Host";
-import Participant from "./components/Participant";
 import Header from "./components/Header";
+import Tab from "./components/Tab";
 
 export interface User {
   _id: string;
@@ -34,11 +33,22 @@ const App: React.FC = () => {
   }, []);
 
   return user ? (
-    <>
-      <Header email={user.email} logout={logout}></Header>
-      <Host user={user} />
-      <Participant user={user} />
-    </>
+    <div
+      style={{
+        height: "15rem",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        margin: "1rem",
+        fontFamily: "Roboto",
+      }}
+    >
+      <Header email={user.email} logout={logout} />
+      <Tab user={user}>
+        
+      </Tab>
+    </div>
   ) : (
     <>
       <Login login={login} />

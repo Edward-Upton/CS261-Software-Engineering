@@ -38,13 +38,21 @@ const Login: React.FC<Props> = ({ login }) => {
   };
 
   return (
-    <div style={{ width: "100%", height: "15rem", display: "flex", flexDirection: "column", justifyContent: "space-evenly", alignItems: "center" }}>
+    <div
+      style={{
+        height: "15rem",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
       <MyTextField
         type="text"
         placeholder="Email..."
         value={email}
         onChange={(v) => setEmail(v)}
-        styled={{ }}
+        styled={{}}
       >
         <AiOutlineUser />
       </MyTextField>
@@ -53,7 +61,7 @@ const Login: React.FC<Props> = ({ login }) => {
         placeholder="Password..."
         value={password}
         onChange={(v) => setPassword(v)}
-        styled={{ }}
+        styled={{}}
       >
         <HiOutlineKey />
       </MyTextField>
@@ -62,11 +70,7 @@ const Login: React.FC<Props> = ({ login }) => {
         onClick={submit}
         styled={{ backgroundColor: "#59c9a5" }}
       ></MyButton>
-      <MyButton
-        text="Register"
-        onClick={register}
-        styled={{}}
-      ></MyButton>
+      <MyButton text="Register" onClick={register} styled={{}}></MyButton>
     </div>
   );
 };

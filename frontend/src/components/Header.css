@@ -1,7 +1,7 @@
 .header {
-  width: 19rem;
-  height: 3rem;
-  /* top: calc(50% - 40px / 2 - 296px); */
+  width: 100%;
+  max-width: 50rem;
+  height: 4rem;
 
   display: flex;
   flex-direction: row;
@@ -11,6 +11,7 @@
 
 .header__email {
   width: 167px;
+  padding-bottom: 0.2rem;
 
   font-family: Roboto;
   font-style: normal;
