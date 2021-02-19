@@ -1,18 +1,25 @@
 import { Router, Request, Response } from "express";
-import { stringify } from "querystring";
-import { analyseData } from "../data-analysis";
+import { customAlphabet } from "nanoid/async";
 
 import Event, { IEvent, IField } from "../models/event";
+import { analyseData } from "../data-analysis";
 
 const router = Router();
 
-// Get all events
-// This shouldn't really stay here since not secure
+/**
+ * HTTP GET "/"
+ *
+ * Returns 200 OK with all the events in the database.
+ * Returns 500 Internal Server Error if server error.
+ */
 router.get("/", async (req: Request, res: Response) => {
   try {
-    const events = await Event.find({});
+    // Retrieve all events from database
+    const events: [IEvent] = await Event.find({});
+    // Return the array of all events and the count.
     return res.status(200).json({ events, count: events.length });
   } catch (error) {
+    // If error, return error object.
     return res.status(500).json({ error });
   }
 });
@@ -40,11 +47,20 @@ router.post("/", async (req: Request, res: Response) => {
         // Create the feedback data for the different types.
         const { name, description, fieldType, constraints } = field;
         if (fieldType === "mood") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "rating") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "slider") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "text") {
           feedback.push({
             ...field,
@@ -55,13 +71,8 @@ router.post("/", async (req: Request, res: Response) => {
     );
 
     // Create a unique code
-    let inviteCode = makeCode();
-    let duplicateCode = await Event.findOne({ inviteCode: inviteCode });
-    while (duplicateCode) {
-      // This is a duplicate invite code, generate another
-      inviteCode = makeCode();
-      duplicateCode = await Event.findOne({ inviteCode: inviteCode });
-    }
+    const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
+    const inviteCode = await nanoid();
 
     // Create the event entity
     const event = new Event({
@@ -125,16 +136,5 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     return res.status(500).json({ error });
   }
 });
-
-// Inspiration from https://stackoverflow.com/a/1349426/9192218
-const makeCode = () => {
-  let result = "";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < 6; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
 
 export default router;
