@@ -1,38 +1,72 @@
-import { useEffect, useRef } from "react";
-import { io, Socket } from "socket.io-client";
-
-import { Container, Typography } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
 import { User } from "../App";
 
-const SOCKET_URI = "ws://localhost:5000";
+import MyButton from "./MyButton";
+import HostEvent from "./HostEvent";
+
+import "./Host.css";
+import { IEvent } from "../types";
+import axios from "axios";
 
 interface Props {
   user: User;
 }
 
 const Host: React.FC<Props> = ({ user }) => {
-  const socket = useRef<Socket | null>(null);
-  useEffect(() => {
-    if (!user) return;
-    socket.current = io(SOCKET_URI, { auth: user });
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, [user]);
+  const [codeEntered, setCodeEntered] = useState<string>("");
+  const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
+  const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
 
-  const socketTest = () => {
-    socket.current?.emit("test");
+  useEffect(() => {
+    getEvents();
+    return;
+  }, []);
+
+  const getEvents = async () => {
+    try {
+      const res = await axios.get("/api/event/hosting", {
+        params: { userId: user._id },
+      });
+      setJoinedEvents(res.data.events);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const joinEvent = async () => {
+    setJoiningEvent(true);
+    console.log(codeEntered);
+    setJoiningEvent(false);
   };
 
   return (
-    <Container maxWidth="xs">
-      <Typography component="h1" variant="h3">
-        Host
-        <button onClick={socketTest}>Test</button>
-      </Typography>
-      <Typography variant="body1">{user.email}</Typography>
-    </Container>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+      }}
+    >
+      <MyButton text="Create Event" onClick={() => {}} />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "30rem",
+          padding: "0.5rem",
+          marginTop: "0.5rem",
+          border: "1px solid #465775",
+        }}
+      >
+        <div style={{ fontSize: "1.2rem", color: "#465775" }}>
+          Events Joined
+        </div>
+        {joinedEvents.map((event: IEvent) => (
+          <HostEvent key={event._id} event={event} />
+        ))}
+      </div>
+    </div>
   );
 };
 

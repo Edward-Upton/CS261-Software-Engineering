@@ -27,7 +27,7 @@ const Participate: React.FC<Props> = ({ user }) => {
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("/api/event", {
+      const res = await axios.get("/api/event/participating", {
         params: { userId: user._id },
       });
       setJoinedEvents(res.data.events);

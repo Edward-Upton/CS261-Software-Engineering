@@ -17,7 +17,33 @@ router.get("/allEvents", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/", async (req: Request, res: Response) => {
+router.get("/participating", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const joinedEvents = await Event.find({ participants: userId?.toString() });
+    return res
+      .status(200)
+      .json({ events: joinedEvents, count: joinedEvents.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.get("/hosting", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const joinedEvents = await Event.find({ host: userId?.toString() });
+    return res
+      .status(200)
+      .json({ events: joinedEvents, count: joinedEvents.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.get("/hosting", async (req: Request, res: Response) => {
   try {
     const { userId } = req.query;
     console.log(userId);

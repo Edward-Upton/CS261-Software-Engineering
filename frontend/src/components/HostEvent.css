@@ -1,0 +1,42 @@
+.event {
+  height: 3rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 0.1rem solid #465775;
+}
+
+.event__name {
+  width: 50%;
+  font-family: Roboto;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #5b6c5d;
+}
+
+.event__copyLink {
+  width: 3rem;
+  font-family: Roboto;
+  font-size: 0.7rem;
+  text-align: center;
+  font-weight: 400;
+  font-style: italic;
+  text-decoration: underline;
+  color: #5b6c5d;
+}
+
+.event__copyLink:hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+.event__time {
+  width: 50%;
+  font-family: Roboto;
+  font-size: 0.7rem;
+  text-align: right;
+  font-weight: 400;
+  color: #5b6c5d;
+}

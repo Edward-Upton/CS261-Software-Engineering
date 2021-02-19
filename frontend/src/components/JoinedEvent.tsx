@@ -9,7 +9,7 @@ interface Props {
   key: string;
 }
 
-const MyButton: React.FC<Props> = (props) => {
+const JoinedEvent: React.FC<Props> = (props) => {
   return (
     <div key={props.key} className="event" style={props.styled}>
       <div className="event__name">{props.event.name}</div>
@@ -21,4 +21,4 @@ const MyButton: React.FC<Props> = (props) => {
   );
 };
 
-export default MyButton;
+export default JoinedEvent;
