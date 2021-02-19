@@ -20,6 +20,8 @@ const MyTextField: React.FC<Props> = (props) => {
   return (
     <IconContext.Provider value={{ className: "textField__icon" }}>
       <div className="textField" style={props.styled}>
+        {props.children}
+        <div className="textField__sepLine" />
         <input
           type={props.type}
           placeholder={props.placeholder}
@@ -27,8 +29,6 @@ const MyTextField: React.FC<Props> = (props) => {
           onChange={onChange}
           className="textField__input"
         ></input>
-        <div className="textField__sepLine" />
-        {props.children}
       </div>
     </IconContext.Provider>
   );

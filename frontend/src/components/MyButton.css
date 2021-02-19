@@ -1,14 +1,16 @@
 .registerButton {
   /* Register Button */
-
-  position: relative;
-  width: 300px;
-  height: 50px;
-  left: calc(50% - 300px / 2 + 0.5px);
+  width: 19rem;
+  height: 2.5rem;
   /* top: calc(50% - 50px/2 + 35.5px); */
 
   background: #465775;
-  border-radius: 20px;
+  border-radius: 1rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 div.registerButton:hover {
@@ -17,19 +19,10 @@ div.registerButton:hover {
 }
 
 div.registerButton__text {
-  position: absolute;
-  width: 88px;
-  height: 28px;
-  left: calc(50% - 88px / 2);
-  top: calc(50% - 28px / 2);
-
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 24px;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 28px;
 
   color: #ffffff;
 }

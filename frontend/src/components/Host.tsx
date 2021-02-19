@@ -22,7 +22,7 @@ const Host: React.FC<Props> = ({ user }) => {
   }, [user]);
 
   const socketTest = () => {
-    socket.current?.emit("email");
+    socket.current?.emit("test");
   };
 
   return (
