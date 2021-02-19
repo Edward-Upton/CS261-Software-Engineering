@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { User } from "../App";
 import { AiOutlineEye } from "react-icons/ai";
 
@@ -11,6 +13,15 @@ interface Props {
 }
 
 const Participate: React.FC<Props> = ({ user }) => {
+  const [codeEntered, setCodeEntered] = useState<string>("");
+  const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
+
+  const joinEvent = async () => {
+    setJoiningEvent(true);
+    console.log(codeEntered);
+    setJoiningEvent(false);
+  };
+
   return (
     <div
       style={{
@@ -24,15 +35,17 @@ const Participate: React.FC<Props> = ({ user }) => {
         <MyTextField
           type="text"
           placeholder="Code..."
-          onChange={() => {}}
+          value={codeEntered}
+          onChange={(v) => setCodeEntered(v)}
           styled={{ width: "50%" }}
         >
           <AiOutlineEye />
         </MyTextField>
         <MyButton
-          text="Join Event"
-          onClick={() => {}}
+          text={joiningEvent ? "Joining" : "Join Event"}
+          onClick={joinEvent}
           styled={{ width: "40%", backgroundColor: "#59c9a5" }}
+          disabled={joiningEvent}
         ></MyButton>
       </div>
     </div>
