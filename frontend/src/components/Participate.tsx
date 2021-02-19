@@ -38,7 +38,16 @@ const Participate: React.FC<Props> = ({ user }) => {
 
   const joinEvent = async () => {
     setJoiningEvent(true);
-    console.log(codeEntered);
+    try {
+      const res = await axios.post("/api/event/join", {
+        userId: user._id,
+        inviteCode: codeEntered,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    setCodeEntered("");
+    getEvents();
     setJoiningEvent(false);
   };
 

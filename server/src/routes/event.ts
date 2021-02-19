@@ -43,14 +43,17 @@ router.get("/hosting", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/hosting", async (req: Request, res: Response) => {
+router.post("/join", async (req: Request, res: Response) => {
   try {
-    const { userId } = req.query;
-    console.log(userId);
-    const joinedEvents = await Event.find({ participants: userId?.toString() });
-    return res
-      .status(200)
-      .json({ events: joinedEvents, count: joinedEvents.length });
+    const { userId, inviteCode } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: "No userId supplied" });
+    }
+    if (!inviteCode) {
+      return res.status(400).json({ message: "No invite code supplied" });
+    }
+    await Event.updateOne({ inviteCode }, { $push: { participants: userId } });
+    return res.status(200).json({ message: "Successfully joined event." });
   } catch (error) {
     return res.status(500).json({ error });
   }
