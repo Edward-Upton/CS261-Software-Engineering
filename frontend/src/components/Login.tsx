@@ -3,19 +3,10 @@ import axios from "axios";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineKey } from "react-icons/hi";
 
-import {
-  Button,
-  Container,
-  makeStyles,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-
 import MyTextField from "./MyTextField";
 
 import { User } from "../App";
 import "./Login.css";
-import { IconContext } from "react-icons";
 import MyButton from "./MyButton";
 
 interface Props {
@@ -53,7 +44,7 @@ const Login: React.FC<Props> = ({ login }) => {
         placeholder="Email..."
         value={email}
         onChange={(v) => setEmail(v)}
-        styled={{ margin: 5 }}
+        styled={{ marginTop: 20 }}
       >
         <AiOutlineUser />
       </MyTextField>
@@ -62,15 +53,19 @@ const Login: React.FC<Props> = ({ login }) => {
         placeholder="Password..."
         value={password}
         onChange={(v) => setPassword(v)}
-        styled={{ margin: 5 }}
+        styled={{ marginTop: 20 }}
       >
         <HiOutlineKey />
       </MyTextField>
-      <MyButton text="Login" onClick={submit} styled={{ margin: 5, backgroundColor: "#59c9a5" }}></MyButton>
+      <MyButton
+        text="Login"
+        onClick={submit}
+        styled={{ marginTop: 20, backgroundColor: "#59c9a5" }}
+      ></MyButton>
       <MyButton
         text="Register"
         onClick={register}
-        styled={{ margin: 5 }}
+        styled={{ marginTop: 20 }}
       ></MyButton>
     </div>
   );

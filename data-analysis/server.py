@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 processor = Processor()
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return "WORKING"

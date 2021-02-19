@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import Login from "./components/Login";
 import Host from "./components/Host";
 import Participant from "./components/Participant";
+import Header from "./components/Header";
 
 export interface User {
   _id: string;
@@ -34,9 +35,7 @@ const App: React.FC = () => {
 
   return user ? (
     <>
-      <Button variant="contained" onClick={logout}>
-        Logout
-      </Button>
+      <Header email={user.email} logout={logout}></Header>
       <Host user={user} />
       <Participant user={user} />
     </>

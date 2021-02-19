@@ -2,20 +2,20 @@
   /* Email Field */
   position: relative;
   width: 300px;
-  height: 60px;
-  left: calc(50% - 300px / 2);
-  /* top: calc(50% - 60px / 2); */
+  height: 50px;
+  left: calc(50% - 300px / 2 + 0.5px);
+  /* top: calc(50% - 50px/2 - 86.5px); */
 
   border: 2px solid #59c9a5;
-  border-radius: 30px;
+  border-radius: 25px;
 }
 
 .textField__icon {
   position: absolute;
-  width: 33px;
-  height: 34.83px;
-  left: calc(50% - 33px / 2 - 112px);
-  top: calc(50% - 34.83px / 2 - 0.92px);
+  width: 28px;
+  height: 30px;
+  left: calc(50% - 28px / 2 - 122px);
+  top: calc(50% - 30px / 2);
 
   color: #465775;
 }
@@ -23,15 +23,16 @@
 .textField__input {
   /* Email... */
   position: absolute;
-  width: 205px;
-  height: 28px;
-  left: calc(50% - 205px / 2 + 25.5px);
-  top: calc(50% - 28px / 2);
+  width: 226px;
+  height: 23px;
+  left: calc(50% - 226px / 2 + 22px);
+  top: calc(50% - 23px / 2 + 1.5px);
 
   font-family: Roboto;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 28px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
   display: flex;
   align-items: center;
 
@@ -50,15 +51,14 @@
   color: #465775;
   font-family: Roboto;
   font-weight: 200;
-  font-size: 24px;
 }
 
 .textField__sepLine {
   position: absolute;
   width: 1px;
-  height: 42px;
-  left: calc(50% - 1px / 2 - 86.5px);
-  top: calc(50% - 42px / 2);
+  height: 34px;
+  left: calc(50% - 1px / 2 - 99.5px);
+  top: calc(50% - 34px / 2);
 
   background: #59c9a5;
 }

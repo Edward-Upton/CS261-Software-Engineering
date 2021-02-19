@@ -1,0 +1,49 @@
+.header {
+  position: relative;
+  width: 334px;
+  height: 40px;
+  left: calc(50% - 334px/2);
+  /* top: calc(50% - 40px / 2 - 296px); */
+}
+
+.header__email {
+  position: absolute;
+  width: 167px;
+  height: 40px;
+  left: 0px;
+  top: calc(50% - 40px / 2);
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  vertical-align: middle;
+
+  color: #59c9a5;
+}
+
+.header__logout {
+  position: absolute;
+  width: 70px;
+  height: 20px;
+  right: 0px;
+  top: calc(50% - 20px / 2);
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration-line: underline;
+
+  color: #59c9a5;
+}
+
+.header__logout:hover {
+  cursor: pointer;
+  filter: brightness(80%);
+}
