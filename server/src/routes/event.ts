@@ -8,10 +8,23 @@ const router = Router();
 
 // Get all events
 // This shouldn't really stay here since not secure
-router.get("/", async (req: Request, res: Response) => {
+router.get("/allEvents", async (req: Request, res: Response) => {
   try {
     const events = await Event.find({});
     return res.status(200).json({ events, count: events.length });
+  } catch (error) {
+    return res.status(500).json({ error });
+  }
+});
+
+router.get("/", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query;
+    console.log(userId);
+    const joinedEvents = await Event.find({ participants: userId?.toString() });
+    return res
+      .status(200)
+      .json({ events: joinedEvents, count: joinedEvents.length });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -40,11 +53,20 @@ router.post("/", async (req: Request, res: Response) => {
         // Create the feedback data for the different types.
         const { name, description, fieldType, constraints } = field;
         if (fieldType === "mood") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "rating") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "slider") {
-          feedback.push({ ...field, data: { average: 2.5, timeSeries: [], num: 0 } });
+          feedback.push({
+            ...field,
+            data: { average: 2.5, timeSeries: [], num: 0 },
+          });
         } else if (fieldType === "text") {
           feedback.push({
             ...field,

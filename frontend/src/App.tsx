@@ -42,9 +42,7 @@ const App: React.FC = () => {
       }}
     >
       <Header email={user.email} logout={logout} />
-      <Tab user={user}>
-        
-      </Tab>
+      <Tab user={user}></Tab>
     </div>
   ) : (
     <>

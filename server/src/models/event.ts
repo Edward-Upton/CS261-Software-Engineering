@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IEvent extends Document {
+  _id: string;
   name: string;
   eventType?: string;
   start: Date;
@@ -13,7 +14,7 @@ export interface IEvent extends Document {
 
 export interface IField {
   // Will have an array of fields
-  _id: string,
+  _id: string;
   name: string;
   description: string;
   fieldType: "mood" | "rating" | "slider" | "text";
@@ -24,7 +25,7 @@ export interface IField {
   data: {
     average?: number;
     wordFreq?: { word: string; freq: number };
-    timeSeries?: { value: number; date: Date };
+    timeSeries?: { _id: string; value: number; date: Date }[];
     num: number; // This will store the number of data points added
   }; // This will contain the feedback data for this type of field
 }

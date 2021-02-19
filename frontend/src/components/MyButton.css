@@ -1,4 +1,4 @@
-.registerButton {
+.button {
   /* Register Button */
   width: 19rem;
   height: 2.5rem;
@@ -13,16 +13,16 @@
   align-items: center;
 }
 
-div.registerButton:hover {
+div.button:hover {
   cursor: pointer;
   filter: brightness(80%);
 }
 
-div.registerButton__text {
+div.button__text {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 24px;
+  font-size: 1.5rem;
 
   color: #ffffff;
 }
