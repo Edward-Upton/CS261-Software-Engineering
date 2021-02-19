@@ -38,12 +38,6 @@
   filter: brightness(90%);
 }
 
-.tab__participate {
-}
-
-.tab__host {
-}
-
 .tab__selected {
   color: #59c9a5;
   background-color: rgb(235, 235, 235);

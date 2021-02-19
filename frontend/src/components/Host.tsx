@@ -14,13 +14,12 @@ interface Props {
 }
 
 const Host: React.FC<Props> = ({ user }) => {
-  const [codeEntered, setCodeEntered] = useState<string>("");
-  const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
   const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
 
   useEffect(() => {
     getEvents();
     return;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getEvents = async () => {
@@ -32,12 +31,6 @@ const Host: React.FC<Props> = ({ user }) => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const joinEvent = async () => {
-    setJoiningEvent(true);
-    console.log(codeEntered);
-    setJoiningEvent(false);
   };
 
   return (

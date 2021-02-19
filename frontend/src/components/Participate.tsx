@@ -20,11 +20,6 @@ const Participate: React.FC<Props> = ({ user }) => {
   const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
   const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
 
-  useEffect(() => {
-    getEvents();
-    return;
-  }, []);
-
   const getEvents = async () => {
     try {
       const res = await axios.get("/api/event/participating", {
@@ -36,10 +31,16 @@ const Participate: React.FC<Props> = ({ user }) => {
     }
   };
 
+  useEffect(() => {
+    getEvents();
+    return;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const joinEvent = async () => {
     setJoiningEvent(true);
     try {
-      const res = await axios.post("/api/event/join", {
+      await axios.post("/api/event/join", {
         userId: user._id,
         inviteCode: codeEntered,
       });
