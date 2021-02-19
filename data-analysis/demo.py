@@ -59,9 +59,9 @@ class Processor:
 if __name__ == '__main__':
     processor = Processor()
 
-    statement1 = "Great workshop, I leared a lot and there were very inteesting topics."
-    statement2 = "This was a pretty good poject, but the host had lots of technical issues which was not good."
-    statement3 = "I hated evry secnd of this lectre, the content was uninteresting and boring and I fell asleep."
+    statement1 = "Great workshop, I learned a lot and there were very interesting topics."
+    statement2 = "This was a pretty good project, but the host had lots of technical issues which was not good."
+    statement3 = "I hated every second of this lecture, the content was uninteresting and boring and I fell asleep."
 
     print("")
 
