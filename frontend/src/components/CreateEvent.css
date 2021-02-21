@@ -16,7 +16,26 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.createEvent__header__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #465775;
+}
+
+.createEvent__header__icon {
+  width: 2rem;
+  height: 2rem;
+
+  color: #465775;
+}
+
+.createEvent__header__icon:hover {
+  background-color: rgb(206, 206, 206);
+  border-radius: 1rem;
 }
 
 .createEvent__content {
@@ -35,4 +54,8 @@
   right: 0;
   bottom: 0;
   overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

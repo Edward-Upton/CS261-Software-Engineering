@@ -1,9 +1,15 @@
 import { useState } from "react";
+import DateTime from "react-datetime";
+import { IconContext } from "react-icons";
 import { User } from "../App";
 import { IField } from "../types";
+
 import "./CreateEvent.css";
+import "react-datetime/css/react-datetime.css";
+
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface Props {
   user: User;
@@ -20,8 +26,12 @@ const CreateEvent: React.FC<Props> = (props) => {
   return (
     <div className="createEvent">
       <div className="createEvent__header">
-        <h3>Add Event</h3>
-        <h2 onClick={props.closeClicked}>Close</h2>
+        <div className="createEvent__header__title">Add Event</div>
+        <IconContext.Provider
+          value={{ className: "createEvent__header__icon" }}
+        >
+          <AiOutlineCloseCircle onClick={props.closeClicked} />
+        </IconContext.Provider>
       </div>
       <div className="createEvent__content">
         <div>
@@ -31,7 +41,14 @@ const CreateEvent: React.FC<Props> = (props) => {
             onChange={(v) => setEventName(v)}
             value={eventName}
           />
-
+          <DateTime
+            onChange={(value) => {
+              if (typeof value === "string") {
+                setEventStart(new Date(value));
+              }
+            }}
+            value={eventStart}
+          />
           <h1>Hello</h1>
 
           <h1>Hello</h1>
