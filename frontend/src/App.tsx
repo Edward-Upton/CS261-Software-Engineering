@@ -34,18 +34,31 @@ const App: React.FC = () => {
     <div
       style={{
         display: "flex",
+        height: "100vh",
         flexDirection: "column",
         alignItems: "center",
-        margin: "1rem",
+        justifyContent: "center",
+        padding: "1rem",
+        overflow: "none",
       }}
     >
       <Header email={user.email} logout={logout} />
       <Tab user={user}></Tab>
     </div>
   ) : (
-    <>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "1rem",
+        overflow: "none",
+      }}
+    >
       <Login login={login} />
-    </>
+    </div>
   );
 };
 

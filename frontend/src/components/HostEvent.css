@@ -30,6 +30,7 @@
 .event__copyLink:hover {
   filter: brightness(80%);
   cursor: pointer;
+  background-color: rgba(169, 253, 225, 0.294)
 }
 
 .event__time {

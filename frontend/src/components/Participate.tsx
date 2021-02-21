@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { User } from "../App";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineNumber } from "react-icons/ai";
 
 import MyTextField from "./MyTextField";
 import MyButton from "./MyButton";
@@ -34,7 +34,7 @@ const Participate: React.FC<Props> = ({ user }) => {
   useEffect(() => {
     getEvents();
     return;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const joinEvent = async () => {
@@ -55,9 +55,10 @@ const Participate: React.FC<Props> = ({ user }) => {
   return (
     <div
       style={{
+        height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-evenly",
+        // justifyContent: "space-evenly",
         alignItems: "center",
       }}
     >
@@ -69,7 +70,7 @@ const Participate: React.FC<Props> = ({ user }) => {
           onChange={(v) => setCodeEntered(v)}
           styled={{ width: "50%" }}
         >
-          <AiOutlineEye />
+          <AiOutlineNumber />
         </MyTextField>
         <MyButton
           text={joiningEvent ? "Joining" : "Join Event"}
@@ -85,15 +86,35 @@ const Participate: React.FC<Props> = ({ user }) => {
           maxWidth: "30rem",
           padding: "0.5rem",
           marginTop: "0.5rem",
-          border: "1px solid #465775",
+          // border: "1px solid #465775",
+          position: "relative",
+          overflowY: "hidden",
+          flexGrow: 1,
         }}
       >
-        <div style={{ fontSize: "1.2rem", color: "#465775" }}>
-          Events Joined
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            overflowY: "auto",
+          }}
+        >
+          <div style={{ fontSize: "1.2rem", color: "#465775" }}>
+            Events Joined
+          </div>
+          {joinedEvents.map((event: IEvent) => (
+            <JoinedEvent key={event._id} event={event} />
+          ))}
+          {/* {joinedEvents.map((event: IEvent) => (
+            <JoinedEvent key={event._id} event={event} />
+          ))}
+          {joinedEvents.map((event: IEvent) => (
+            <JoinedEvent key={event._id} event={event} />
+          ))} */}
         </div>
-        {joinedEvents.map((event: IEvent) => (
-          <JoinedEvent key={event._id} event={event} />
-        ))}
       </div>
     </div>
   );
