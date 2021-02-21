@@ -42,12 +42,13 @@ const CreateEvent: React.FC<Props> = (props) => {
             value={eventName}
           />
           <DateTime
+            // defaultValue={new Date().toISOString()}
             onChange={(value) => {
-              if (typeof value === "string") {
-                setEventStart(new Date(value));
+              if (typeof value !== "string") {
+                setEventStart(value.toDate());
+                console.log(eventStart);
               }
             }}
-            value={eventStart}
           />
           <h1>Hello</h1>
 
