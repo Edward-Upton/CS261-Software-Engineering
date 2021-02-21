@@ -3,6 +3,10 @@ import { customAlphabet } from "nanoid/async";
 
 import Event, { IEvent, IField } from "../models/event";
 import { analyseData } from "../data-analysis";
+import mongoose from "mongoose";
+import User from "../models/user";
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const router = Router();
 
@@ -27,8 +31,10 @@ router.get("/allEvents", async (req: Request, res: Response) => {
 router.get("/participating", async (req: Request, res: Response) => {
   try {
     const { userId } = req.query;
-    console.log(userId);
-    const joinedEvents = await Event.find({ participants: userId?.toString() });
+    const userDocument = await User.findById(userId);
+    const joinedEvents = await Event.find({
+      participants: userDocument,
+    });
     return res
       .status(200)
       .json({ events: joinedEvents, count: joinedEvents.length });
@@ -40,11 +46,13 @@ router.get("/participating", async (req: Request, res: Response) => {
 router.get("/hosting", async (req: Request, res: Response) => {
   try {
     const { userId } = req.query;
-    console.log(userId);
-    const joinedEvents = await Event.find({ host: userId?.toString() });
+    const userDocument = await User.findById(userId);
+    const hostingEvents = await Event.find({
+      host: userDocument,
+    });
     return res
       .status(200)
-      .json({ events: joinedEvents, count: joinedEvents.length });
+      .json({ events: hostingEvents, count: hostingEvents.length });
   } catch (error) {
     return res.status(500).json({ error });
   }
@@ -59,7 +67,11 @@ router.post("/join", async (req: Request, res: Response) => {
     if (!inviteCode) {
       return res.status(400).json({ message: "No invite code supplied" });
     }
-    await Event.updateOne({ inviteCode }, { $push: { participants: userId } });
+    const userDocument = await User.findById(userId);
+    await Event.updateOne(
+      { inviteCode },
+      { $push: { participants: userDocument } }
+    );
     return res.status(200).json({ message: "Successfully joined event." });
   } catch (error) {
     return res.status(500).json({ error });
