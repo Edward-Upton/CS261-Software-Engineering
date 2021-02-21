@@ -1,3 +1,4 @@
+import ReactDOMServer from "react-dom/server";
 import { CSSProperties } from "react";
 
 import "./MyTextField.css";
@@ -17,18 +18,35 @@ const MyTextField: React.FC<Props> = (props) => {
     props.onChange(e.target.value);
   };
 
+  const noIcon = !props.children;
+
   return (
     <IconContext.Provider value={{ className: "textField__icon" }}>
       <div className="textField" style={props.styled}>
-        {props.children}
-        <div className="textField__sepLine" />
-        <input
-          type={props.type}
-          placeholder={props.placeholder}
-          value={props.value}
-          onChange={onChange}
-          className="textField__input"
-        ></input>
+        {!noIcon && (
+          <>
+            {props.children}
+            <div className="textField__sepLine" />
+            <input
+              type={props.type}
+              placeholder={props.placeholder}
+              value={props.value}
+              onChange={onChange}
+              className="textField__input"
+            ></input>
+          </>
+        )}
+        {noIcon && (
+          <>
+            <input
+              type={props.type}
+              placeholder={props.placeholder}
+              value={props.value}
+              onChange={onChange}
+              className="textField__input textField__inputNoIcon"
+            ></input>
+          </>
+        )}
       </div>
     </IconContext.Provider>
   );

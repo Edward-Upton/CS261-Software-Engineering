@@ -37,7 +37,7 @@
   font-weight: normal;
   font-size: 1.2rem;
 
-  display: felx;
+  display: flex;
   justify-content: center;
 
   background: none;
@@ -55,6 +55,11 @@
   color: #465775;
   font-family: Roboto;
   font-weight: 200;
+}
+
+.textField__inputNoIcon {
+  width: calc(100% - 1rem);
+  margin-left: 0.5rem;
 }
 
 .textField__sepLine {

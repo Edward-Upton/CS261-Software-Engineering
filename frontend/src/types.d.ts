@@ -20,7 +20,7 @@ export interface IField {
     range?: number[];
     limit?: number;
   }; // This will contain specific constraints for the type of field
-  data: {
+  data?: {
     average?: number;
     wordFreq?: { word: string; freq: number };
     timeSeries?: { _id: string; value: number; date: Date }[];

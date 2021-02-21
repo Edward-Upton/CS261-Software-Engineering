@@ -83,7 +83,6 @@ const Participate: React.FC<Props> = ({ user }) => {
       <div
         style={{
           width: "100%",
-          maxWidth: "30rem",
           padding: "0.5rem",
           marginTop: "0.5rem",
           // border: "1px solid #465775",
