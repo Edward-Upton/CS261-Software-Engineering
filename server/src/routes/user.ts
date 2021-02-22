@@ -14,9 +14,9 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
   try {
     // Retrieve all users from database, ignoring the password field.
-    const users: [IUser] = await User.find({}).select({ password: 0 });
+    const users: IUser[] = await User.find({}).select({ password: 0 });
     // Return the array of all users and the count.
-    return res.status(200).json({ users, count: users.length });
+    return res.status(200).json({ count: users.length, users });
   } catch (error) {
     // If error, return error object.
     return res.status(500).json({ error });
@@ -26,7 +26,7 @@ router.get("/", async (req: Request, res: Response) => {
 /**
  * HTTP POST "/login"
  *
- * Accepts email and password in body.
+ * Accepts an email and password in json body.
  *
  * Returns 200 OK if successful login.
  * Returns 400 Bad Request if incorrect request body.
@@ -50,7 +50,7 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!result)
       return res.status(401).json({ message: "Password doesn't match" });
     // If the password matches, return 200 OK and the user.
-    return res.status(200).json({ message: "Success", user });
+    return res.status(200).json({ user });
   } catch (error) {
     // If error, return error object.
     return res.status(500).json({ error });
@@ -60,8 +60,9 @@ router.post("/login", async (req: Request, res: Response) => {
 /**
  * HTTP POST "/register"
  *
- * Accepts email and password in body.
- * Returns 202 Created if account successfully registered.
+ * Accepts an email and password in json body.
+ *
+ * Returns 201 Created if account successfully registered.
  * Returns 400 Bad Request if incorrect request body.
  * Returns 500 Internal Server Error if server error.
  */
@@ -77,8 +78,8 @@ router.post("/register", async (req: Request, res: Response) => {
     // Create a new user with provided email and hash and save to database.
     const user: IUser = new User({ email, password: hash });
     await user.save();
-    // Return 202 Created and the user id.
-    return res.status(201).send({ message: "Registered", user });
+    // Return 201 Created and the user id.
+    return res.status(201).send({ user });
   } catch (error) {
     // If error, return error object.
     return res.status(500).json({ error });

@@ -2,85 +2,198 @@ import { Router, Request, Response } from "express";
 import { customAlphabet } from "nanoid/async";
 
 import Event, { IEvent, IField } from "../models/event";
+import User, { IUser } from "../models/user";
 import { analyseData } from "../data-analysis";
-import mongoose from "mongoose";
-import User from "../models/user";
-
-const ObjectId = mongoose.Types.ObjectId;
 
 const router = Router();
 
+// Nano ID generator for invite codes.
+const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
+
 /**
  * HTTP GET "/"
+ * Returns all the events.
  *
- * Returns 200 OK with all the events in the database.
- * Returns 500 Internal Server Error if server error.
+ * /?populate - returns events with user data populated.
+ *
+ * Returns 200 OK, with all the events in the database.
+ * Returns 500 Internal Server Error, if server error.
  */
-router.get("/allEvents", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   try {
-    // Retrieve all events from database
-    const events: [IEvent] = await Event.find({});
-    // Return the array of all events and the count.
-    return res.status(200).json({ events, count: events.length });
+    // Checks if the query parameters contain populate.
+    const populate: boolean = "populate" in req.query;
+    // Retrieve all events from database.
+    // Populate the host and participants if desired.
+    const events: IEvent[] = populate
+      ? await Event.find({})
+          .populate("participants", "email")
+          .populate("host", "email")
+      : await Event.find({});
+    // Return 200 OK and the array of all events and the count.
+    return res.status(200).json({ count: events.length, events });
   } catch (error) {
     // If error, return error object.
     return res.status(500).json({ error });
   }
 });
 
-router.get("/participating", async (req: Request, res: Response) => {
+/**
+ * HTTP GET "/:id"
+ * Returns the event with the specified id.
+ *
+ * :id - the id of the event.
+ *
+ * /?populate - returns event with user data populated.
+ *
+ * Returns 200 OK, with the specified event.
+ * Returns 500 Internal Server Error, if server error.
+ */
+router.get("/:id", async (req: Request, res: Response) => {
   try {
-    const { userId } = req.query;
-    const userDocument = await User.findById(userId);
-    const joinedEvents = await Event.find({
-      participants: userDocument,
-    });
-    return res
-      .status(200)
-      .json({ events: joinedEvents, count: joinedEvents.length });
+    // Retrieve the id from request parameters.
+    const { id } = req.params;
+    // Checks if the query parameters contain populate.
+    const populate: boolean = "populate" in req.query;
+    // Retrieve the event from database.
+    // Populate the host and participants if desired.
+    const event: IEvent = populate
+      ? await Event.findById(id)
+          .populate("participants", "email")
+          .populate("host", "email")
+      : await Event.findById(id);
+    // Return 200 OK and the event.
+    return res.status(200).json({ event });
   } catch (error) {
+    // If error, return error object.
     return res.status(500).json({ error });
   }
 });
 
-router.get("/hosting", async (req: Request, res: Response) => {
+/**
+ * HTTP GET "/participating/:userId"
+ * Returns events that a user is participating in
+ *
+ * :userId - the user id used to search for participating events.
+ *
+ * /?populate - returns events with user data populated.
+ *
+ * Returns 200 OK, with all the events a user is participating in.
+ * Returns 500 Internal Server Error, if server error.
+ */
+router.get("/participating/:userId", async (req: Request, res: Response) => {
   try {
-    const { userId } = req.query;
-    const userDocument = await User.findById(userId);
-    const hostingEvents = await Event.find({
-      host: userDocument,
-    });
-    return res
-      .status(200)
-      .json({ events: hostingEvents, count: hostingEvents.length });
+    // Retrieve the userId from request parameters.
+    const { userId } = req.params;
+    // Checks if query parameters contain populate.
+    const populate: boolean = "populate" in req.query;
+    // Retrieve the user from the database.
+    const user: IUser = await User.findById(userId);
+    // Retrieve all events the user participates in from the database.
+    // Populate the host and participants if desired.
+    const events: IEvent[] = populate
+      ? await Event.find({ participants: user._id })
+          .populate("participants", "email")
+          .populate("host", "email")
+      : await Event.find({ participants: user._id });
+    // Return 200 OK and the array of events and the count.
+    return res.status(200).json({ count: events.length, events });
   } catch (error) {
+    // If error, return error object.
     return res.status(500).json({ error });
   }
 });
 
+/**
+ * HTTP GET "/hosting/:userId"
+ *
+ * :userId - the user id used to search for hosting events.
+ *
+ * /?populate - returns events with user data populated.
+ * / - returns events without user data populated.
+ *
+ * Returns 200 OK, with all the events a user is hosting.
+ * Returns 500 Internal Server Error, if server error.
+ */
+router.get("/hosting/:userId", async (req: Request, res: Response) => {
+  try {
+    // Retrieve the id from request parameters.
+    const { userId } = req.params;
+    // Checks if query parameters contain populate.
+    const populate: boolean = "populate" in req.query;
+    // Retrieve the user from the database.
+    const user: IUser = await User.findById(userId);
+    // Retrieve all events the user hosts from the database.
+    // Populate the host and participants if desired.
+    const events: IEvent[] = populate
+      ? await Event.find({ host: user._id })
+          .populate("participants", "email")
+          .populate("host", "email")
+      : await Event.find({ host: user._id });
+    // Return 200 OK and the array of events and the count.
+    return res.status(200).json({ count: events.length, events });
+  } catch (error) {
+    // If error, return error object.
+    return res.status(500).json({ error });
+  }
+});
+
+/**
+ * HTTP POST "/join"
+ * Add a user to the list of participants of an event.
+ *
+ * Accepts a userId and inviteCode in json body.
+ *
+ * Returns 201 Created, with the updated event.
+ * Returns 500 Internal Server Error, if server error.
+ */
 router.post("/join", async (req: Request, res: Response) => {
   try {
+    // Retrieve the userId and inviteCode from request body.
     const { userId, inviteCode } = req.body;
-    if (!userId) {
-      return res.status(400).json({ message: "No userId supplied" });
-    }
-    if (!inviteCode) {
-      return res.status(400).json({ message: "No invite code supplied" });
-    }
-    const userDocument = await User.findById(userId);
+    // Check if body contains userId and inviteCode.
+    if (!userId)
+      return res.status(400).json({ message: "No userId supplied." });
+    if (!inviteCode)
+      return res.status(400).json({ message: "No inviteCode supplied." });
+    // Checks if the query parameters contain populate.
+    const populate: boolean = "populate" in req.query;
+    // Retrieve the user from the database.
+    const user: IUser = await User.findById(userId);
+    // Push the user to the list of participants of the event.
+    // Use $addToSet to avoid duplicates.
     await Event.updateOne(
       { inviteCode },
-      { $push: { participants: userDocument } }
+      { $addToSet: { participants: user._id } }
     );
-    return res.status(200).json({ message: "Successfully joined event." });
+    // Retrieve the event from database.
+    // Populate the host and participants if desired.
+    const event: IEvent = populate
+      ? await Event.findOne({ inviteCode })
+          .populate("participants", "email")
+          .populate("host", "email")
+      : await Event.findOne({ inviteCode });
+    // Return 201 Created and the updated event.
+    return res.status(201).json({ event });
   } catch (error) {
+    // If error, return error object.
     return res.status(500).json({ error });
   }
 });
 
-// Create a new event
+/**
+ * HTTP POST "/"
+ * Creates a new event.
+ *
+ * ... TODO
+ *
+ * Returns 201 Created, with the updated event.
+ * ... TODO edge cases
+ * Returns 500 Internal Server Error, if server error.
+ */
 router.post("/", async (req: Request, res: Response) => {
   try {
+    // Retrieve event properties from request body.
     const {
       name,
       eventType,
@@ -88,47 +201,35 @@ router.post("/", async (req: Request, res: Response) => {
       end,
       host,
       participants,
-      feedbackFields,
-    } = req.body;
-    const feedback: any = [];
-    feedbackFields.forEach(
-      (field: {
-        name: string;
-        description: string;
-        fieldType: string;
-        constraints: any;
-      }) => {
-        // Create the feedback data for the different types.
-        const { name, description, fieldType, constraints } = field;
-        if (fieldType === "mood") {
-          feedback.push({
+    }: IEvent = req.body;
+    // Retrieve event feedback from request body and process.
+    const feedback: IField[] = req.body.feedback.map((field: IField) => {
+      switch (field.fieldType) {
+        case "mood":
+          return {
             ...field,
             data: { average: 2.5, timeSeries: [], num: 0 },
-          });
-        } else if (fieldType === "rating") {
-          feedback.push({
+          };
+        case "rating":
+          return {
             ...field,
             data: { average: 2.5, timeSeries: [], num: 0 },
-          });
-        } else if (fieldType === "slider") {
-          feedback.push({
+          };
+        case "slider":
+          return {
             ...field,
             data: { average: 2.5, timeSeries: [], num: 0 },
-          });
-        } else if (fieldType === "text") {
-          feedback.push({
+          };
+        case "text":
+          return {
             ...field,
             data: { average: 0, wordFreq: {}, timeSeries: [], num: 0 },
-          });
-        }
+          };
       }
-    );
-
-    // Create a unique code
-    const nanoid = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
+    });
+    // Generate a new invite code.
     const inviteCode = await nanoid();
-
-    // Create the event entity
+    // Create a new event entity and save to database.
     const event = new Event({
       name,
       eventType,
@@ -140,9 +241,8 @@ router.post("/", async (req: Request, res: Response) => {
       feedback,
     });
     await event.save();
-
-    // Successfully create new user
-    return res.status(201).send({ message: "Event created", event: event });
+    // Return 201 Created and the new event
+    return res.status(201).send({ event });
   } catch (error) {
     return res.status(500).json({ error });
   }
