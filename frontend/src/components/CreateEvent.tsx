@@ -18,6 +18,7 @@ interface Props {
 
 const CreateEvent: React.FC<Props> = (props) => {
   const [eventName, setEventName] = useState<string>("");
+  const [eventDescription, setEventDescription] = useState<string>("");
   const [eventStart, setEventStart] = useState<Date>(new Date());
   const [eventEnd, setEventEnd] = useState<Date>(new Date());
   const [feedbackFields, setFeedbackFields] = useState<IField[]>([]);
@@ -41,15 +42,49 @@ const CreateEvent: React.FC<Props> = (props) => {
             onChange={(v) => setEventName(v)}
             value={eventName}
           />
-          <DateTime
-            // defaultValue={new Date().toISOString()}
-            onChange={(value) => {
-              if (typeof value !== "string") {
-                setEventStart(value.toDate());
-                console.log(eventStart);
-              }
-            }}
+          <MyTextField
+            type="area"
+            placeholder="Event Description..."
+            onChange={(v) => setEventDescription(v)}
+            value={eventDescription}
+            styled={{ minHeight: "5rem" }}
           />
+          <div className="createEvent__dates">
+            <div className="createEvent__date">
+              <DateTime
+                // defaultValue={new Date().toISOString()}
+                onChange={(value) => {
+                  if (typeof value !== "string") {
+                    setEventStart(value.toDate());
+                    console.log(eventStart);
+                  }
+                }}
+                inputProps={{
+                  className: "createEvent__date__input",
+                  placeholder: "End Date...",
+                }}
+              />
+            </div>
+            <div className="createEvent__date__to">
+              to
+            </div>
+            <div className="createEvent__date">
+              <DateTime
+                // defaultValue={new Date().toISOString()}
+                onChange={(value) => {
+                  if (typeof value !== "string") {
+                    setEventStart(value.toDate());
+                    console.log(eventStart);
+                  }
+                }}
+                inputProps={{
+                  className: "createEvent__date__input",
+                  placeholder: "Start Date...",
+                }}
+              />
+            </div>
+          </div>
+
           <h1>Hello</h1>
 
           <h1>Hello</h1>

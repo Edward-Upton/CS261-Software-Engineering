@@ -1,11 +1,11 @@
 .textField {
-  /* Email Field */
   width: 19rem;
-  height: 3em;
+  height: 3rem;
+  min-height: 3rem;
   /* top: calc(50% - 50px/2 - 86.5px); */
 
   border: 2px solid #59c9a5;
-  border-radius: 19rem;
+  border-radius: 1.5rem;
 
   display: flex;
   flex-direction: row;
@@ -25,7 +25,6 @@
 }
 
 .textField__input {
-  /* Email... */
   padding: 0;
   margin: 0;
   border-radius: 0;
@@ -51,6 +50,39 @@
 }
 
 .textField__input::placeholder {
+  outline: none;
+  color: #465775;
+  font-family: Roboto;
+  font-weight: 200;
+}
+
+.textField__textarea {
+  resize: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+
+  height: calc(100% - 1rem);
+  flex-grow: 1;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.2rem;
+
+  background: none;
+  border: none;
+
+  color: #465775;
+}
+
+.textField__textarea:focus {
+  outline: none;
+}
+
+.textField__textarea::placeholder {
   outline: none;
   color: #465775;
   font-family: Roboto;

@@ -14,7 +14,11 @@ interface Props {
 }
 
 const MyTextField: React.FC<Props> = (props) => {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     props.onChange(e.target.value);
   };
 
@@ -27,24 +31,46 @@ const MyTextField: React.FC<Props> = (props) => {
           <>
             {props.children}
             <div className="textField__sepLine" />
-            <input
-              type={props.type}
-              placeholder={props.placeholder}
-              value={props.value}
-              onChange={onChange}
-              className="textField__input"
-            ></input>
+            {props.type !== "area" && (
+              <input
+                type={props.type}
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={onChange}
+                className="textField__input"
+              ></input>
+            )}
+            {props.type === "area" && (
+              <textarea
+                // type={props.type}
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={onChange}
+                className="textField__textarea"
+              ></textarea>
+            )}
           </>
         )}
         {noIcon && (
           <>
-            <input
-              type={props.type}
-              placeholder={props.placeholder}
-              value={props.value}
-              onChange={onChange}
-              className="textField__input textField__inputNoIcon"
-            ></input>
+            {props.type !== "area" && (
+              <input
+                type={props.type}
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={onChange}
+                className="textField__input"
+              ></input>
+            )}
+            {props.type === "area" && (
+              <textarea
+                // type={props.type}
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={onChange}
+                className="textField__textarea"
+              ></textarea>
+            )}
           </>
         )}
       </div>
