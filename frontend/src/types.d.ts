@@ -15,7 +15,7 @@ export interface IField {
   _id: string;
   name: string;
   description: string;
-  fieldType: "mood" | "rating" | "slider" | "text";
+  fieldType: FieldTypes;
   constraints: {
     range?: number[];
     limit?: number;
@@ -27,3 +27,16 @@ export interface IField {
     num: number; // This will store the number of data points added
   }; // This will contain the feedback data for this type of field
 }
+
+export interface INewField {
+  // Will have an array of fields
+  name: string;
+  description: string;
+  fieldType: FieldTypes;
+  constraints: {
+    range?: number[];
+    limit?: number;
+  }; // This will contain specific constraints for the type of field
+}
+
+export type FieldTypes = "mood" | "rating" | "slider" | "text";

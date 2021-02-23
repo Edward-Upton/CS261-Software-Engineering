@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
 import { IconContext } from "react-icons";
 import { User } from "../App";
-import { IField } from "../types";
+import { INewField, FieldTypes } from "../types";
 
 import "./CreateEvent.css";
 import "react-datetime/css/react-datetime.css";
 
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
+import CreateFields from "./CreateFields";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 interface Props {
@@ -21,8 +22,43 @@ const CreateEvent: React.FC<Props> = (props) => {
   const [eventDescription, setEventDescription] = useState<string>("");
   const [eventStart, setEventStart] = useState<Date>(new Date());
   const [eventEnd, setEventEnd] = useState<Date>(new Date());
-  const [feedbackFields, setFeedbackFields] = useState<IField[]>([]);
+  const [feedbackFields, setFeedbackFields] = useState<INewField[]>([]);
   const [eventParticipants, setEventParticipants] = useState<string[]>([]);
+
+  useEffect(() => {
+    setFeedbackFields([
+      {
+        name: "How do you feel about the session?",
+        description:
+          "Select the emoji that best represents your current feeling of the session.",
+        fieldType: "mood",
+        constraints: {},
+      },
+    ]);
+  }, []);
+
+  const updateField = (index: number, newField: INewField) => {
+    var tempFeedbackFields = [...feedbackFields];
+    tempFeedbackFields[index] = newField;
+    setFeedbackFields(tempFeedbackFields);
+  };
+
+  const addField = (fieldType: FieldTypes) => {
+    var tempFeedbackFields = [...feedbackFields];
+    tempFeedbackFields.push({
+      name: "",
+      description: "",
+      fieldType: fieldType,
+      constraints: {},
+    });
+    setFeedbackFields(tempFeedbackFields);
+  };
+
+  const deleteField = (index: number) => {
+    var tempFeedbackFields = [...feedbackFields];
+    tempFeedbackFields.splice(index, 1);
+    setFeedbackFields(tempFeedbackFields);
+  };
 
   return (
     <div className="createEvent">
@@ -41,15 +77,19 @@ const CreateEvent: React.FC<Props> = (props) => {
             placeholder="Event Name..."
             onChange={(v) => setEventName(v)}
             value={eventName}
+            styled={{ marginBottom: "0.5rem" }}
           />
           <MyTextField
             type="area"
             placeholder="Event Description..."
             onChange={(v) => setEventDescription(v)}
             value={eventDescription}
-            styled={{ minHeight: "5rem" }}
+            styled={{ minHeight: "5rem", marginBottom: "0.5rem" }}
           />
-          <div className="createEvent__dates">
+          <div
+            className="createEvent__dates"
+            style={{ marginBottom: "0.5rem" }}
+          >
             <div className="createEvent__date">
               <DateTime
                 // defaultValue={new Date().toISOString()}
@@ -65,9 +105,7 @@ const CreateEvent: React.FC<Props> = (props) => {
                 }}
               />
             </div>
-            <div className="createEvent__date__to">
-              to
-            </div>
+            <div className="createEvent__date__to">to</div>
             <div className="createEvent__date">
               <DateTime
                 // defaultValue={new Date().toISOString()}
@@ -84,12 +122,12 @@ const CreateEvent: React.FC<Props> = (props) => {
               />
             </div>
           </div>
-
-          <h1>Hello</h1>
-
-          <h1>Hello</h1>
-
-          <h1>Hello</h1>
+          <CreateFields
+            fields={feedbackFields}
+            updateField={updateField}
+            addField={addField}
+            deleteField={deleteField}
+          />
         </div>
       </div>
       <MyButton text="Create Event" onClick={() => {}} />

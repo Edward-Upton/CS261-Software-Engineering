@@ -59,7 +59,7 @@ const MyTextField: React.FC<Props> = (props) => {
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={onChange}
-                className="textField__input"
+                className="textField__input textField__inputNoIcon"
               ></input>
             )}
             {props.type === "area" && (
