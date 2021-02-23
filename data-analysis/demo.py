@@ -2,8 +2,13 @@
 # the new value to send to the database.
 
 from textblob import TextBlob
+from textblob.np_extractors import ConllExtractor
+from rake_nltk import Metric, Rake
 
 class Processor:
+
+    def __init__(self):
+        self.r = Rake(ranking_metric=Metric.DEGREE_TO_FREQUENCY_RATIO, min_length=2)
 
     def emoji(self, value, runningAvg, entryCount):
 
@@ -33,6 +38,28 @@ class Processor:
         toAnalyse = TextBlob(text)
         return toAnalyse.sentiment.polarity
 
+    def textAdjectives(self, text):
+        """ This function extracts all of the adjectives from the passed text. As well as a key indicating statement sentiment.
+
+            Parameters:
+            text (String): The text for which the adjectives will be extracted.
+
+            Returns:
+            list: List of adjectives.
+            int: Key indicating statement polarity.
+        """
+
+        extracted = list()
+
+        toAnalyse = TextBlob(text, np_extractor=ConllExtractor())
+
+        # Take all adjectives from the text
+        for tag in toAnalyse.tags:
+            if ((tag[1] == 'JJ') & (len(tag[0]) >= 3)):
+                extracted.append(tag[0].lemmatize())
+
+        return extracted, 1 if toAnalyse.sentiment.polarity >= 0 else 0
+
     def textKeyPhrases(self, text):
         """ This function extracts all of the important words/phrases from the passed text.
 
@@ -43,25 +70,16 @@ class Processor:
             list: List of important words/phrases
         """
 
-        extracted = list()
+        self.r.extract_keywords_from_text(text)
 
-        toAnalyse = TextBlob(text)
-
-        # Take all adjectives from the text to ensure they are definitely included in key phrases
-        for tag in toAnalyse.tags:
-            if ((tag[1] == 'JJ') & (len(tag[0]) >= 3)):
-                extracted.append(tag[0].lemmatize())
-
-        # Remove all duplicates
-        #return list(set(extracted) | (set(self.r.get_ranked_phrases()) - set(extracted)))
-        return list(set(extracted) | set(toAnalyse.noun_phrases))
+        return self.r.get_ranked_phrases()
 
 if __name__ == '__main__':
     processor = Processor()
 
-    statement1 = "Great workshop, I learned a lot and there were very interesting topics."
-    statement2 = "This was a pretty good project, but the host had lots of technical issues which was not good."
-    statement3 = "I hated every second of this lecture, the content was uninteresting and boring and I fell asleep."
+    statement1 = "The host was enthusiastic, but the content was delivered very slowly. A great host, but a very boring lecture!"
+    statement2 = "I was a member of this mediocre project, sometimes it was enjoyable, but for the most part, the manager was clueless."
+    statement3 = "Average, several places for improvement, the content was dull, and there was an abundance of technical issues."
 
     print("")
 
@@ -72,7 +90,8 @@ if __name__ == '__main__':
 
     print("Statement 1 (", statement1 ,"):")
     print("Sentiment: ", processor.textSentiment(statement1))
-    print("Key phrases/adjectives: ", processor.textKeyPhrases(statement1))
+    print("Adjectives: ", processor.textAdjectives(statement1))
+    print("Key phrases: ", processor.textKeyPhrases(statement1))
 
     print("")
 
@@ -83,7 +102,8 @@ if __name__ == '__main__':
 
     print("Statement 2 (", statement2 ,"):")
     print("Sentiment: ", processor.textSentiment(statement2))
-    print("Key phrases/adjectives: ", processor.textKeyPhrases(statement2))
+    print("Adjectives: ", processor.textAdjectives(statement2))
+    print("Key phrases: ", processor.textKeyPhrases(statement2))
 
     print("")
 
@@ -94,7 +114,8 @@ if __name__ == '__main__':
 
     print("Statement 3 (", statement3 ,"):")
     print("Sentiment: ", processor.textSentiment(statement3))
-    print("Key phrases/adjectives: ", processor.textKeyPhrases(statement3))
+    print("Adjectives: ", processor.textAdjectives(statement3))
+    print("Key phrases: ", processor.textKeyPhrases(statement3))
 
     print("")
 
