@@ -2,12 +2,13 @@
 # the new value to send to the database.
 
 from textblob import TextBlob
-from rake_nltk import Rake
+from textblob.np_extractors import ConllExtractor
+from rake_nltk import Metric, Rake
 
 class Processor:
 
     def __init__(self):
-        self.r = Rake()
+        self.r = Rake(ranking_metric=Metric.DEGREE_TO_FREQUENCY_RATIO, min_length=2)
 
     def emoji(self, value, runningAvg, entryCount):
 
@@ -37,30 +38,39 @@ class Processor:
         toAnalyse = TextBlob(text)
         return toAnalyse.sentiment.polarity
 
-    def textKeyPhrases(self, text):
-        """ This function extracts all of the important words/phrases from the passed text.
+    def textAdjectives(self, text):
+        """ This function extracts all of the adjectives from the passed text. As well as a key indicating statement sentiment.
 
             Parameters:
-            text (String): The text for which the key word/phrases will be extracted.
+            text (String): The text for which the adjectives will be extracted.
 
             Returns:
-            list: List of important words/phrases
+            list: List of adjectives.
+            int: Key indicating statement polarity.
         """
 
         extracted = list()
 
-        toAnalyse = TextBlob(text)
+        toAnalyse = TextBlob(text, np_extractor=ConllExtractor())
 
-        # Correct spelling mistakes
-        toAnalyse.correct()
-
-        # Extract key phrases
-        self.r.extract_keywords_from_text(text)
-
-        # Take all adjectives from the text to ensure they are definitely included in key phrases
+        # Take all adjectives from the text
         for tag in toAnalyse.tags:
             if ((tag[1] == 'JJ') & (len(tag[0]) >= 3)):
                 extracted.append(tag[0].lemmatize())
 
-        # Remove all duplicates
-        return list(set(extracted) | (set(self.r.get_ranked_phrases()) - set(extracted)))
+        return extracted, 1 if toAnalyse.sentiment.polarity >= 0 else -1
+
+    def textKeyPhrases(self, text):
+        """ This function extracts all of the important phrases from the passed text.
+
+            Parameters:
+            text (String): The text for which the key phrases will be extracted.
+
+            Returns:
+            list: List of important phrases
+        """
+
+        self.r.extract_keywords_from_text(text)
+
+        # Don't return more than 5 elements
+        return self.r.get_ranked_phrases()[:5]
