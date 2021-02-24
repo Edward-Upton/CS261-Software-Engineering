@@ -11,6 +11,7 @@ import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
 import CreateFields from "./CreateFields";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import axios from "axios";
 
 interface Props {
   user: User;
@@ -19,13 +20,21 @@ interface Props {
 
 const CreateEvent: React.FC<Props> = (props) => {
   const [eventName, setEventName] = useState<string>("");
-  const [eventDescription, setEventDescription] = useState<string>("");
+  const [eventType, setEventType] = useState<string>("");
   const [eventStart, setEventStart] = useState<Date>(new Date());
   const [eventEnd, setEventEnd] = useState<Date>(new Date());
   const [feedbackFields, setFeedbackFields] = useState<INewField[]>([]);
   const [eventParticipants, setEventParticipants] = useState<string[]>([]);
 
   useEffect(() => {
+    resetFields();
+  }, []);
+
+  const resetFields = () => {
+    setEventName("");
+    setEventType("");
+    setEventStart(new Date());
+    setEventEnd(new Date());
     setFeedbackFields([
       {
         name: "How do you feel about the session?",
@@ -35,7 +44,25 @@ const CreateEvent: React.FC<Props> = (props) => {
         constraints: {},
       },
     ]);
-  }, []);
+    setEventParticipants([]);
+  };
+
+  const createEvent = async () => {
+    try {
+      const res = await axios.post("/api/event/", {
+        name: eventName,
+        eventType: eventType,
+        start: eventStart,
+        end: eventEnd,
+        host: props.user._id,
+        participants: eventParticipants,
+        feedback: feedbackFields,
+      });
+      props.closeClicked();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const updateField = (index: number, newField: INewField) => {
     var tempFeedbackFields = [...feedbackFields];
@@ -80,11 +107,11 @@ const CreateEvent: React.FC<Props> = (props) => {
             styled={{ marginBottom: "0.5rem" }}
           />
           <MyTextField
-            type="area"
-            placeholder="Event Description..."
-            onChange={(v) => setEventDescription(v)}
-            value={eventDescription}
-            styled={{ minHeight: "5rem", marginBottom: "0.5rem" }}
+            type="text"
+            placeholder="Event Type..."
+            onChange={(v) => setEventType(v)}
+            value={eventType}
+            styled={{ marginBottom: "0.5rem" }}
           />
           <div
             className="createEvent__dates"
@@ -96,7 +123,6 @@ const CreateEvent: React.FC<Props> = (props) => {
                 onChange={(value) => {
                   if (typeof value !== "string") {
                     setEventStart(value.toDate());
-                    console.log(eventStart);
                   }
                 }}
                 inputProps={{
@@ -111,8 +137,7 @@ const CreateEvent: React.FC<Props> = (props) => {
                 // defaultValue={new Date().toISOString()}
                 onChange={(value) => {
                   if (typeof value !== "string") {
-                    setEventStart(value.toDate());
-                    console.log(eventStart);
+                    setEventEnd(value.toDate());
                   }
                 }}
                 inputProps={{
@@ -130,7 +155,11 @@ const CreateEvent: React.FC<Props> = (props) => {
           />
         </div>
       </div>
-      <MyButton text="Create Event" onClick={() => {}} />
+      <MyButton
+        text="Create Event"
+        onClick={createEvent}
+        styled={{ backgroundColor: "#59c9a5" }}
+      />
     </div>
   );
 };

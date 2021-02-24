@@ -47,7 +47,10 @@ const Host: React.FC<Props> = ({ user }) => {
       {createEventOpen && (
         <CreateEvent
           user={user}
-          closeClicked={() => setCreateEventOpen(false)}
+          closeClicked={() => {
+            setCreateEventOpen(false);
+            getEvents();
+          }}
         />
       )}
       <MyButton
