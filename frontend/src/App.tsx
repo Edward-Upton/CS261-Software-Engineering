@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import Tab from "./components/Tab";
+import EventParticipant from "./components/EventParticipant";
+import { IEvent } from "./types";
 
 export interface User {
   _id: string;
@@ -11,6 +13,13 @@ export interface User {
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [eventParticipantOpen, setEventParticipantOpen] = useState<boolean>(
+    false
+  );
+  const [
+    eventParticipantEvent,
+    setEventParticipantEvent,
+  ] = useState<IEvent | null>(null);
 
   const login = (user: User) => {
     setUser(user);
@@ -42,8 +51,25 @@ const App: React.FC = () => {
         overflow: "none",
       }}
     >
-      <Header email={user.email} logout={logout} />
-      <Tab user={user}></Tab>
+      {!eventParticipantOpen && (
+        <>
+          <Header email={user.email} logout={logout} />
+          <Tab
+            user={user}
+            setEventParticipantOpen={() => setEventParticipantOpen(true)}
+            setEventParticipantEvent={(event) =>
+              setEventParticipantEvent(event)
+            }
+          />
+        </>
+      )}
+      {eventParticipantOpen && (
+        <EventParticipant
+          user={user}
+          event={eventParticipantEvent}
+          closeClicked={() => setEventParticipantOpen(false)}
+        />
+      )}
     </div>
   ) : (
     <div

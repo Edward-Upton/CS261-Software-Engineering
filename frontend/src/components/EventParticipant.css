@@ -1,0 +1,110 @@
+.eventParticipant {
+  width: 100%;
+  max-width: 50rem;
+  padding: 0.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: start; */
+  align-items: center;
+
+  border: 2px solid #59c9a5;
+  background-color: rgb(235, 235, 235);
+}
+
+.eventParticipant__header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.eventParticipant__header__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #465775;
+}
+
+.eventParticipant__header__icon {
+  width: 2rem;
+  height: 2rem;
+
+  color: #465775;
+}
+
+.eventParticipant__header__icon:hover {
+  background-color: rgb(206, 206, 206);
+  border-radius: 1rem;
+}
+
+.eventParticipant__content {
+  position: relative;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  overflow-y: hidden;
+  flex-grow: 1;
+}
+
+.eventParticipant__content > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eventParticipant__field {
+  padding: 0.3rem 0.6rem;
+  width: 100%;
+  min-height: 3rem;
+  margin-bottom: 0.5rem;
+  /* top: calc(50% - 50px/2 - 86.5px); */
+
+  border: 2px solid #59c9a5;
+  border-radius: 1.5rem;
+  background-color: white;
+}
+
+.eventParticipant__field__title {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #465775;
+  margin: 0.3rem;
+  padding: 0.2rem;
+}
+
+.eventParticipant__field__titleSep {
+  height: 1px;
+  border-bottom: 1px solid #59c9a5;
+  margin-bottom: 0.3rem;
+}
+
+.eventParticipant__field__moodSelect {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.eventParticipant__field__moodSelect__emojis {
+  width: 4rem;
+  height: 4rem;
+
+  color: #465775;
+}
+
+.eventParticipant__field__moodSelect__emojis:hover {
+  background-color: rgb(206, 206, 206);
+  border-radius: 2rem;
+}

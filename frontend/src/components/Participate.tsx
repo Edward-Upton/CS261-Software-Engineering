@@ -13,16 +13,18 @@ import axios from "axios";
 
 interface Props {
   user: User;
+  setEventParticipantOpen: () => void;
+  setEventParticipantEvent: (event: IEvent) => void;
 }
 
-const Participate: React.FC<Props> = ({ user }) => {
+const Participate: React.FC<Props> = (props) => {
   const [codeEntered, setCodeEntered] = useState<string>("");
   const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
   const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
 
   const getEvents = async () => {
     try {
-      const res = await axios.get("/api/event/participating/" + user._id);
+      const res = await axios.get("/api/event/participating/" + props.user._id);
       setJoinedEvents(res.data.events);
     } catch (error) {
       console.log(error);
@@ -39,7 +41,7 @@ const Participate: React.FC<Props> = ({ user }) => {
     setJoiningEvent(true);
     try {
       await axios.post("/api/event/join", {
-        userId: user._id,
+        userId: props.user._id,
         inviteCode: codeEntered,
       });
     } catch (error) {
@@ -103,14 +105,15 @@ const Participate: React.FC<Props> = ({ user }) => {
             Events Joined
           </div>
           {joinedEvents.map((event: IEvent) => (
-            <JoinedEvent key={event._id} event={event} />
+            <JoinedEvent
+              key={event._id}
+              event={event}
+              onClick={() => {
+                props.setEventParticipantEvent(event);
+                props.setEventParticipantOpen();
+              }}
+            />
           ))}
-          {/* {joinedEvents.map((event: IEvent) => (
-            <JoinedEvent key={event._id} event={event} />
-          ))}
-          {joinedEvents.map((event: IEvent) => (
-            <JoinedEvent key={event._id} event={event} />
-          ))} */}
         </div>
       </div>
     </div>

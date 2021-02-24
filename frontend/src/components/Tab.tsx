@@ -1,4 +1,5 @@
 import React, { CSSProperties, useState } from "react";
+import { IEvent } from "../types";
 
 import Host from "./Host";
 import Participate from "./Participate";
@@ -8,6 +9,8 @@ import "./Tab.css";
 interface Props {
   styled?: CSSProperties;
   user: { _id: string; email: string };
+  setEventParticipantOpen: () => void;
+  setEventParticipantEvent: (event: IEvent) => void;
 }
 
 const Header: React.FC<Props> = (props) => {
@@ -35,7 +38,13 @@ const Header: React.FC<Props> = (props) => {
         </div>
       </div>
       <div className="tab__content">
-        {selected === "participate" && <Participate user={props.user} />}
+        {selected === "participate" && (
+          <Participate
+            user={props.user}
+            setEventParticipantOpen={props.setEventParticipantOpen}
+            setEventParticipantEvent={props.setEventParticipantEvent}
+          />
+        )}
         {selected === "host" && <Host user={props.user} />}
       </div>
     </div>
