@@ -93,7 +93,7 @@ const CreateFields: React.FC<Props> = (props) => {
       <MyButton
         text="Add Field"
         onClick={() => props.addField("mood")}
-        styled={{ height: "1.5rem" }}
+        styled={{ height: "1.8rem" }}
       />
     </div>
   );
