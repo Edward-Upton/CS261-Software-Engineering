@@ -107,7 +107,7 @@ class Processor:
         while (indexToModify >= len(currVals)):
             currVals.append(0)
 
-        # Update the value
+        # Update the value, round to 3dp
         currVals[indexToModify] = round(self.runningAvg(value, currVals[indexToModify], intervalCount), 3)
 
         # Return new values, and the incremented interval count
@@ -133,11 +133,11 @@ class Processor:
         index = 0
         
         # Get time difference
-        FMT = '%H:%M:%S'
-        tdelta = datetime.strptime(current_time, FMT) - datetime.strptime(start_time, FMT)
+        time_format = '%H:%M:%S'
+        timeDiff = datetime.strptime(current_time, time_format) - datetime.strptime(start_time, time_format)
 
         # Calculate interval index
-        index = (tdelta.seconds - (tdelta.seconds%interval))/interval
+        index = (timeDiff.seconds - (timeDiff.seconds%interval))/interval
 
         return int(index)
 
