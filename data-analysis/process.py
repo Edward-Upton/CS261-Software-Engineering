@@ -111,7 +111,7 @@ class Processor:
         currVals[indexToModify] = round(self.runningAvg(value, currVals[indexToModify], intervalCount), 3)
 
         # Return new values, and the incremented interval count
-        return intervalCount+=1, currVals
+        return intervalCount + 1, currVals
 
     def getIntervalIndex(self, start_time, current_time, interval):
         """ This function calculates the running average for a specific element of the passed array, based on 
