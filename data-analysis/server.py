@@ -19,7 +19,7 @@ def emoji():
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
-    field["data"]["average"] = processor.emoji(
+    field["data"]["average"] = processor.runningAvg(
         newValue, field["data"]["average"], field["data"]["num"])
     field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
     field["data"]["num"] += 1
@@ -34,7 +34,7 @@ def rating():
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
-    field["data"]["average"] = processor.emoji(
+    field["data"]["average"] = processor.runningAvg(
         newValue, field["data"]["average"], field["data"]["num"])
     field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
     field["data"]["num"] += 1

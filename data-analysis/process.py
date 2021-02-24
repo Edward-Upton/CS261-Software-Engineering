@@ -2,15 +2,15 @@
 # the new value to send to the database.
 
 from textblob import TextBlob
-from textblob.np_extractors import ConllExtractor
 from rake_nltk import Metric, Rake
+from datetime import datetime
 
 class Processor:
 
     def __init__(self):
         self.r = Rake(ranking_metric=Metric.DEGREE_TO_FREQUENCY_RATIO, min_length=2)
 
-    def emoji(self, value, runningAvg, entryCount):
+    def runningAvg(self, value, runningAvg, entryCount):
 
         """ This function processes an emoji input.
 
@@ -36,6 +36,7 @@ class Processor:
         """
 
         toAnalyse = TextBlob(text)
+
         return toAnalyse.sentiment.polarity
 
     def textAdjectives(self, text):
@@ -51,7 +52,7 @@ class Processor:
 
         extracted = list()
 
-        toAnalyse = TextBlob(text, np_extractor=ConllExtractor())
+        toAnalyse = TextBlob(text)
 
         # Take all adjectives from the text
         for tag in toAnalyse.tags:
@@ -74,3 +75,68 @@ class Processor:
 
         # Don't return more than 5 elements
         return self.r.get_ranked_phrases()[:5]
+
+    def slider(self, value, currVals, interval, intervalCount, start_time):
+        """ This function calculates the running average for a specific element of the passed array, based on 
+            the interval length and times, used for the slider.
+
+            Parameters:
+            value (Float): The value to add to the element.
+            currVals (list): List of current values for the plot.
+            interval (Float): Length of interval in seconds.
+            intervalCount (Float): The number of elements in the current interval.
+            start_time (Time, %H:%M:%S): The start time of the event.
+
+            Returns:
+            list: List of elements with the correctly modified value.
+            int: Number of elements in current interval.
+        """
+
+        now = datetime.now()
+
+        # Get current time
+        current_time = now.strftime("%H:%M:%S")
+
+        indexToModify = self.getIntervalIndex(start_time, current_time, interval)
+
+        # If index is higher than the current interval lengths, start a new interval entry and reset the interval count
+        if (indexToModify >= len(currVals)):
+            intervalCount = 0
+
+        # Add entries to currVals until sufficient for the index
+        while (indexToModify >= len(currVals)):
+            currVals.append(0)
+
+        # Update the value
+        currVals[indexToModify] = round(self.runningAvg(value, currVals[indexToModify], intervalCount), 3)
+
+        # Return new values, and the incremented interval count
+        return intervalCount + 1, currVals
+
+    def getIntervalIndex(self, start_time, current_time, interval):
+        """ This function calculates the running average for a specific element of the passed array, based on 
+            the interval length and times, used for the slider.
+
+            Parameters:
+            start_time (Time): The start time of the event.
+            current_time (Time): The current time.
+            interval (Float): The length of the interval in seconds.
+
+            Returns:
+            float: The index to modify.
+        """
+
+        # Prevents division by 0
+        if (interval == 0):
+            return -1
+
+        index = 0
+        
+        # Get time difference
+        FMT = '%H:%M:%S'
+        tdelta = datetime.strptime(current_time, FMT) - datetime.strptime(start_time, FMT)
+
+        # Calculate interval index
+        index = (tdelta.seconds - (tdelta.seconds%interval))/interval
+
+        return int(index)
