@@ -24,7 +24,7 @@ const Invite: React.FC<Props> = (props) => {
 
   return (
     <div className="invite">
-      <div className="invite__title">Invite Participants</div>
+      <div className="invite__title">Invited Participants</div>
       <div className="invite__invite">
         <MyTextField
           type="text"
@@ -40,7 +40,11 @@ const Invite: React.FC<Props> = (props) => {
         />
       </div>
       {props.participants.map(({ id, email }, i) => {
-        return <div key={id}>{email}</div>;
+        return (
+          <div key={id} className="invite__email">
+            {email}
+          </div>
+        );
       })}
     </div>
   );

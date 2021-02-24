@@ -1,4 +1,3 @@
-import ReactDOMServer from "react-dom/server";
 import { CSSProperties } from "react";
 
 import "./MyTextField.css";

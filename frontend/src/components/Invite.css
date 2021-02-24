@@ -29,3 +29,9 @@
   justify-content: space-around;
   align-items: center;
 }
+
+.invite__email {
+  margin-top: 0.4rem;
+  font-size: 1.1rem;
+  color: #465775;
+}

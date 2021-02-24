@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FieldTypes, INewField } from "../types";

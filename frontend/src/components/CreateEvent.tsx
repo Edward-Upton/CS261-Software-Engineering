@@ -53,7 +53,7 @@ const CreateEvent: React.FC<Props> = (props) => {
   const createEvent = async () => {
     try {
       console.log(eventParticipants.map(({ id }, i) => id));
-      const res = await axios.post("/api/event/", {
+      await axios.post("/api/event/", {
         name: eventName,
         eventType: eventType,
         start: eventStart,
