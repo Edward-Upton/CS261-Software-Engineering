@@ -123,7 +123,6 @@ const CreateEvent: React.FC<Props> = (props) => {
                 onChange={(value) => {
                   if (typeof value !== "string") {
                     setEventStart(value.toDate());
-                    console.log(eventStart);
                   }
                 }}
                 inputProps={{
@@ -139,7 +138,6 @@ const CreateEvent: React.FC<Props> = (props) => {
                 onChange={(value) => {
                   if (typeof value !== "string") {
                     setEventEnd(value.toDate());
-                    console.log(eventStart);
                   }
                 }}
                 inputProps={{

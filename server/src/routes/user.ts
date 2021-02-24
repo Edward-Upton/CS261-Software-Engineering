@@ -86,4 +86,33 @@ router.post("/register", async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * HTTP GET "/register/:email"
+ *
+ * Accepts an email as a URL parameter
+ *
+ * Returns 200 OK if account found with email and userId returned.
+ * Returns 400 Bad Request if incorrect request body.
+ * Returns 404 Not Found if no user found with email.
+ * Returns 500 Internal Server Error if server error.
+ */
+router.get("/userId/:email", async (req: Request, res: Response) => {
+  try {
+    // Retrieve email of user to get userId of.
+    const { email } = req.params;
+    // Check if request contains email, if not return 400 Bad Request.
+    if (!email) return res.status(400).json({ message: "Requires email" });
+    // Get the document of the user with the email specificed.
+    const user: IUser = await User.findOne({ email: email as string });
+    // Check if user found.
+    if (!user)
+      return res.status(403).json({ message: "No user found with email" });
+    // Return 201 Created and the user id.
+    return res.status(200).send({ userId: user._id });
+  } catch (error) {
+    // If error, return error object.
+    return res.status(500).json({ error });
+  }
+});
+
 export default router;
