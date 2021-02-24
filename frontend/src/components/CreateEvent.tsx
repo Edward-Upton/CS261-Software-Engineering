@@ -10,6 +10,7 @@ import "react-datetime/css/react-datetime.css";
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
 import CreateFields from "./CreateFields";
+import Invite from "./Invite";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import axios from "axios";
 
@@ -24,7 +25,9 @@ const CreateEvent: React.FC<Props> = (props) => {
   const [eventStart, setEventStart] = useState<Date>(new Date());
   const [eventEnd, setEventEnd] = useState<Date>(new Date());
   const [feedbackFields, setFeedbackFields] = useState<INewField[]>([]);
-  const [eventParticipants, setEventParticipants] = useState<string[]>([]);
+  const [eventParticipants, setEventParticipants] = useState<
+    { id: string; email: string }[]
+  >([]);
 
   useEffect(() => {
     resetFields();
@@ -49,13 +52,16 @@ const CreateEvent: React.FC<Props> = (props) => {
 
   const createEvent = async () => {
     try {
+      console.log(eventParticipants.map(({ id }, i) => id));
       const res = await axios.post("/api/event/", {
         name: eventName,
         eventType: eventType,
         start: eventStart,
         end: eventEnd,
         host: props.user._id,
-        participants: eventParticipants,
+        participants: eventParticipants.map(({ id }, i) => {
+          return id;
+        }),
         feedback: feedbackFields,
       });
       props.closeClicked();
@@ -85,6 +91,22 @@ const CreateEvent: React.FC<Props> = (props) => {
     var tempFeedbackFields = [...feedbackFields];
     tempFeedbackFields.splice(index, 1);
     setFeedbackFields(tempFeedbackFields);
+  };
+
+  const addParticipant = (id: string, email: string) => {
+    var tempParticipants = [...eventParticipants];
+    var i;
+    for (i = 0; i < tempParticipants.length; i++) {
+      if (tempParticipants[i].email === email) {
+        return;
+      }
+    }
+    tempParticipants.push({
+      id,
+      email,
+    });
+    setEventParticipants(tempParticipants);
+    console.log(eventParticipants);
   };
 
   return (
@@ -152,6 +174,10 @@ const CreateEvent: React.FC<Props> = (props) => {
             updateField={updateField}
             addField={addField}
             deleteField={deleteField}
+          />
+          <Invite
+            participants={eventParticipants}
+            addParticipant={addParticipant}
           />
         </div>
       </div>

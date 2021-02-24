@@ -244,6 +244,7 @@ router.post("/", async (req: Request, res: Response) => {
     // Return 201 Created and the new event
     return res.status(201).send({ event });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error });
   }
 });

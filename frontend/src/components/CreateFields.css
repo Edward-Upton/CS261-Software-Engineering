@@ -5,12 +5,14 @@
   border: 2px solid #59c9a5;
   border-radius: 1.5rem;
 
+  margin-bottom: 0.5rem;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 
   background-color: white;
 }
