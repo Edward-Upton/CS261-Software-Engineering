@@ -33,7 +33,7 @@ router.get("/", async (req: Request, res: Response) => {
     // Return 200 OK and the array of all events and the count.
     return res.status(200).json({ count: events.length, events });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
@@ -65,14 +65,14 @@ router.get("/:id", async (req: Request, res: Response) => {
     // Return 200 OK and the event.
     return res.status(200).json({ event });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
 
 /**
  * HTTP GET "/participating/:userId"
- * Returns events that a user is participating in
+ * Returns events that a user is participating in.
  *
  * :userId - the user id used to search for participating events.
  *
@@ -99,13 +99,14 @@ router.get("/participating/:userId", async (req: Request, res: Response) => {
     // Return 200 OK and the array of events and the count.
     return res.status(200).json({ count: events.length, events });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
 
 /**
  * HTTP GET "/hosting/:userId"
+ * Returns events that a user is hosting.
  *
  * :userId - the user id used to search for hosting events.
  *
@@ -133,7 +134,7 @@ router.get("/hosting/:userId", async (req: Request, res: Response) => {
     // Return 200 OK and the array of events and the count.
     return res.status(200).json({ count: events.length, events });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
@@ -142,7 +143,10 @@ router.get("/hosting/:userId", async (req: Request, res: Response) => {
  * HTTP POST "/join"
  * Add a user to the list of participants of an event.
  *
- * Accepts a userId and inviteCode in json body.
+ * Accepts JSON body { userId: string, inviteCode: string}.
+ *
+ * /?populate - returns event with user data populated.
+ * / - returns event without user data populated.
  *
  * Returns 201 Created, with the updated event.
  * Returns 500 Internal Server Error, if server error.
@@ -176,7 +180,7 @@ router.post("/join", async (req: Request, res: Response) => {
     // Return 201 Created and the updated event.
     return res.status(201).json({ event });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
@@ -185,10 +189,17 @@ router.post("/join", async (req: Request, res: Response) => {
  * HTTP POST "/"
  * Creates a new event.
  *
- * ... TODO
+ * Accepts JSON body {
+ *   name: string,
+ *   eventType: string,
+ *   start: Date,
+ *   end: Date,
+ *   host: string,
+ *   participants: string[]
+ * }.
  *
  * Returns 201 Created, with the updated event.
- * ... TODO edge cases
+ * Returns 400 Bad Request, if incorrect request body.
  * Returns 500 Internal Server Error, if server error.
  */
 router.post("/", async (req: Request, res: Response) => {
@@ -202,6 +213,9 @@ router.post("/", async (req: Request, res: Response) => {
       host,
       participants,
     }: IEvent = req.body;
+    // Check body contains required fields, if not return 400 Bad Request.
+    if (!name || !eventType || !start || !end || !host || !participants)
+      return res.status(400).json({ message: "Missing fields in body." });
     // Retrieve event feedback from request body and process.
     const feedback: IField[] = req.body.feedback.map((field: IField) => {
       switch (field.fieldType) {
@@ -244,50 +258,50 @@ router.post("/", async (req: Request, res: Response) => {
     // Return 201 Created and the new event
     return res.status(201).send({ event });
   } catch (error) {
-    console.log(error);
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
 
-// Add feedback to an event's feedback field
+/**
+ * HTTP POST "/submit-feedback"
+ * Submit feedback to an event.
+ *
+ * Accepts JSON body { eventId, userId, fieldId, data }.
+ *
+ * Returns 201 Created, .
+ * Returns 403 Forbidden, if .
+ * Returns 500 Internal Server Error, if server error.
+ */
 router.post("/submit-feedback", async (req: Request, res: Response) => {
   try {
+    // Retrieve eventId, userId, fieldId and data from request body.
     const { eventId, userId, fieldId, data } = req.body;
-
-    // Here need to make sure that the user is actually part of the event
-    const eventDocument: IEvent = await Event.findById(eventId);
-    if (!eventDocument.participants.includes(userId)) {
-      // User is not a participant
-      return res
-        .status(500)
-        .send({ message: "User not participant in this event" });
-    }
-
+    // Retrieve the event from the database.
+    const event: IEvent = await Event.findById(eventId);
+    // Ensure the user is a participant of the event, if not return 403 Forbidden.
+    if (!event.participants.includes(userId))
+      return res.status(403).send({ message: "User not a participant." });
+    // === TODO: cleanup this code ===
     // Get the feedback field we are submitting data to.
     let field: IField | undefined;
-    for (let i = 0; i < eventDocument.feedback.length; i++) {
-      if (eventDocument.feedback[i]._id.toString() === fieldId) {
-        field = eventDocument.feedback[i];
+    for (let i = 0; i < event.feedback.length; i++)
+      if (event.feedback[i]._id.toString() === fieldId) {
+        field = event.feedback[i];
         break;
       }
-    }
-
     // Check the field ID has found a matching field
-    if (!field) {
-      return res
-        .status(500)
-        .send({ message: "Cannot find feedback field with ID given" });
-    }
+    if (!field)
+      return res.status(500).send({ message: "Invalid feedback field ID." });
 
     console.log(data);
 
     // Here we need to send the current field results and new piece of data to the python data analysis
-    analyseData(data, field, eventDocument);
+    analyseData(data, field, event);
 
-    return res
-      .status(200)
-      .send({ message: `Feedback received for field '${field.name}'` });
+    return res.status(200).send({ message: "Feedback received." });
   } catch (error) {
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
