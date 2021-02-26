@@ -5,6 +5,9 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import Tab from "./components/Tab";
 import EventParticipant from "./components/EventParticipant";
+
+import "./App.css";
+
 import { User, IEvent } from "./types";
 
 const App: React.FC = () => {
@@ -37,17 +40,7 @@ const App: React.FC = () => {
   }, []);
 
   return user ? (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "1rem",
-        overflow: "none",
-      }}
-    >
+    <div id="wrapper">
       {!eventParticipantOpen && (
         <>
           <Header email={user.email} logout={logout} />
@@ -69,17 +62,7 @@ const App: React.FC = () => {
       )}
     </div>
   ) : (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "1rem",
-        overflow: "none",
-      }}
-    >
+    <div id="wrapper">
       <Login login={login} />
     </div>
   );

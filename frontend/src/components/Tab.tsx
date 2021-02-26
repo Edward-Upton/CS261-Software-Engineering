@@ -1,10 +1,11 @@
 import React, { CSSProperties, useState } from "react";
-import { IEvent } from "../types";
 
 import Host from "./Host";
 import Participate from "./Participate";
 
 import "./Tab.css";
+
+import { IEvent } from "../types";
 
 interface Props {
   styled?: CSSProperties;
