@@ -1,3 +1,8 @@
+export interface User {
+  _id: string;
+  email: string;
+}
+
 export interface IEvent extends Document {
   _id: string;
   name: string;

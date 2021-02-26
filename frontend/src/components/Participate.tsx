@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { User } from "../App";
+import { User } from "../types";
 import { AiOutlineNumber } from "react-icons/ai";
 
 import MyTextField from "./MyTextField";
