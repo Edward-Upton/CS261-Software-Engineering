@@ -39,31 +39,30 @@ const App: React.FC = () => {
       })();
   }, []);
 
-  return user ? (
+  return (
     <div id="wrapper">
-      {!eventParticipantOpen && (
-        <>
-          <Header email={user.email} logout={logout} />
-          <Tab
+      {user ? (
+        eventParticipantEvent ? (
+          <EventParticipant
             user={user}
-            setEventParticipantOpen={() => setEventParticipantOpen(true)}
-            setEventParticipantEvent={(event) =>
-              setEventParticipantEvent(event)
-            }
+            event={eventParticipantEvent}
+            closeClicked={() => setEventParticipantOpen(false)}
           />
-        </>
+        ) : (
+          <>
+            <Header email={user.email} logout={logout} />
+            <Tab
+              user={user}
+              setEventParticipantOpen={() => setEventParticipantOpen(true)}
+              setEventParticipantEvent={(event) =>
+                setEventParticipantEvent(event)
+              }
+            />
+          </>
+        )
+      ) : (
+        <Login login={login} />
       )}
-      {eventParticipantOpen && (
-        <EventParticipant
-          user={user}
-          event={eventParticipantEvent}
-          closeClicked={() => setEventParticipantOpen(false)}
-        />
-      )}
-    </div>
-  ) : (
-    <div id="wrapper">
-      <Login login={login} />
     </div>
   );
 };
