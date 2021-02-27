@@ -15,9 +15,6 @@ interface Props {
 }
 
 const Header: React.FC<Props> = (props) => {
-  const [selected, setSelected] = useState<"participate" | "host">(
-    "participate"
-  );
   const [host, setHost] = useState<boolean>(false);
 
   return (
