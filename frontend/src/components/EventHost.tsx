@@ -3,7 +3,7 @@ import DateTime from "react-datetime";
 import { User } from "../types";
 import { FieldTypes, IEvent, IField } from "../types";
 import { io, Socket } from "socket.io-client";
-// import ReactWordcloud from 'react-wordcloud';
+import ReactWordcloud from 'react-wordcloud';
 
 import { IconContext } from "react-icons";
 import {
