@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
-import { User } from "../App";
+import { User } from "../types";
 import { FieldTypes, IEvent, IField } from "../types";
 
 import { IconContext } from "react-icons";

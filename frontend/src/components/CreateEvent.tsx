@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
 import { IconContext } from "react-icons";
-import { User } from "../App";
+import { User } from "../types";
 import { INewField, FieldTypes } from "../types";
 
 import "./CreateEvent.css";

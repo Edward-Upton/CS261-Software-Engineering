@@ -7,9 +7,10 @@ const router = Router();
 
 /**
  * HTTP GET "/"
+ * Returns all the users.
  *
- * Returns 200 OK with all the users in the database.
- * Returns 500 Internal Server Error if server error.
+ * Returns 200 OK, with all the users in the database.
+ * Returns 500 Internal Server Error, if server error.
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -18,20 +19,52 @@ router.get("/", async (req: Request, res: Response) => {
     // Return the array of all users and the count.
     return res.status(200).json({ count: users.length, users });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
+    return res.status(500).json({ error });
+  }
+});
+
+/**
+ * HTTP GET "/:id"
+ * Returns the user with the specified id.
+ *
+ * :id - the id of the event.
+ *
+ * Returns 200 OK, with the specified user.
+ * Returns 400 Bad Request, if invalid id.
+ * Returns 404 Not Found, if no user found.
+ * Returns 500 Internal Server Error, if server error.
+ */
+router.get("/:id", async (req: Request, res: Response) => {
+  try {
+    // Retrieve the id from the request parameters.
+    const { id } = req.params;
+    // Retrieve all users from database, ignoring the password field.
+    const user: IUser = await User.findById(id).select({ password: 0 });
+    // If no user found, return 404 Not Found.
+    if (user === null)
+      return res.status(404).json({ message: "No user found." });
+    // Return 200 OK and the user.
+    return res.status(200).json({ user });
+  } catch (error) {
+    // If ObjectId error, an invalid user id was given, return 400 Bad Request.
+    if (error.kind === "ObjectId")
+      return res.status(400).json({ message: "Invalid user id." });
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
 
 /**
  * HTTP POST "/login"
+ * Login to an account and return their user object.
  *
- * Accepts an email and password in json body.
+ * Accepts JSON body { email: string, password: string }.
  *
- * Returns 200 OK if successful login.
- * Returns 400 Bad Request if incorrect request body.
- * Returns 401 Unauthorized if incorrect credentials.
- * Returns 500 Internal Server Error if server error.
+ * Returns 200 OK, if successful login.
+ * Returns 400 Bad Request, if incorrect request body.
+ * Returns 401 Unauthorized, if incorrect credentials.
+ * Returns 500 Internal Server Error, if server error.
  */
 router.post("/login", async (req: Request, res: Response) => {
   try {
@@ -52,19 +85,20 @@ router.post("/login", async (req: Request, res: Response) => {
     // If the password matches, return 200 OK and the user.
     return res.status(200).json({ user });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
 
 /**
  * HTTP POST "/register"
+ * Creates a new account and returns the new user.
  *
- * Accepts an email and password in json body.
+ * Accepts JSON body { email: string, password: string }.
  *
- * Returns 201 Created if account successfully registered.
- * Returns 400 Bad Request if incorrect request body.
- * Returns 500 Internal Server Error if server error.
+ * Returns 201 Created, if account successfully registered.
+ * Returns 400 Bad Request, if incorrect request body.
+ * Returns 500 Internal Server Error, if server error.
  */
 router.post("/register", async (req: Request, res: Response) => {
   try {
@@ -81,7 +115,7 @@ router.post("/register", async (req: Request, res: Response) => {
     // Return 201 Created and the user id.
     return res.status(201).send({ user });
   } catch (error) {
-    // If error, return error object.
+    // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
 });
@@ -91,10 +125,10 @@ router.post("/register", async (req: Request, res: Response) => {
  *
  * Accepts an email as a URL parameter
  *
- * Returns 200 OK if account found with email and userId returned.
- * Returns 400 Bad Request if incorrect request body.
- * Returns 404 Not Found if no user found with email.
- * Returns 500 Internal Server Error if server error.
+ * Returns 200 OK, if account found with email and userId returned.
+ * Returns 400 Bad Request, if incorrect request body.
+ * Returns 404 Not Found, if no user found with email.
+ * Returns 500 Internal Server Error, if server error.
  */
 router.get("/userId/:email", async (req: Request, res: Response) => {
   try {

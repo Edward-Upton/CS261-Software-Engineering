@@ -5,7 +5,7 @@ import { HiOutlineKey } from "react-icons/hi";
 
 import MyTextField from "./MyTextField";
 
-import { User } from "../App";
+import { User } from "../types";
 import "./Login.css";
 import MyButton from "./MyButton";
 
