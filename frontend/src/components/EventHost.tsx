@@ -3,7 +3,7 @@ import DateTime from "react-datetime";
 import { User } from "../types";
 import { FieldTypes, IEvent, IField } from "../types";
 import { io, Socket } from "socket.io-client";
-import ReactWordcloud from 'react-wordcloud';
+import ReactWordcloud from "react-wordcloud";
 
 import { IconContext } from "react-icons";
 import {
@@ -30,7 +30,24 @@ interface FieldProps {
   field: IField;
 }
 
+interface WordMapItem {
+  text: string;
+  value: number;
+}
+
 const Field: React.FC<FieldProps> = (props) => {
+  const [wordmapWords, setWordmapWords] = useState<WordMapItem[]>([]);
+
+  useEffect(() => {
+    if (props.field.fieldType === "text") {
+      var tempArray: WordMapItem[] = [];
+      props.field.data?.adjFreq?.forEach((element) => {
+        tempArray.push({ text: element.word, value: element.freq });
+      });
+      setWordmapWords(tempArray);
+    }
+  }, [props.field]);
+
   return (
     <div className="eventHost__field">
       <div className="eventHost__field__title">{props.field.name}</div>
@@ -42,7 +59,21 @@ const Field: React.FC<FieldProps> = (props) => {
           <div>{props.field.data?.num}</div>
         </IconContext.Provider>
       )}
-      {props.field.fieldType === "text" && <>{props.field.data?.num}</>}
+      {props.field.fieldType === "text" && (
+        <>
+          {props.field.data?.num}
+          <ReactWordcloud size={[300, 300]} words={wordmapWords} options={{
+            rotations: 1,
+            rotationAngles: [0,0],
+            fontSizes: [12,30],
+          }} />
+          <div>
+            {props.field.data?.keyPhrases?.map((item, i) => {
+              return <div key={i}>{item.phrase}</div>
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 };
