@@ -36,8 +36,17 @@ export const analyseData = async (
         newValue,
         field,
       });
-    } else {
-      return;
+    } else if (field.fieldType === "text") {
+      if (typeof newValue !== "string") {
+        // The submitted data is of the wrong type
+        console.log("Text value given not a string");
+        return;
+      }
+
+      res = await axios.post("http://localhost:4000/text", {
+        newValue,
+        field,
+      });
     }
 
     const newField = res.data.field;

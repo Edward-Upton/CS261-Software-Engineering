@@ -29,6 +29,7 @@ interface FieldProps {
 
 const Field: React.FC<FieldProps> = (props) => {
   const [message, setMessage] = useState<string>("");
+  const [text, setText] = useState<string>("");
   const sendFeedback = async (value: string | number) => {
     setMessage("Submitting");
     const res = await props.sendFeedback(value);
@@ -54,6 +55,18 @@ const Field: React.FC<FieldProps> = (props) => {
             <BiHappyBeaming onClick={() => sendFeedback(5)} />
           </div>
         </IconContext.Provider>
+      )}
+      {props.field.fieldType === "text" && (
+        <div>
+          <MyTextField
+            type="area"
+            placeholder="Enter Text..."
+            onChange={(v) => setText(v)}
+            value={text}
+            styled={{ height: "8.4rem" }}
+          />
+          <MyButton text="Submit" onClick={() => sendFeedback(text)} />
+        </div>
       )}
       <div>{message}</div>
     </div>

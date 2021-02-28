@@ -25,7 +25,8 @@ export interface IField {
   // This will contain the feedback data for this type of field
   data: {
     average?: number;
-    wordFreq?: { word: string; freq: number };
+    adjFreq?: { word: string; freq: number };
+    keyPhrases?: { phrase: string; date: Date}
     timeSeries?: { _id: string; value: number; date: Date }[];
     num: number; // This will store the number of data points added
   };
