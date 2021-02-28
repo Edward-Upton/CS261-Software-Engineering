@@ -1,34 +1,48 @@
-import mongoose, { Schema, Document, ObjectId } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 
-export interface IEvent extends Document {
-  _id: string;
-  name: string;
-  eventType?: string;
-  start: Date;
-  end: Date;
-  host: ObjectId;
-  participants: ObjectId[];
-  inviteCode: string;
-  feedback: IField[];
-}
-
-export interface IField {
-  _id: string;
+export interface IField extends Types.Subdocument {
   name: string;
   description: string;
   fieldType: "mood" | "rating" | "slider" | "text";
-  // This will contain specific constraints for the type of field
   constraints: {
     range?: number[];
     limit?: number;
+    timeSeriesStep: number;
   };
-  // This will contain the feedback data for this type of field
   data: {
-    average?: number;
-    wordFreq?: { word: string; freq: number };
-    timeSeries?: { _id: string; value: number; date: Date }[];
-    num: number; // This will store the number of data points added
+    average: number;
+    wordFreq?: { word: string; freq: number }[];
+    timeSeries?: { value: number; date: Date }[];
+    num: number;
   };
+}
+
+const FieldSchema: Schema = new Schema({
+  name: String,
+  description: String,
+  fieldType: String,
+  constraints: {
+    range: [Number],
+    limit: Number,
+    timeSeriesStep: Number,
+  },
+  data: {
+    average: Number,
+    wordFreq: [{ word: String, freq: Number }],
+    timeSeries: [{ value: Number, date: Date }],
+    num: Number,
+  },
+});
+
+export interface IEvent extends Document {
+  name: string;
+  eventType: string;
+  start: Date;
+  end: Date;
+  host: Types.ObjectId;
+  participants: Types.ObjectId[];
+  inviteCode: string;
+  feedback: Types.DocumentArray<IField>;
 }
 
 const EventSchema: Schema = new Schema({
@@ -39,24 +53,7 @@ const EventSchema: Schema = new Schema({
   host: { type: Schema.Types.ObjectId, ref: "User", required: true },
   participants: [{ type: Schema.Types.ObjectId, ref: "User", required: true }],
   inviteCode: { type: String, required: true },
-  feedback: [
-    {
-      name: String,
-      description: String,
-      fieldType: String,
-      constraints: {
-        range: [Number],
-        limit: Number,
-        timeSeriesStep: Number,
-      },
-      data: {
-        average: Number,
-        wordFreq: [{ word: String, freq: Number }],
-        timeSeries: [{ value: Number, date: Date }],
-        num: Number,
-      },
-    },
-  ],
+  feedback: [FieldSchema],
 });
 
 export default mongoose.model<IEvent>("Event", EventSchema);

@@ -70,6 +70,22 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// Temporary
+router.delete("/:id", async (req: Request, res: Response) => {
+  try {
+    // Retrieve the id from request parameters.
+    const { id } = req.params;
+    // Retrieve the event from database.
+    const event: IEvent = await Event.findById(id);
+    await event.delete();
+    // Return 200 OK and the event.
+    return res.status(200).json({ event });
+  } catch (error) {
+    // If error, return 500 Internal Server Error and error object.
+    return res.status(500).json({ error });
+  }
+});
+
 /**
  * HTTP GET "/participating/:userId"
  * Returns events that a user is participating in.
@@ -195,7 +211,8 @@ router.post("/join", async (req: Request, res: Response) => {
  *   start: Date,
  *   end: Date,
  *   host: string,
- *   participants: string[]
+ *   participants: string[],
+ *   feedback: IField[],
  * }.
  *
  * Returns 201 Created, with the updated event.
@@ -219,25 +236,15 @@ router.post("/", async (req: Request, res: Response) => {
     // Retrieve event feedback from request body and process.
     const feedback: IField[] = req.body.feedback.map((field: IField) => {
       switch (field.fieldType) {
-        case "mood":
-          return {
-            ...field,
-            data: { average: 2.5, timeSeries: [], num: 0 },
-          };
-        case "rating":
-          return {
-            ...field,
-            data: { average: 2.5, timeSeries: [], num: 0 },
-          };
-        case "slider":
-          return {
-            ...field,
-            data: { average: 2.5, timeSeries: [], num: 0 },
-          };
         case "text":
           return {
             ...field,
             data: { average: 0, wordFreq: {}, timeSeries: [], num: 0 },
+          };
+        default:
+          return {
+            ...field,
+            data: { average: 0, timeSeries: [], num: 0 },
           };
       }
     });
@@ -282,17 +289,10 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     // Ensure the user is a participant of the event, if not return 403 Forbidden.
     if (!event.participants.includes(userId))
       return res.status(403).send({ message: "User not a participant." });
-    // === TODO: cleanup this code ===
-    // Get the feedback field we are submitting data to.
-    let field: IField | undefined;
-    for (let i = 0; i < event.feedback.length; i++)
-      if (event.feedback[i]._id.toString() === fieldId) {
-        field = event.feedback[i];
-        break;
-      }
-    // Check the field ID has found a matching field
+    // Retrieve the feedback field from the event.
+    const field: IField | null = event.feedback.id(fieldId);
     if (!field)
-      return res.status(500).send({ message: "Invalid feedback field ID." });
+      return res.status(403).send({ message: "Invalid feedback field ID." });
 
     console.log(data);
 
