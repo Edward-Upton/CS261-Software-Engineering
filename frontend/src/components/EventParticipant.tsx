@@ -57,7 +57,7 @@ const Field: React.FC<FieldProps> = (props) => {
         </IconContext.Provider>
       )}
       {props.field.fieldType === "text" && (
-        <div>
+        <>
           <MyTextField
             type="area"
             placeholder="Enter Text..."
@@ -66,7 +66,7 @@ const Field: React.FC<FieldProps> = (props) => {
             styled={{ height: "8.4rem" }}
           />
           <MyButton text="Submit" onClick={() => sendFeedback(text)} />
-        </div>
+        </>
       )}
       <div>{message}</div>
     </div>

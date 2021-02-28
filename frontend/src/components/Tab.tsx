@@ -12,6 +12,8 @@ interface Props {
   user: { _id: string; email: string };
   setEventParticipantOpen: () => void;
   setEventParticipantEvent: (event: IEvent) => void;
+  setEventHostOpen: () => void;
+  setEventHostEvent: (event: IEvent) => void;
 }
 
 const Header: React.FC<Props> = (props) => {
@@ -35,7 +37,9 @@ const Header: React.FC<Props> = (props) => {
       </div>
       <div className="tab__content">
         {host ? (
-          <Host user={props.user} />
+          <Host user={props.user}
+          setEventHostOpen={props.setEventHostOpen}
+          setEventHostEvent={props.setEventHostEvent} />
         ) : (
           <Participate
             user={props.user}

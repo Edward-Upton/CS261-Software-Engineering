@@ -5,6 +5,8 @@ import Event, { IEvent, IField } from "../models/event";
 import User, { IUser } from "../models/user";
 import { analyseData } from "../data-analysis";
 
+import { clients } from "../socket";
+
 const router = Router();
 
 // Nano ID generator for invite codes.
@@ -218,6 +220,7 @@ router.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Missing fields in body." });
     // Retrieve event feedback from request body and process.
     const feedback: IField[] = req.body.feedback.map((field: IField) => {
+      console.log(field);
       switch (field.fieldType) {
         case "mood":
           return {
@@ -237,7 +240,13 @@ router.post("/", async (req: Request, res: Response) => {
         case "text":
           return {
             ...field,
-            data: { average: 0, wordFreq: {}, timeSeries: [], num: 0 },
+            data: {
+              average: 0,
+              wordFreq: {},
+              keyPhrases: [],
+              timeSeries: [],
+              num: 0,
+            },
           };
       }
     });
@@ -274,6 +283,7 @@ router.post("/", async (req: Request, res: Response) => {
  * Returns 500 Internal Server Error, if server error.
  */
 router.post("/submit-feedback", async (req: Request, res: Response) => {
+  const io = req.app.get("socketio");
   try {
     // Retrieve eventId, userId, fieldId and data from request body.
     const { eventId, userId, fieldId, data } = req.body;
@@ -297,7 +307,13 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     console.log(data);
 
     // Here we need to send the current field results and new piece of data to the python data analysis
-    analyseData(data, field, event);
+    const newEvent = await analyseData(data, field, event);
+
+    console.log("HERE1");
+    if (clients[userId]) {
+      console.log("HERE2");
+      io.to(clients[userId].socketId).emit("eventUpdate", { event: newEvent });
+    }
 
     return res.status(200).send({ message: "Feedback received." });
   } catch (error) {

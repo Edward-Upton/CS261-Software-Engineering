@@ -6,7 +6,7 @@ import { Server } from "socket.io";
 import { PORT, DB_URI, DB_OPTIONS } from "./config";
 import userRouter from "./routes/user";
 import eventRouter from "./routes/event";
-import socket from "./socket";
+import socket, { clients } from "./socket";
 
 mongoose
   .connect(DB_URI, DB_OPTIONS)
@@ -17,7 +17,6 @@ const app = express();
 
 app.use(express.json());
 app.use(morgan("dev"));
-
 app.use("/api/user", userRouter);
 app.use("/api/event", eventRouter);
 
@@ -28,4 +27,7 @@ const server = app.listen(PORT, () =>
 );
 
 const io = new Server(server, { cors: { origin: "*" } });
+app.set('socketio', io);
 socket(io);
+
+

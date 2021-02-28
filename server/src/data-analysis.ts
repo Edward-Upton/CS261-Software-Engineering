@@ -9,7 +9,7 @@ export const analyseData = async (
   newValue: number | string,
   field: IField,
   eventDocument: IEvent
-): Promise<void> => {
+): Promise<IEvent> => {
   try {
     let res: any;
     if (field.fieldType === "mood") {
@@ -17,7 +17,7 @@ export const analyseData = async (
       if (typeof newValue !== "number") {
         // The submitted data is of the wrong type
         console.log("Emoji value given not a number");
-        return;
+        return eventDocument;
       }
 
       res = await axios.post("http://localhost:4000/emoji", {
@@ -29,7 +29,7 @@ export const analyseData = async (
       if (typeof newValue !== "number") {
         // The submitted data is of the wrong type
         console.log("Rating value given not a number");
-        return;
+        return eventDocument;
       }
 
       res = await axios.post("http://localhost:4000/rating", {
@@ -40,7 +40,7 @@ export const analyseData = async (
       if (typeof newValue !== "string") {
         // The submitted data is of the wrong type
         console.log("Text value given not a string");
-        return;
+        return eventDocument;
       }
 
       res = await axios.post("http://localhost:4000/text", {
@@ -63,5 +63,5 @@ export const analyseData = async (
   } catch (error) {
     console.log(error);
   }
-  return;
+  return eventDocument;
 };

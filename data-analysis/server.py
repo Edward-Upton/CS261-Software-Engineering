@@ -52,10 +52,26 @@ def text():
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
-    keyPhrases = processor.textKeyPhrases(newValue)
-    field["data"]["keyPhrases"].extend(keyPhrases)
-    field["data"]["num"] += 1
 
+    keyPhrases = processor.textKeyPhrases(newValue)
+    for i in range(len(keyPhrases)):
+        keyPhrases[i] = {"phrase": keyPhrases[i], "date": curUTC}
+    field["data"]["keyPhrases"].extend(keyPhrases)
+
+    adjectives, sentiment = processor.textAdjectives(newValue)
+    field["data"]["average"] = processor.runningAvg(sentiment, field["data"]["average"], field["data"]["num"]);
+    for adjective in adjectives:
+        foundWord = False
+        for item in field["data"]["adjFreq"]:
+            if adjective == item["word"]:
+                item["freq"] += 1
+                foundWord = True
+                break;
+        if not foundWord:
+            field["data"]["adjFreq"].append({"word": adjective, "freq": 1})
+
+
+    field["data"]["num"] += 1
     return {"field": field}
 
 

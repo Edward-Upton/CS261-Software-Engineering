@@ -6,6 +6,7 @@ import "./HostEvent.css";
 interface Props {
   styled?: CSSProperties;
   event: IEvent;
+  onClick: () => void;
 }
 
 const HostEvent: React.FC<Props> = (props) => {
@@ -19,7 +20,12 @@ const HostEvent: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div key={props.event._id} className="event" style={props.styled}>
+      <div
+        key={props.event._id}
+        className="event"
+        onClick={props.onClick}
+        style={props.styled}
+      >
         <div className="event__name">{props.event.name}</div>
         <div className="event__copyLink" onClick={copyEventCode}>
           Copy Code

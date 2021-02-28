@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import axios from "axios";
 
 import MyButton from "./MyButton";
@@ -14,29 +14,23 @@ const SOCKET_URI = "ws://localhost:5000";
 
 interface Props {
   user: User;
+  setEventHostOpen: () => void;
+  setEventHostEvent: (event: IEvent) => void;
 }
 
-const Host: React.FC<Props> = ({ user }) => {
+const Host: React.FC<Props> = (props) => {
   const [events, setEvents] = useState<IEvent[]>([]);
   const [createOpen, setCreateOpen] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`/api/event/hosting/${user._id}`);
+      const response = await axios.get(`/api/event/hosting/${props.user._id}`);
       setEvents(response.data.events);
     })();
-  }, [user._id]);
-
-  useEffect(() => {
-    if (!user) return;
-    const socket = io(SOCKET_URI, { auth: user });
-    return () => {
-      socket.disconnect();
-    };
-  }, [user]);
+  }, [props.user._id]);
 
   const getEvents = async () => {
-    const response = await axios.get(`/api/event/hosting/${user._id}`);
+    const response = await axios.get(`/api/event/hosting/${props.user._id}`);
     setEvents(response.data.events);
   };
 
@@ -44,7 +38,7 @@ const Host: React.FC<Props> = ({ user }) => {
     <div id="host">
       {createOpen && (
         <CreateEvent
-          user={user}
+          user={props.user}
           closeClicked={() => {
             setCreateOpen(false);
             getEvents();
@@ -62,7 +56,14 @@ const Host: React.FC<Props> = ({ user }) => {
             Events Created
           </div>
           {events.map((event: IEvent) => (
-            <HostEvent key={event._id} event={event} />
+            <HostEvent
+              key={event._id}
+              event={event}
+              onClick={() => {
+                props.setEventHostEvent(event);
+                props.setEventHostOpen();
+              }}
+            />
           ))}
         </div>
       </div>

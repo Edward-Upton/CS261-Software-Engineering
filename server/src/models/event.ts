@@ -25,8 +25,8 @@ export interface IField {
   // This will contain the feedback data for this type of field
   data: {
     average?: number;
-    adjFreq?: { word: string; freq: number };
-    keyPhrases?: { phrase: string; date: Date}
+    adjFreq?: { word: string; freq: number }[];
+    keyPhrases?: { phrase: string; date: Date}[];
     timeSeries?: { _id: string; value: number; date: Date }[];
     num: number; // This will store the number of data points added
   };
@@ -52,7 +52,8 @@ const EventSchema: Schema = new Schema({
       },
       data: {
         average: Number,
-        wordFreq: [{ word: String, freq: Number }],
+        adjFreq: [{ word: String, freq: Number }],
+        keyPhrases: [{ phrase: String, date: Date}],
         timeSeries: [{ value: Number, date: Date }],
         num: Number,
       },
