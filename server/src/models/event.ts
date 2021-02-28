@@ -11,7 +11,8 @@ export interface IField extends Types.Subdocument {
   };
   data: {
     average: number;
-    wordFreq?: { word: string; freq: number }[];
+    adjFreq?: { word: string; freq: number };
+    keyPhrases?: { phrase: string; date: Date };
     timeSeries?: { value: number; date: Date }[];
     num: number;
   };
