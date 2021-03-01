@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { io } from "socket.io-client";
 import axios from "axios";
 
 import MyButton from "./MyButton";
@@ -9,16 +9,18 @@ import CreateEvent from "./CreateEvent";
 import "./Host.css";
 
 import { User, IEvent } from "../types";
+import EventHost from "./EventHost";
 
 const SOCKET_URI = "ws://localhost:5000";
 
 interface Props {
   user: User;
-  setEventHostOpen: () => void;
-  setEventHostEvent: (event: IEvent) => void;
 }
 
 const Host: React.FC<Props> = (props) => {
+  const [eventOpen, setEventOpen] = useState<boolean>(false);
+  const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
+
   const [events, setEvents] = useState<IEvent[]>([]);
   const [createOpen, setCreateOpen] = useState<boolean>(false);
 
@@ -29,6 +31,28 @@ const Host: React.FC<Props> = (props) => {
     })();
   }, [props.user._id]);
 
+  useEffect(() => {
+    if (!props.user) return;
+    const socket = io(SOCKET_URI, { auth: props.user });
+    socket.on("eventUpdate", (data: any) => {
+      var tempEvents = [...events];
+      tempEvents.map((event, i) => {
+        if (event._id === data.event._id) {
+          return data.event;
+        } else {
+          return event;
+        }
+      });
+      setEvents(tempEvents);
+      if (selectedEvent?._id === data.event._id) {
+        setSelectedEvent(data.event);
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [events, props.user, selectedEvent?._id]);
+
   const getEvents = async () => {
     const response = await axios.get(`/api/event/hosting/${props.user._id}`);
     setEvents(response.data.events);
@@ -36,37 +60,50 @@ const Host: React.FC<Props> = (props) => {
 
   return (
     <div id="host">
-      {createOpen && (
-        <CreateEvent
+      {eventOpen && selectedEvent ? (
+        <EventHost
           user={props.user}
+          event={selectedEvent}
           closeClicked={() => {
-            setCreateOpen(false);
-            getEvents();
+            setEventOpen(false);
+            setSelectedEvent(null);
           }}
         />
-      )}
-      <MyButton
-        text="Create Event"
-        onClick={() => setCreateOpen(true)}
-        styled={{ backgroundColor: "#59c9a5" }}
-      />
-      <div id="host-outer">
-        <div id="host-inner">
-          <div style={{ fontSize: "1.2rem", color: "#465775" }}>
-            Events Created
-          </div>
-          {events.map((event: IEvent) => (
-            <HostEvent
-              key={event._id}
-              event={event}
-              onClick={() => {
-                props.setEventHostEvent(event);
-                props.setEventHostOpen();
+      ) : (
+        <>
+          {createOpen && (
+            <CreateEvent
+              user={props.user}
+              closeClicked={() => {
+                setCreateOpen(false);
+                getEvents();
               }}
             />
-          ))}
-        </div>
-      </div>
+          )}
+          <MyButton
+            text="Create Event"
+            onClick={() => setCreateOpen(true)}
+            styled={{ backgroundColor: "#59c9a5" }}
+          />
+          <div id="host-outer">
+            <div id="host-inner">
+              <div style={{ fontSize: "1.2rem", color: "#465775" }}>
+                Events Created
+              </div>
+              {events.map((event: IEvent) => (
+                <HostEvent
+                  key={event._id}
+                  event={event}
+                  onClick={() => {
+                    setSelectedEvent(event);
+                    setEventOpen(true);
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

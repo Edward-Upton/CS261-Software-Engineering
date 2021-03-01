@@ -1,15 +1,10 @@
 .eventHost {
   width: 100%;
-  max-width: 50rem;
-  padding: 0.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   /* justify-content: start; */
   align-items: center;
-
-  border: 2px solid #59c9a5;
-  background-color: rgb(235, 235, 235);
 }
 
 .eventHost__header {

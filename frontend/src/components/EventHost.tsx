@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import DateTime from "react-datetime";
 import { User } from "../types";
-import { FieldTypes, IEvent, IField } from "../types";
-import { io, Socket } from "socket.io-client";
+import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
 
 import { IconContext } from "react-icons";
@@ -16,15 +14,8 @@ import {
 
 import "./EventHost.css";
 
-import MyButton from "./MyButton";
-import MyTextField from "./MyTextField";
-import CreateFields from "./CreateFields";
-import Invite from "./Invite";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import axios from "axios";
 import { Icon } from "@material-ui/core";
-
-const SOCKET_URI = "ws://localhost:5000";
 
 interface FieldProps {
   field: IField;
@@ -62,14 +53,18 @@ const Field: React.FC<FieldProps> = (props) => {
       {props.field.fieldType === "text" && (
         <>
           {props.field.data?.num}
-          <ReactWordcloud size={[300, 300]} words={wordmapWords} options={{
-            rotations: 1,
-            rotationAngles: [0,0],
-            fontSizes: [12,30],
-          }} />
+          <ReactWordcloud
+            size={[300, 300]}
+            words={wordmapWords}
+            options={{
+              rotations: 1,
+              rotationAngles: [0, 0],
+              fontSizes: [12, 30],
+            }}
+          />
           <div>
             {props.field.data?.keyPhrases?.map((item, i) => {
-              return <div key={i}>{item.phrase}</div>
+              return <div key={i}>{item.phrase}</div>;
             })}
           </div>
         </>
@@ -82,25 +77,9 @@ interface Props {
   user: User;
   event: IEvent | null;
   closeClicked: () => void;
-  setEventHostEvent: (event: IEvent) => void;
 }
 
 const EventHost: React.FC<Props> = (props) => {
-  useEffect(() => {
-    if (!props.user) return;
-    const socket = io(SOCKET_URI, { auth: props.user });
-    socket.on("eventUpdate", (data: any) => {
-      props.setEventHostEvent(data.event);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [props]);
-
-  useEffect(() => {
-    console.log("EVENT:", props.event);
-  }, [props.event]);
-
   if (props.event) {
     return (
       <div className="eventHost">
