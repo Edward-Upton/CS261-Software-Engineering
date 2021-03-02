@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User } from "../types";
+import { IUser } from "../types";
 import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
 
@@ -86,12 +86,12 @@ const Field: React.FC<FieldProps> = (props) => {
 };
 
 interface Props {
-  user: User;
+  user: IUser;
   event: IEvent | null;
   closeClicked: () => void;
 }
 
-// Panel for viewing feedback for the user's event they 
+// Panel for viewing feedback for the user's event they
 // are hosting. This renders all the feedback field with
 // the feedback results after analysis.
 const EventHost: React.FC<Props> = (props) => {

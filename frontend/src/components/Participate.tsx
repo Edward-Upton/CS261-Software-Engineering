@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { User } from "../types";
+import { IUser } from "../types";
 import { AiOutlineNumber } from "react-icons/ai";
 
 import MyTextField from "./MyTextField";
@@ -13,7 +13,7 @@ import { IEvent } from "../types";
 import axios from "axios";
 
 interface Props {
-  user: User;
+  user: IUser;
 }
 
 // This is the panel to show detail when the user wants

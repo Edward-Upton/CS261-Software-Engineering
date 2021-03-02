@@ -1,37 +1,37 @@
-export interface User {
+export interface IUser {
   _id: string;
   email: string;
 }
 
-export interface IEvent extends Document {
-  _id: string;
+export interface IEvent {
   name: string;
-  eventType?: string;
+  eventType: string;
   start: Date;
   end: Date;
-  host: string;
-  participants: string[];
+  host: string | IUser;
+  participants: string[] | IUser[];
   inviteCode: string;
   feedback: IField[];
 }
 
+export type FieldTypes = "mood" | "rating" | "slider" | "text";
+
 export interface IField {
-  // Will have an array of fields
-  _id: string;
   name: string;
   description: string;
   fieldType: FieldTypes;
   constraints: {
     range?: number[];
     limit?: number;
-  }; // This will contain specific constraints for the type of field
-  data?: {
+    timeSeriesStep: number;
+  };
+  data: {
     average?: number;
     adjFreq?: { word: string; freq: number }[];
-    keyPhrases?: { phrase: string; date: Date}[];
+    keyPhrases?: { phrase: string; date: Date }[];
     timeSeries?: { _id: string; value: number; date: Date }[];
-    num: number; // This will store the number of data points added
-  }; // This will contain the feedback data for this type of field
+    num: number;
+  };
 }
 
 export interface INewField {
@@ -44,5 +44,3 @@ export interface INewField {
     limit?: number;
   }; // This will contain specific constraints for the type of field
 }
-
-export type FieldTypes = "mood" | "rating" | "slider" | "text";
