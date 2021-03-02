@@ -27,14 +27,11 @@ const EventItem: React.FC<ItemProps> = (props) => {
   };
 
   return (
-    <div
-      key={props.event._id}
-      onClick={props.onClick}
-      className="eventItem"
-      style={props.styled}
-    >
+    <div key={props.event._id} className="eventItem" style={props.styled}>
       {/* Event name */}
-      <div className="eventItem__name">{props.event.name}</div>
+      <div className="eventItem__name" onClick={props.onClick}>
+        {props.event.name}
+      </div>
 
       {/* If for hosting, copy link button */}
       {props.host && (

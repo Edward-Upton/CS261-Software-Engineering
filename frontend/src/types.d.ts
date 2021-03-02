@@ -26,7 +26,7 @@ export interface IField {
     limit?: number;
   }; // This will contain specific constraints for the type of field
   data?: {
-    average?: number;
+    average: number;
     adjFreq?: { word: string; freq: number }[];
     keyPhrases?: { phrase: string; date: Date}[];
     timeSeries?: { _id: string; value: number; date: Date }[];

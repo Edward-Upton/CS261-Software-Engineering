@@ -59,9 +59,7 @@
 .eventHost__field {
   padding: 0.3rem 0.6rem;
   width: 100%;
-  min-height: 3rem;
   margin-bottom: 0.5rem;
-  /* top: calc(50% - 50px/2 - 86.5px); */
 
   border: 2px solid #59c9a5;
   border-radius: 1.5rem;
@@ -86,6 +84,45 @@
 
 .eventHost__field__titleSep {
   height: 1px;
+  width: 100%;
   border-bottom: 1px solid #59c9a5;
   margin-bottom: 0.3rem;
+}
+
+.eventHost__field__mood {
+  /* height: 8rem; */
+  display: flex;
+  flex-direction: row;
+}
+
+.eventHost__field__mood__average {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.eventHost__field__mood__average__title {
+  font-size: 1.2rem;
+}
+
+.eventHost__field__mood__average__emoji {
+  width: 4rem;
+  height: 4rem;
+
+  color: #465775;
+}
+
+.eventHost__field__text {
+  /* height: 20rem; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.eventHost__field__text__wordcloud {
+  height: 15rem;
+  /* border: 1px solid #59c9a5; */
+  border-radius: 1rem;
 }

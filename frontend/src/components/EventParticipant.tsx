@@ -82,7 +82,7 @@ const Field: React.FC<FieldProps> = (props) => {
             styled={{ height: "8.4rem" }}
           />
           {/* Submit button */}
-          <MyButton text="Submit" onClick={() => sendFeedback(text)} />
+          <MyButton text="Submit" onClick={() => sendFeedback(text)} styled={{ marginTop: "0.5rem"}} />
         </>
       )}
 
