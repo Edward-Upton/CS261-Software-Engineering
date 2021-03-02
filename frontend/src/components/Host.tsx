@@ -8,13 +8,13 @@ import CreateEvent from "./CreateEvent";
 
 import "./Host.css";
 
-import { User, IEvent } from "../types";
+import { IUser, IEvent } from "../types";
 import EventHost from "./EventHost";
 
 const SOCKET_URI = "ws://localhost:5000";
 
 interface Props {
-  user: User;
+  user: IUser;
 }
 
 // This is the panel to show detail when the user wants
@@ -110,7 +110,7 @@ const Host: React.FC<Props> = (props) => {
                 onClick={() => setCreateOpen(true)}
                 styled={{ backgroundColor: "#59c9a5" }}
               />
-              
+
               {/* Created events list */}
               <EventList
                 events={events}

@@ -7,12 +7,12 @@ import Tab from "./components/Tab";
 
 import "./App.css";
 
-import { User } from "./types";
+import { IUser } from "./types";
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
-  const login = (user: User) => {
+  const login = (user: IUser) => {
     setUser(user);
     // Store the user's login info into cookies.
     localStorage.setItem("userId", user._id);

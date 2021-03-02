@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
-import { User } from "../types";
+import { IUser } from "../types";
 import { FieldTypes, IEvent, IField } from "../types";
 
 import { IconContext } from "react-icons";
@@ -93,7 +93,7 @@ const Field: React.FC<FieldProps> = (props) => {
 };
 
 interface Props {
-  user: User;
+  user: IUser;
   event: IEvent | null;
   closeClicked: () => void;
 }

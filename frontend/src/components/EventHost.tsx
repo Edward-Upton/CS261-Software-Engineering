@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { User } from "../types";
+import { IUser } from "../types";
 import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
 
@@ -138,7 +138,7 @@ const Field: React.FC<FieldProps> = (props) => {
 };
 
 interface Props {
-  user: User;
+  user: IUser;
   event: IEvent | null;
   closeClicked: () => void;
 }

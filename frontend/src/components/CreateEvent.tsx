@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
 import { IconContext } from "react-icons";
-import { User } from "../types";
+import { IUser } from "../types";
 import { INewField, FieldTypes } from "../types";
 
 import "./CreateEvent.css";
@@ -17,7 +17,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import axios from "axios";
 
 interface Props {
-  user: User;
+  user: IUser;
   closeClicked: () => void;
 }
 

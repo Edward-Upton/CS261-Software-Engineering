@@ -12,9 +12,9 @@ export interface IField extends Types.Subdocument {
   data: {
     average?: number;
     adjFreq?: { word: string; freq: number }[];
-    keyPhrases?: { phrase: string; date: Date}[];
+    keyPhrases?: { phrase: string; date: Date }[];
     timeSeries?: { _id: string; value: number; date: Date }[];
-    num: number; // This will store the number of data points added
+    num: number;
   };
 }
 
@@ -30,7 +30,7 @@ const FieldSchema: Schema = new Schema({
   data: {
     average: Number,
     adjFreq: [{ word: String, freq: Number }],
-    keyPhrases: [{ phrase: String, date: Date}],
+    keyPhrases: [{ phrase: String, date: Date }],
     timeSeries: [{ value: Number, date: Date }],
     num: Number,
   },

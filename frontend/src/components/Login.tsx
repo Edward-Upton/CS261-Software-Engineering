@@ -5,12 +5,12 @@ import { HiOutlineKey } from "react-icons/hi";
 
 import MyTextField from "./MyTextField";
 
-import { User } from "../types";
+import { IUser } from "../types";
 import "./Login.css";
 import MyButton from "./MyButton";
 
 interface Props {
-  login: (user: User) => void;
+  login: (user: IUser) => void;
 }
 
 const Login: React.FC<Props> = ({ login }) => {
