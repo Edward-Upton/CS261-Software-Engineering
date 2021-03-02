@@ -4,6 +4,7 @@ export interface IUser {
 }
 
 export interface IEvent {
+  _id: string;
   name: string;
   eventType: string;
   start: Date;
@@ -17,6 +18,7 @@ export interface IEvent {
 export type FieldTypes = "mood" | "rating" | "slider" | "text";
 
 export interface IField {
+  _id: string;
   name: string;
   description: string;
   fieldType: FieldTypes;
