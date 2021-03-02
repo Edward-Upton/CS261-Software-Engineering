@@ -32,7 +32,7 @@ def emoji():
 def rating():
     data = request.json
     print(data)
-    newValue = data["newValue"]
+    newValue = data["value"]
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
@@ -48,7 +48,7 @@ def rating():
 def text():
     data = request.json
     print(data)
-    newValue = data["newValue"]
+    newValue = data["value"]
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)

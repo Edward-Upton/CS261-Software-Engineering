@@ -1,6 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 
 import Host from "./Host";
+import ModeButton from "./ModeButton";
 import Participate from "./Participate";
 
 import "./Tab.css";
@@ -19,31 +20,38 @@ const Tab: React.FC<Props> = (props) => {
   const [host, setHost] = useState<boolean>(false);
 
   return (
-    <div id="tab" style={props.styled}>
-      {/* Select tab buttons */}
-      <div id="tab__select">
-        {/* Participate tab button */}
-        <div
-          className={`tab__option ${!host && "tab__selected"}`}
-          onClick={() => setHost(false)}
-        >
-          Participate
+    <>
+      <ModeButton host={host} setHost={(v) => setHost(v)} />
+      <div id="tab" style={props.styled}>
+        {/* Select tab buttons */}
+        <div id="tab__select">
+          {/* Participate tab button */}
+          <div
+            className={`tab__option ${!host && "tab__selected"}`}
+            onClick={() => setHost(false)}
+          >
+            Participate
+          </div>
+
+          {/* Host tab button */}
+          <div
+            className={`tab__option ${host && "tab__selected"}`}
+            onClick={() => setHost(true)}
+          >
+            Host
+          </div>
         </div>
 
-        {/* Host tab button */}
-        <div
-          className={`tab__option ${host && "tab__selected"}`}
-          onClick={() => setHost(true)}
-        >
-          Host
+        <div id="tab__content">
+          {/* Show content for relevant open panel */}
+          {host ? (
+            <Host user={props.user} />
+          ) : (
+            <Participate user={props.user} />
+          )}
         </div>
       </div>
-
-      <div id="tab__content">
-        {/* Show content for relevant open panel */}
-        {host ? <Host user={props.user} /> : <Participate user={props.user} />}
-      </div>
-    </div>
+    </>
   );
 };
 
