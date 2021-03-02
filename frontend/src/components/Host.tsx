@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import axios from "axios";
 
 import MyButton from "./MyButton";
-import HostEvent from "./HostEvent";
+import EventList from "./EventList";
 import CreateEvent from "./CreateEvent";
 
 import "./Host.css";
@@ -85,23 +85,14 @@ const Host: React.FC<Props> = (props) => {
             onClick={() => setCreateOpen(true)}
             styled={{ backgroundColor: "#59c9a5" }}
           />
-          <div id="host-outer">
-            <div id="host-inner">
-              <div style={{ fontSize: "1.2rem", color: "#465775" }}>
-                Events Created
-              </div>
-              {events.map((event: IEvent) => (
-                <HostEvent
-                  key={event._id}
-                  event={event}
-                  onClick={() => {
-                    setSelectedEvent(event);
-                    setEventOpen(true);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          <EventList
+            events={events}
+            host={true}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+              setEventOpen(true);
+            }}
+          />
         </>
       )}
     </div>

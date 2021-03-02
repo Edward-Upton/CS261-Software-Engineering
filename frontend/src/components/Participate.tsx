@@ -5,7 +5,7 @@ import { AiOutlineNumber } from "react-icons/ai";
 
 import MyTextField from "./MyTextField";
 import MyButton from "./MyButton";
-import JoinedEvent from "./JoinedEvent";
+import EventList from "./EventList";
 import EventParticipant from "./EventParticipant";
 
 import "./Participate.css";
@@ -16,13 +16,26 @@ interface Props {
   user: User;
 }
 
+// This is the panel to show detail when the user wants
+// to participate in events. It displays a list of joined
+// events with the time they will be active as well as
+// an option to join an event with a code.
 const Participate: React.FC<Props> = (props) => {
+  // These are for opening and submitting feedback for an event
   const [eventOpen, setEventOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
+
+  // Used for joining an event with a code.
   const [codeEntered, setCodeEntered] = useState<string>("");
+
+  // A 'loading' variable to signify when the user is joining an event.
   const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
+
+  // List of all joined events for the user.
   const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
 
+  // Gets the user's joined events and updates the state variable, which
+  // causes the list to update with any changes.
   const getEvents = async () => {
     try {
       const res = await axios.get("/api/event/participating/" + props.user._id);
@@ -32,12 +45,14 @@ const Participate: React.FC<Props> = (props) => {
     }
   };
 
+  // On first render, get the events for the user.
   useEffect(() => {
     getEvents();
     return;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Join an event using the code entered.
   const joinEvent = async () => {
     setJoiningEvent(true);
     try {
@@ -49,22 +64,16 @@ const Participate: React.FC<Props> = (props) => {
       console.log(error);
     }
     setCodeEntered("");
+    // Update the list of events
     getEvents();
     setJoiningEvent(false);
   };
 
   return (
-    <div
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        // justifyContent: "space-evenly",
-        alignItems: "center",
-        padding: "0.5rem",
-      }}
-    >
+    <div id="participate">
       {eventOpen && selectedEvent ? (
+        // If an event has been clicked on, show the feedback,
+        // submission panel.
         <EventParticipant
           user={props.user}
           event={selectedEvent}
@@ -74,8 +83,10 @@ const Participate: React.FC<Props> = (props) => {
           }}
         />
       ) : (
+        // If no event has been clicked on, show the list of
+        // events joined and the invite code field and joining.
         <>
-          <div className="participate__code">
+          <div id="participate__code">
             <MyTextField
               type="text"
               placeholder="Code..."
@@ -93,41 +104,13 @@ const Participate: React.FC<Props> = (props) => {
               fontSize="1.2rem"
             ></MyButton>
           </div>
-          <div
-            style={{
-              width: "100%",
-              marginTop: "0.5rem",
-              // border: "1px solid #465775",
-              position: "relative",
-              overflowY: "hidden",
-              flexGrow: 1,
+          <EventList
+            events={joinedEvents}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+              setEventOpen(true);
             }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                overflowY: "auto",
-              }}
-            >
-              <div style={{ fontSize: "1.2rem", color: "#465775" }}>
-                Events Joined
-              </div>
-              {joinedEvents.map((event: IEvent) => (
-                <JoinedEvent
-                  key={event._id}
-                  event={event}
-                  onClick={() => {
-                    setSelectedEvent(event);
-                    setEventOpen(true);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
+          />
         </>
       )}
     </div>
