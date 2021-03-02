@@ -1,20 +1,32 @@
 import { Server, Socket } from "socket.io";
+
 import { IUser } from "./models/user";
+import { IField } from "./models/event";
 
-export const clients: {[id: string] : {socketId: string, user: IUser}} = {};
+const users: { [id: string]: [Socket, IUser] } = {};
 
-export default function (io: Server): void {
+// Proper way
+// export const updateHosts = (host: string, data: IField["data"]): void => {
+//   const [socket, user] = users[host];
+//   socket.emit("data", data);
+// };
+
+export const updateHosts = (host: string, event: unknown): void => {
+  const [socket, user] = users[host];
+  socket.emit("eventUpdate", { event });
+};
+
+const socket = (io: Server): void => {
   io.on("connection", (socket: Socket) => {
     const user = socket.handshake.auth as IUser;
-    clients[user._id] = {socketId: socket.id, user: user} 
+    users[user.id] = [socket, user];
     console.log(`${user.email} socket connected.`);
-    socket.on("test", () => {
-      console.log("Test Message Received");
-    })
 
     socket.on("disconnect", () => {
-      delete clients[user._id];
+      delete users[user._id];
       console.log(`${user.email} socket disconnected.`);
     });
   });
-}
+};
+
+export default socket;

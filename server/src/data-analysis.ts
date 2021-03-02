@@ -2,66 +2,35 @@
 // expects an updated feedback field result to both save to
 // the database and send to the host
 
-import axios, { AxiosPromise, AxiosStatic } from "axios";
+import axios from "axios";
+
 import { IEvent, IField } from "./models/event";
+import { updateHosts } from "./socket";
 
 export const analyseData = async (
-  newValue: number | string,
+  value: number | string,
   field: IField,
-  eventDocument: IEvent
-): Promise<IEvent> => {
+  event: IEvent
+): Promise<void> => {
   try {
-    let res: any;
-    if (field.fieldType === "mood") {
-      // For emoji selection
-      if (typeof newValue !== "number") {
-        // The submitted data is of the wrong type
-        console.log("Emoji value given not a number");
-        return eventDocument;
-      }
-
-      res = await axios.post("http://localhost:4000/emoji", {
-        newValue,
-        field,
-      });
-    } else if (field.fieldType === "rating") {
-      // For rating selection
-      if (typeof newValue !== "number") {
-        // The submitted data is of the wrong type
-        console.log("Rating value given not a number");
-        return eventDocument;
-      }
-
-      res = await axios.post("http://localhost:4000/rating", {
-        newValue,
-        field,
-      });
-    } else if (field.fieldType === "text") {
-      if (typeof newValue !== "string") {
-        // The submitted data is of the wrong type
-        console.log("Text value given not a string");
-        return eventDocument;
-      }
-
-      res = await axios.post("http://localhost:4000/text", {
-        newValue,
-        field,
-      });
-    }
-
-    const newField = res.data.field;
-    console.log(newField);
-
-    // This here isn't that optimal
-    for (let i = 0; i < eventDocument.feedback.length; i++) {
-      if (eventDocument.feedback[i]._id.toString() === newField._id) {
-        eventDocument.feedback[i] = newField;
+    let URI = "http://localhost:4000";
+    switch (field.fieldType) {
+      case "mood":
+        URI += "/emoji";
         break;
-      }
+      case "rating":
+        URI += "/rating";
+        break;
+      case "text":
+        URI += "/text";
+        break;
     }
-    eventDocument.save();
+    const response = await axios.post(URI, { value, field });
+    const newField = response.data.field;
+    field.data = newField.data;
+    await event.save();
+    updateHosts(event.host.toHexString(), event);
   } catch (error) {
     console.log(error);
   }
-  return eventDocument;
 };

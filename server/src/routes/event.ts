@@ -1,11 +1,10 @@
 import { Router, Request, Response } from "express";
 import { customAlphabet } from "nanoid/async";
 
-import Event, { IEvent, IField } from "../models/event";
-import User, { IUser } from "../models/user";
 import { analyseData } from "../data-analysis";
 
-import { clients } from "../socket";
+import Event, { IEvent, IField } from "../models/event";
+import User, { IUser } from "../models/user";
 
 const router = Router();
 
@@ -242,11 +241,6 @@ router.post("/", async (req: Request, res: Response) => {
         case "text":
           return {
             ...field,
-            data: { average: 0, wordFreq: {}, timeSeries: [], num: 0 },
-          };
-        default:
-          return {
-            ...field,
             data: {
               average: 0,
               wordFreq: {},
@@ -254,6 +248,11 @@ router.post("/", async (req: Request, res: Response) => {
               timeSeries: [],
               num: 0,
             },
+          };
+        default:
+          return {
+            ...field,
+            data: { average: 0, timeSeries: [], num: 0 },
           };
       }
     });
@@ -290,7 +289,6 @@ router.post("/", async (req: Request, res: Response) => {
  * Returns 500 Internal Server Error, if server error.
  */
 router.post("/submit-feedback", async (req: Request, res: Response) => {
-  const io = req.app.get("socketio");
   try {
     // Retrieve eventId, userId, fieldId and data from request body.
     const { eventId, userId, fieldId, data } = req.body;
@@ -303,19 +301,10 @@ router.post("/submit-feedback", async (req: Request, res: Response) => {
     const field: IField | null = event.feedback.id(fieldId);
     if (!field)
       return res.status(403).send({ message: "Invalid feedback field ID." });
-
-    console.log(data);
-
-    // Here we need to send the current field results and new piece of data to the python data analysis
-    const newEvent = await analyseData(data, field, event);
-
-    console.log("HERE1");
-    if (clients[userId]) {
-      console.log("HERE2");
-      io.to(clients[userId].socketId).emit("eventUpdate", { event: newEvent });
-    }
-
-    return res.status(200).send({ message: "Feedback received." });
+    // Send data to be processed.
+    analyseData(data, field, event);
+    // Return 201 Created.
+    return res.status(201).send({ message: "Feedback received." });
   } catch (error) {
     // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
