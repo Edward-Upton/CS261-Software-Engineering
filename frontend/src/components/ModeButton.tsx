@@ -6,6 +6,10 @@ interface Props {
   setHost: (v: boolean) => void;
 }
 
+/* 
+    Sliding button used specifically to allow switching between participating mode
+    and hosting mode. The value is controlled by the parent via props.
+*/
 const ModeButton: React.FC<Props> = ({ host, setHost }) => {
   return (
     <div className="modeBtn__wrapper">

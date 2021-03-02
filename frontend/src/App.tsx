@@ -3,13 +3,18 @@ import axios from "axios";
 
 import Login from "./components/Login";
 import Header from "./components/Header";
-import Tab from "./components/Tab";
+import ModeButton from "./components/ModeButton";
+import Participate from "./components/Participate";
+import Host from "./components/Host";
 
 import "./App.css";
 
 import { IUser } from "./types";
 
 const App: React.FC = () => {
+  // Is the host panel open.
+  const [host, setHost] = useState<boolean>(false);
+
   const [user, setUser] = useState<IUser | null>(null);
 
   const login = (user: IUser) => {
@@ -43,7 +48,9 @@ const App: React.FC = () => {
           // button and and the "participate" and "host" tabs.
           <>
             <Header email={user.email} logout={logout} />
-            <Tab user={user} />
+            <ModeButton host={host} setHost={(v) => setHost(v)} />
+            {/* Show content for relevant open panel */}
+            {host ? <Host user={user} /> : <Participate user={user} />}
           </>
         ) : (
           // If user not logged in, render the login screen
