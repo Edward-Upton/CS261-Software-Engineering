@@ -1,4 +1,4 @@
-.eventParticipant {
+#eventParticipant {
   width: 100%;
   flex-grow: 1;
   display: flex;
@@ -9,7 +9,7 @@
   background-color: rgb(235, 235, 235);
 }
 
-.eventParticipant__header {
+#eventParticipant__header {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -17,7 +17,7 @@
   align-items: center;
 }
 
-.eventParticipant__header__title {
+#eventParticipant__header__title {
   font-size: 1.2rem;
   font-weight: 500;
   color: #465775;
@@ -35,7 +35,7 @@
   border-radius: 1rem;
 }
 
-.eventParticipant__content {
+#eventParticipant__content {
   position: relative;
   width: 100%;
   padding: 0.5rem;
@@ -45,7 +45,7 @@
   flex-grow: 1;
 }
 
-.eventParticipant__content > div {
+#eventParticipant__content > div {
   position: absolute;
   top: 0;
   left: 0;

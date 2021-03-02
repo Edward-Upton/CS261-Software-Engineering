@@ -10,7 +10,13 @@ interface ItemProps {
   onClick: () => void;
 }
 
+// Component for each event item for the list. This will
+// render differently depending on whether the list is
+// for participating events and host events. This component
+// will render the name of the event, the copy code link if
+// rendering for host, and the date the event is active.
 const EventItem: React.FC<ItemProps> = (props) => {
+  // Copies the event code to the user's clipboard.
   const copyEventCode = () => {
     var dummy = document.createElement("input");
     document.body.appendChild(dummy);
@@ -27,12 +33,17 @@ const EventItem: React.FC<ItemProps> = (props) => {
       className="eventItem"
       style={props.styled}
     >
+      {/* Event name */}
       <div className="eventItem__name">{props.event.name}</div>
+
+      {/* If for hosting, copy link button */}
       {props.host && (
         <div className="eventItem__copyLink" onClick={copyEventCode}>
           Copy Code
         </div>
       )}
+
+      {/* Event date */}
       <div className="eventItem__time">
         {new Date(props.event.start).toLocaleDateString("en-GB")} to{" "}
         {new Date(props.event.end).toLocaleDateString("en-GB")}
@@ -47,13 +58,15 @@ interface Props {
   onEventClick: (event: IEvent) => void;
 }
 
+// Component that shows a list of events. This can be used
+// for either participating events or hosting events and will
+// change how the events appear accordingly. Handles overflowing
+// with scrolling.
 const EventList: React.FC<Props> = (props) => {
   return (
     <div className="eventList">
       <div>
-        <div style={{ fontSize: "1.2rem", color: "#465775" }}>
-          Events Joined
-        </div>
+        <div className="eventList__title">Events Joined</div>
         {props.events.map((event: IEvent) => (
           <EventItem
             key={event._id}

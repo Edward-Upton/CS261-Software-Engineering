@@ -17,13 +17,23 @@ interface Props {
   user: User;
 }
 
+// This is the panel to show detail when the user wants
+// to host events. It displays a list of created events
+// with the time they will be active and a button to copy
+// the event code for sharing with participants. There is
+// also a button to create a new event.
 const Host: React.FC<Props> = (props) => {
+  // These are for opening and viewing feedback for an event
   const [eventOpen, setEventOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
 
+  // List of all created events for this user.
   const [events, setEvents] = useState<IEvent[]>([]);
+
+  // Determines if the event creation window is open.
   const [createOpen, setCreateOpen] = useState<boolean>(false);
 
+  // On first render get the events created by the user.
   useEffect(() => {
     (async () => {
       const response = await axios.get(`/api/event/hosting/${props.user._id}`);
@@ -31,9 +41,15 @@ const Host: React.FC<Props> = (props) => {
     })();
   }, [props.user._id]);
 
+  // On first render, setup a socket with the server to listen to
+  // changes with feedback for events so that they can be views
+  // in "real time".
   useEffect(() => {
     if (!props.user) return;
+    // Create the socket
     const socket = io(SOCKET_URI, { auth: props.user });
+    // On receiving the event update, replace the old event data
+    // with the new data.
     socket.on("eventUpdate", (data: any) => {
       var tempEvents = [...events];
       tempEvents.map((event, i) => {
@@ -44,15 +60,19 @@ const Host: React.FC<Props> = (props) => {
         }
       });
       setEvents(tempEvents);
+      // Also update the event selected for the feedback viewing panel,
+      // this will cause the component to render with the latest data.
       if (selectedEvent?._id === data.event._id) {
         setSelectedEvent(data.event);
       }
     });
     return () => {
+      // When this component is unmounted, disconnect the socket
       socket.disconnect();
     };
   }, [events, props.user, selectedEvent?._id]);
 
+  // Get all events created by thte user.
   const getEvents = async () => {
     const response = await axios.get(`/api/event/hosting/${props.user._id}`);
     setEvents(response.data.events);
@@ -61,6 +81,7 @@ const Host: React.FC<Props> = (props) => {
   return (
     <div id="host">
       {eventOpen && selectedEvent ? (
+        // Event is selected and feedback viewing open
         <EventHost
           user={props.user}
           event={selectedEvent}
@@ -71,7 +92,8 @@ const Host: React.FC<Props> = (props) => {
         />
       ) : (
         <>
-          {createOpen && (
+          {createOpen ? (
+            // Event creation panel is open
             <CreateEvent
               user={props.user}
               closeClicked={() => {
@@ -79,20 +101,27 @@ const Host: React.FC<Props> = (props) => {
                 getEvents();
               }}
             />
+          ) : (
+            // Show list of user's events
+            <>
+              {/* Create event button */}
+              <MyButton
+                text="Create Event"
+                onClick={() => setCreateOpen(true)}
+                styled={{ backgroundColor: "#59c9a5" }}
+              />
+              
+              {/* Created events list */}
+              <EventList
+                events={events}
+                host={true}
+                onEventClick={(event) => {
+                  setSelectedEvent(event);
+                  setEventOpen(true);
+                }}
+              />
+            </>
           )}
-          <MyButton
-            text="Create Event"
-            onClick={() => setCreateOpen(true)}
-            styled={{ backgroundColor: "#59c9a5" }}
-          />
-          <EventList
-            events={events}
-            host={true}
-            onEventClick={(event) => {
-              setSelectedEvent(event);
-              setEventOpen(true);
-            }}
-          />
         </>
       )}
     </div>

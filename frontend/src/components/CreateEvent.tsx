@@ -9,8 +9,10 @@ import "react-datetime/css/react-datetime.css";
 
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
-import CreateFields from "./CreateFields";
+import NewField from "./NewField";
 import Invite from "./Invite";
+import FieldList from "./FieldList";
+
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import axios from "axios";
 
@@ -19,7 +21,12 @@ interface Props {
   closeClicked: () => void;
 }
 
+// This component is for the user to create an event and be the
+// host of it. It allows setting up the event with a name, type,
+// any number of "fields" that participants will respond to and
+// the option to add users as participants using their email.
 const CreateEvent: React.FC<Props> = (props) => {
+  // These are details of an event for the event creationg
   const [eventName, setEventName] = useState<string>("");
   const [eventType, setEventType] = useState<string>("");
   const [eventStart, setEventStart] = useState<Date>(new Date());
@@ -29,10 +36,12 @@ const CreateEvent: React.FC<Props> = (props) => {
     { id: string; email: string }[]
   >([]);
 
+  // On initial render, reset all the event details
   useEffect(() => {
     resetFields();
   }, []);
 
+  // This resets the details with a predefined example for a field.
   const resetFields = () => {
     setEventName("");
     setEventType("");
@@ -50,8 +59,10 @@ const CreateEvent: React.FC<Props> = (props) => {
     setEventParticipants([]);
   };
 
+  // Create an event by sending the event details to the server.
   const createEvent = async () => {
     try {
+      // Only send the participants ids.
       console.log(eventParticipants.map(({ id }, i) => id));
       await axios.post("/api/event/", {
         name: eventName,
@@ -70,12 +81,14 @@ const CreateEvent: React.FC<Props> = (props) => {
     }
   };
 
+  // Update the information for an event field
   const updateField = (index: number, newField: INewField) => {
     var tempFeedbackFields = [...feedbackFields];
     tempFeedbackFields[index] = newField;
     setFeedbackFields(tempFeedbackFields);
   };
 
+  // Create a new event field with the specified type.
   const addField = (fieldType: FieldTypes) => {
     var tempFeedbackFields = [...feedbackFields];
     tempFeedbackFields.push({
@@ -87,12 +100,15 @@ const CreateEvent: React.FC<Props> = (props) => {
     setFeedbackFields(tempFeedbackFields);
   };
 
+  // Delete an event field by using it's index.
   const deleteField = (index: number) => {
     var tempFeedbackFields = [...feedbackFields];
     tempFeedbackFields.splice(index, 1);
     setFeedbackFields(tempFeedbackFields);
   };
 
+  // Add a participant to the event by verifying that the email
+  // is of someone who has an account.
   const addParticipant = (id: string, email: string) => {
     var tempParticipants = [...eventParticipants];
     var i;
@@ -110,17 +126,23 @@ const CreateEvent: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="createEvent">
-      <div className="createEvent__header">
-        <div className="createEvent__header__title">Add Event</div>
+    <div id="createEvent">
+      <div id="createEvent__header">
+        {/* Create event title */}
+        <div id="createEvent__header__title">Add Event</div>
+
+        {/* Close button */}
         <IconContext.Provider
           value={{ className: "createEvent__header__icon" }}
         >
           <AiOutlineCloseCircle onClick={props.closeClicked} />
         </IconContext.Provider>
       </div>
-      <div className="createEvent__content">
+
+      {/* Form section for event details */}
+      <div id="createEvent__content">
         <div>
+          {/* Event name */}
           <MyTextField
             type="text"
             placeholder="Event Name..."
@@ -128,6 +150,8 @@ const CreateEvent: React.FC<Props> = (props) => {
             value={eventName}
             styled={{ marginBottom: "0.5rem" }}
           />
+
+          {/* Event type */}
           <MyTextField
             type="text"
             placeholder="Event Type..."
@@ -135,10 +159,10 @@ const CreateEvent: React.FC<Props> = (props) => {
             value={eventType}
             styled={{ marginBottom: "0.5rem" }}
           />
-          <div
-            className="createEvent__dates"
-            style={{ marginBottom: "0.5rem" }}
-          >
+
+          {/* Event start and end date and time */}
+          <div id="createEvent__dates" style={{ marginBottom: "0.5rem" }}>
+            {/* Start date and time */}
             <div className="createEvent__date">
               <DateTime
                 // defaultValue={new Date().toISOString()}
@@ -153,7 +177,10 @@ const CreateEvent: React.FC<Props> = (props) => {
                 }}
               />
             </div>
-            <div className="createEvent__date__to">to</div>
+
+            <div id="createEvent__date__to">to</div>
+
+            {/* End date and time */}
             <div className="createEvent__date">
               <DateTime
                 // defaultValue={new Date().toISOString()}
@@ -169,18 +196,36 @@ const CreateEvent: React.FC<Props> = (props) => {
               />
             </div>
           </div>
-          <CreateFields
-            fields={feedbackFields}
-            updateField={updateField}
-            addField={addField}
-            deleteField={deleteField}
-          />
+
+          {/* Event fields */}
+          <FieldList title="Feedback Fields">
+            {feedbackFields.map((field, i) => {
+              return (
+                <NewField
+                  key={i}
+                  index={i}
+                  field={field}
+                  updateField={updateField}
+                  deleteField={deleteField}
+                />
+              );
+            })}
+            <MyButton
+              text="Add Field"
+              onClick={() => addField("mood")}
+              styled={{ height: "1.8rem" }}
+            />
+          </FieldList>
+
+          {/* Invite participants */}
           <Invite
             participants={eventParticipants}
             addParticipant={addParticipant}
           />
         </div>
       </div>
+
+      {/* Create Event Button */}
       <MyButton
         text="Create Event"
         onClick={createEvent}

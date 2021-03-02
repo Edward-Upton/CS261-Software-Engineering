@@ -26,9 +26,14 @@ interface WordMapItem {
   value: number;
 }
 
+// Component that resembles each feedback field with the
+// analysed data for it.
 const Field: React.FC<FieldProps> = (props) => {
+  // Contains words and the count for them for the wordmap.
   const [wordmapWords, setWordmapWords] = useState<WordMapItem[]>([]);
 
+  // On field change, if the field is of type text convert the adjective
+  // frequency type to one that the Wordcloud can use.
   useEffect(() => {
     if (props.field.fieldType === "text") {
       var tempArray: WordMapItem[] = [];
@@ -41,9 +46,15 @@ const Field: React.FC<FieldProps> = (props) => {
 
   return (
     <div className="eventHost__field">
+      {/* Field title */}
       <div className="eventHost__field__title">{props.field.name}</div>
+
       <div className="eventHost__field__titleSep" />
+
+      {/* Analysed data from participants, rendered differently depending on
+      the type of field */}
       {props.field.fieldType === "mood" && (
+        // Mood fields
         <IconContext.Provider
           value={{ className: "eventHost__field__moodSelect__emojis" }}
         >
@@ -51,6 +62,7 @@ const Field: React.FC<FieldProps> = (props) => {
         </IconContext.Provider>
       )}
       {props.field.fieldType === "text" && (
+        // Text fields
         <>
           {props.field.data?.num}
           <ReactWordcloud
@@ -79,19 +91,27 @@ interface Props {
   closeClicked: () => void;
 }
 
+// Panel for viewing feedback for the user's event they 
+// are hosting. This renders all the feedback field with
+// the feedback results after analysis.
 const EventHost: React.FC<Props> = (props) => {
   if (props.event) {
     return (
-      <div className="eventHost">
-        <div className="eventHost__header">
-          <div className="eventHost__header__title">{props.event.name}</div>
+      <div id="eventHost">
+        <div id="eventHost__header">
+          {/* Event name */}
+          <div id="eventHost__header__title">{props.event.name}</div>
+
+          {/* Close button */}
           <IconContext.Provider
             value={{ className: "eventHost__header__icon" }}
           >
             <AiOutlineCloseCircle onClick={props.closeClicked} />
           </IconContext.Provider>
         </div>
-        <div className="eventHost__content">
+
+        {/* Field rendering */}
+        <div id="eventHost__content">
           <div>
             {props.event.feedback.map((field, i) => {
               return <Field key={i} field={field} />;
