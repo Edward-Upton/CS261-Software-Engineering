@@ -1,5 +1,7 @@
 import { CSSProperties } from "react";
 
+import MyButton from "./MyButton";
+
 import "./Header.css";
 
 interface Props {
@@ -12,12 +14,13 @@ interface Props {
 const Header: React.FC<Props> = (props) => {
   return (
     <div className="header" style={props.styled}>
-      <div className="header__email">
-        Hello {props.email?.split("@")[0]}
-      </div>
-      <div className="header__logout" onClick={props.logout}>
-        logout
-      </div>
+      <div className="header__email">Hello {props.email?.split("@")[0]}!</div>
+      <MyButton
+        text="Logout"
+        fontSize="1rem"
+        onClick={() => props.logout}
+        styled={{ backgroundColor: "#C48227", height: "1.4rem", width: "5rem" }}
+      />
     </div>
   );
 };

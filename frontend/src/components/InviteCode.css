@@ -1,0 +1,64 @@
+.inviteCode {
+  height: 2.5rem;
+
+  border: 2px solid #c48227;
+  border-radius: 1.5rem;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.35rem;
+
+  background-color: white;
+}
+
+.inviteCode__icon {
+  width: 2rem;
+  height: 2rem;
+
+  color: #c48227;
+}
+
+.inviteCode__input {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+
+  margin-left: 0.4rem;
+
+  width: 7rem;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.2rem;
+
+  display: flex;
+  justify-content: center;
+
+  background: none;
+  border: none;
+
+  color: #465775;
+}
+
+.inviteCode__input:focus {
+  outline: none;
+}
+
+.inviteCode__input::placeholder {
+  outline: none;
+  color: #465775;
+  font-family: Roboto;
+  font-weight: 200;
+}
+
+.inviteCode__sepLine {
+  width: 1px;
+  height: 1.5em;
+  margin-left: 0.4rem;
+
+  background: #c48227;
+}
