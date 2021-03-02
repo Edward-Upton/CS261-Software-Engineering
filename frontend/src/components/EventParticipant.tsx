@@ -16,7 +16,7 @@ import "./EventParticipant.css";
 
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
-import CreateFields from "./CreateFields";
+import CreateFields from "./NewField";
 import Invite from "./Invite";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import axios from "axios";
@@ -27,9 +27,17 @@ interface FieldProps {
   sendFeedback: (value: string | number) => Promise<boolean>;
 }
 
+// Component for each feedback field to handle user input.
+// Allows the user to submit data using inputs that
+// correspond to the type of field.
 const Field: React.FC<FieldProps> = (props) => {
+  // Status message
   const [message, setMessage] = useState<string>("");
+
+  // For textual feedback
   const [text, setText] = useState<string>("");
+
+  // Send the feedback for this field, using the parent's method
   const sendFeedback = async (value: string | number) => {
     setMessage("Submitting");
     const res = await props.sendFeedback(value);
@@ -41,12 +49,18 @@ const Field: React.FC<FieldProps> = (props) => {
   };
   return (
     <div className="eventParticipant__field">
+      {/* Field title */}
       <div className="eventParticipant__field__title">{props.field.name}</div>
+
       <div className="eventParticipant__field__titleSep" />
+
+      {/* Field input */}
       {props.field.fieldType === "mood" && (
+        // Mood field type
         <IconContext.Provider
           value={{ className: "eventParticipant__field__moodSelect__emojis" }}
         >
+          {/* Emoji selection */}
           <div className="eventParticipant__field__moodSelect">
             <BiAngry onClick={() => sendFeedback(1)} />
             <BiSad onClick={() => sendFeedback(2)} />
@@ -57,7 +71,9 @@ const Field: React.FC<FieldProps> = (props) => {
         </IconContext.Provider>
       )}
       {props.field.fieldType === "text" && (
+        // Text field type
         <>
+          {/* Text area */}
           <MyTextField
             type="area"
             placeholder="Enter Text..."
@@ -65,9 +81,12 @@ const Field: React.FC<FieldProps> = (props) => {
             value={text}
             styled={{ height: "8.4rem" }}
           />
+          {/* Submit button */}
           <MyButton text="Submit" onClick={() => sendFeedback(text)} />
         </>
       )}
+
+      {/* Submission status message */}
       <div>{message}</div>
     </div>
   );
@@ -79,7 +98,11 @@ interface Props {
   closeClicked: () => void;
 }
 
+// Panel for showing user the fields setup by the host for them
+// to submit "answers" for as feedback. Shows all the fields as
+// well as corresponding input types dependent on the field type.
 const EventParticipant: React.FC<Props> = (props) => {
+  // Send the feedback to the server to be analysed.
   const sendFeedback = async (fieldId: string, v: string | number) => {
     if (props.event) {
       try {
@@ -100,20 +123,24 @@ const EventParticipant: React.FC<Props> = (props) => {
       return false;
     }
   };
+
   if (props.event) {
     return (
-      <div className="eventParticipant">
-        <div className="eventParticipant__header">
-          <div className="eventParticipant__header__title">
-            {props.event.name}
-          </div>
+      <div id="eventParticipant">
+        <div id="eventParticipant__header">
+          {/* Event name */}
+          <div id="eventParticipant__header__title">{props.event.name}</div>
+
+          {/* Close button */}
           <IconContext.Provider
             value={{ className: "eventParticipant__header__icon" }}
           >
             <AiOutlineCloseCircle onClick={props.closeClicked} />
           </IconContext.Provider>
         </div>
-        <div className="eventParticipant__content">
+
+        {/* Submission feedback fields */}
+        <div id="eventParticipant__content">
           <div>
             {props.event.feedback.map((field, i) => {
               return (

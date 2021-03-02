@@ -1,4 +1,12 @@
-.participate__code {
+#participate {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+#participate__code {
   flex-grow: 0;
   display: flex;
   flex-direction: row;

@@ -10,6 +10,9 @@ interface Props {
   onClick: () => void;
 }
 
+// Custom button component that is consisent with the
+// design style. Features a rectangle with slightly
+// rounder corners. The colour and text can be changed.
 const MyButton: React.FC<Props> = (props) => {
   const buttonClicked = () => {
     if (props.disabled !== undefined) {

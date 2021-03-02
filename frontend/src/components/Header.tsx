@@ -8,11 +8,12 @@ interface Props {
   logout: () => void;
 }
 
+// This shows the user's email and a logout button
 const Header: React.FC<Props> = (props) => {
   return (
-    <div className="header" style={props.styled}>
-      <div className="header__email">User logged in as {props.email}</div>
-      <div className="header__logout" onClick={props.logout}>
+    <div id="header" style={props.styled}>
+      <div id="header__email">User logged in as {props.email}</div>
+      <div id="header__logout" onClick={props.logout}>
         logout
       </div>
     </div>

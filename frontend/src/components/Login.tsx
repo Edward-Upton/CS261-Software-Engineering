@@ -17,10 +17,11 @@ const Login: React.FC<Props> = ({ login }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Attempt to login
   const submit = async (event?: React.FormEvent) => {
     event?.preventDefault();
-    console.log("HERE");
     try {
+      // Attempt to login with entered email and password.
       const res = await axios.post("/api/user/login", { email, password });
       login(res.data.user);
     } catch (error) {
@@ -28,8 +29,11 @@ const Login: React.FC<Props> = ({ login }) => {
     }
   };
 
+  // Register a new account
   const register = async () => {
     try {
+      // Attempt to create a new account and then immediately login
+      // if registration is successful.
       const res = await axios.post("/api/user/register", { email, password });
       login(res.data.user);
     } catch (error) {
@@ -38,15 +42,8 @@ const Login: React.FC<Props> = ({ login }) => {
   };
 
   return (
-    <div
-      style={{
-        height: "15rem",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-evenly",
-        alignItems: "center",
-      }}
-    >
+    <div id="login">
+      {/* Email */}
       <MyTextField
         type="text"
         placeholder="Email..."
@@ -56,6 +53,8 @@ const Login: React.FC<Props> = ({ login }) => {
       >
         <AiOutlineUser />
       </MyTextField>
+
+      {/* Password */}
       <MyTextField
         type="password"
         placeholder="Password..."
@@ -65,11 +64,15 @@ const Login: React.FC<Props> = ({ login }) => {
       >
         <HiOutlineKey />
       </MyTextField>
+
+      {/* Login Button */}
       <MyButton
         text="Login"
         onClick={submit}
         styled={{ backgroundColor: "#59c9a5" }}
       ></MyButton>
+
+      {/* Register Button */}
       <MyButton text="Register" onClick={register} styled={{}}></MyButton>
     </div>
   );

@@ -12,6 +12,10 @@ interface Props {
   styled?: CSSProperties;
 }
 
+// Custom text field component that is consisent with the
+// design style. Features a rounded corner border and allow
+// the addition of icons at the beggining of the box. Also
+// allows rendering a text area instead of a 1 line box.
 const MyTextField: React.FC<Props> = (props) => {
   const onChange = (
     e:
@@ -27,6 +31,7 @@ const MyTextField: React.FC<Props> = (props) => {
     <IconContext.Provider value={{ className: "textField__icon" }}>
       <div className="textField" style={props.styled}>
         {!noIcon && (
+          // Render text field with icon and seperation line
           <>
             {props.children}
             <div className="textField__sepLine" />
@@ -41,7 +46,6 @@ const MyTextField: React.FC<Props> = (props) => {
             )}
             {props.type === "area" && (
               <textarea
-                // type={props.type}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={onChange}
@@ -51,6 +55,7 @@ const MyTextField: React.FC<Props> = (props) => {
           </>
         )}
         {noIcon && (
+          // Render text field without icon and without seperation line
           <>
             {props.type !== "area" && (
               <input
@@ -63,7 +68,6 @@ const MyTextField: React.FC<Props> = (props) => {
             )}
             {props.type === "area" && (
               <textarea
-                // type={props.type}
                 placeholder={props.placeholder}
                 value={props.value}
                 onChange={onChange}

@@ -1,8 +1,8 @@
 import { IconContext } from "react-icons";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FieldTypes, INewField } from "../types";
-import "./CreateFields.css";
-import MyButton from "./MyButton";
+import "./NewField.css";
+
 import MyTextField from "./MyTextField";
 
 interface FieldProps {
@@ -12,7 +12,12 @@ interface FieldProps {
   deleteField: (index: number) => void;
 }
 
-const Field: React.FC<FieldProps> = (props) => {
+// Component for creating a new field and setting the deatils up
+// for this field. Allows setting the type, name and description
+// of the field.
+const NewFIeld: React.FC<FieldProps> = (props) => {
+  // These functions handle different detail changes and pass it to
+  // the parent who will update the actual feedback field object.
   const onTypeChange = (v: FieldTypes) => {
     props.updateField(props.index, { ...props.field, fieldType: v });
   };
@@ -25,6 +30,7 @@ const Field: React.FC<FieldProps> = (props) => {
   return (
     <div className="createFields__field">
       <div className="createFields__field__title">
+        {/* Feedback type */}
         <select
           className="createFields__field__type"
           onChange={(v) => onTypeChange(v.target.value as FieldTypes)}
@@ -43,13 +49,18 @@ const Field: React.FC<FieldProps> = (props) => {
             Custom Text
           </option>
         </select>
+
+        {/* Delete button */}
         <IconContext.Provider
           value={{ className: "createFields__field__delete" }}
         >
           <AiOutlineDelete onClick={() => props.deleteField(props.index)} />
         </IconContext.Provider>
       </div>
+
       <div className="createFields__field__titleSep" />
+
+      {/* Field name */}
       <MyTextField
         type="text"
         placeholder="Name..."
@@ -57,6 +68,8 @@ const Field: React.FC<FieldProps> = (props) => {
         value={props.field.name}
         styled={{ height: "2rem", minHeight: "2rem", marginBottom: "0.2rem" }}
       ></MyTextField>
+
+      {/* Field description */}
       <MyTextField
         type="text"
         placeholder="Description..."
@@ -68,34 +81,4 @@ const Field: React.FC<FieldProps> = (props) => {
   );
 };
 
-interface Props {
-  fields: INewField[];
-  updateField: (index: number, newField: INewField) => void;
-  addField: (fieldType: FieldTypes) => void;
-  deleteField: (index: number) => void;
-}
-const CreateFields: React.FC<Props> = (props) => {
-  return (
-    <div className="createFields">
-      <div className="createFields__title">Add Feedback Fields</div>
-      {props.fields.map((field, i) => {
-        return (
-          <Field
-            key={i}
-            index={i}
-            field={field}
-            updateField={props.updateField}
-            deleteField={props.deleteField}
-          />
-        );
-      })}
-      <MyButton
-        text="Add Field"
-        onClick={() => props.addField("mood")}
-        styled={{ height: "1.8rem" }}
-      />
-    </div>
-  );
-};
-
-export default CreateFields;
+export default NewFIeld;

@@ -8,9 +8,15 @@ interface Props {
   participants: { id: string; email: string }[];
   addParticipant: (id: string, email: string) => void;
 }
+
+// Component to show invited users on the create event panel
+// in the host tab. Shows each user's email and handles ensuring
+// that the email entered is present as an account.
 const Invite: React.FC<Props> = (props) => {
+  // Storing the current typed email
   const [inviteEmail, setInviteEmail] = useState<string>("");
 
+  // Requests the user with the corresponding email
   const inviteParticipant = async () => {
     try {
       const res = await axios.get("/api/user/userId/" + inviteEmail);
@@ -23,9 +29,10 @@ const Invite: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="invite">
-      <div className="invite__title">Invited Participants</div>
-      <div className="invite__invite">
+    <div id="invite">
+      <div id="invite__title">Invited Participants</div>
+      <div id="invite__invite">
+        {/* Email input */}
         <MyTextField
           type="text"
           placeholder="Email..."
@@ -33,12 +40,16 @@ const Invite: React.FC<Props> = (props) => {
           value={inviteEmail}
           styled={{ width: "50%" }}
         />
+
+        {/* Invite button */}
         <MyButton
           text="Invite"
           onClick={inviteParticipant}
           styled={{ width: "40%", backgroundColor: "#59c9a5" }}
         />
       </div>
+
+      {/* List of invited users */}
       {props.participants.map(({ id, email }, i) => {
         return (
           <div key={id} className="invite__email">

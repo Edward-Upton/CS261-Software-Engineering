@@ -1,18 +1,13 @@
-.eventHost {
+#eventHost {
   width: 100%;
-  max-width: 50rem;
-  padding: 0.5rem;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   /* justify-content: start; */
   align-items: center;
-
-  border: 2px solid #59c9a5;
-  background-color: rgb(235, 235, 235);
 }
 
-.eventHost__header {
+#eventHost__header {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -20,7 +15,7 @@
   align-items: center;
 }
 
-.eventHost__header__title {
+#eventHost__header__title {
   font-size: 1.2rem;
   font-weight: 500;
   color: #465775;
@@ -38,7 +33,7 @@
   border-radius: 1rem;
 }
 
-.eventHost__content {
+#eventHost__content {
   position: relative;
   width: 100%;
   padding: 0.5rem;
@@ -48,7 +43,7 @@
   flex-grow: 1;
 }
 
-.eventHost__content > div {
+#eventHost__content > div {
   position: absolute;
   top: 0;
   left: 0;

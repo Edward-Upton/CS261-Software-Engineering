@@ -1,4 +1,4 @@
-.invite {
+#invite {
   width: 100%;
   /* top: calc(50% - 50px/2 - 86.5px); */
 
@@ -17,12 +17,12 @@
   background-color: white;
 }
 
-.invite__title {
+#invite__title {
   font-size: 1.2rem;
   color: #465775;
 }
 
-.invite__invite {
+#invite__invite {
   width: 100%;
   display: flex;
   flex-direction: row;
