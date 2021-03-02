@@ -16,7 +16,7 @@ def index():
 def emoji():
     data = request.json
     print(data)
-    newValue = data["newValue"]
+    newValue = data["value"]
     field = data["field"]
 
     curUTC = datetime.now(timezone.utc)
