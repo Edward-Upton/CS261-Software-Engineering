@@ -22,35 +22,8 @@ const Tab: React.FC<Props> = (props) => {
   return (
     <>
       <ModeButton host={host} setHost={(v) => setHost(v)} />
-      <div id="tab" style={props.styled}>
-        {/* Select tab buttons */}
-        <div id="tab__select">
-          {/* Participate tab button */}
-          <div
-            className={`tab__option ${!host && "tab__selected"}`}
-            onClick={() => setHost(false)}
-          >
-            Participate
-          </div>
-
-          {/* Host tab button */}
-          <div
-            className={`tab__option ${host && "tab__selected"}`}
-            onClick={() => setHost(true)}
-          >
-            Host
-          </div>
-        </div>
-
-        <div id="tab__content">
-          {/* Show content for relevant open panel */}
-          {host ? (
-            <Host user={props.user} />
-          ) : (
-            <Participate user={props.user} />
-          )}
-        </div>
-      </div>
+      {/* Show content for relevant open panel */}
+      {host ? <Host user={props.user} /> : <Participate user={props.user} />}
     </>
   );
 };

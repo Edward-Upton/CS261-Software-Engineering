@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-evenly;
 
-  border: 2px solid #59c9a5;
+  border: 2px solid #277C72;
   border-radius: 1.5rem;
 }
 
@@ -19,7 +19,7 @@
   left: 0.3rem;
 
   transition: 0.3s ease-in-out;
-  background-color: #59c9a5;
+  background-color: #277C72;
   border-radius: 1.5rem;
   z-index: -5;
 }
@@ -33,7 +33,7 @@
 
   text-align: center;
   font-size: 1.2rem;
-  color: #59c9a5;
+  color: #277C72;
   cursor: pointer;
 
   border-radius: 1.5rem;
@@ -46,5 +46,5 @@
 }
 
 .modeBtn__option__notSel:hover {
-  background-color: #59c9a554;
+  background-color: #3bb48e52;
 }
