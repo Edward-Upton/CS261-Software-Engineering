@@ -158,7 +158,7 @@ const Field: React.FC<FieldProps> = (props) => {
             placeholder="Enter Text..."
             onChange={(v) => setText(v)}
             value={text}
-            styled={{ height: "8.4rem" }}
+            styled={{ height: "8.4rem", border: "none" }}
           />
         </>
       )}

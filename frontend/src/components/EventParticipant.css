@@ -64,8 +64,8 @@
 .eventParticipant__field {
   padding: 0.6rem;
   width: 100%;
-  min-height: 3rem;
-  margin-bottom: 0.5rem;
+  /* min-height: 3rem; */
+  margin-bottom: 1rem;
 
   border-radius: 1.5rem;
   background-color: #336666;
