@@ -16,9 +16,7 @@ import "./EventParticipant.css";
 
 import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
-import CreateFields from "./NewField";
-import Invite from "./Invite";
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 import axios from "axios";
 import { Icon } from "@material-ui/core";
 
@@ -131,21 +129,21 @@ const EventParticipant: React.FC<Props> = (props) => {
 
   if (props.event) {
     return (
-      <div id="eventParticipant">
-        <div id="eventParticipant__header">
+      <div className="eventParticipant">
+        <div className="eventParticipant__header">
           {/* Event name */}
-          <div id="eventParticipant__header__title">{props.event.name}</div>
+          <div className="eventParticipant__header__title">{props.event.name}</div>
 
           {/* Close button */}
           <IconContext.Provider
             value={{ className: "eventParticipant__header__icon" }}
           >
-            <AiOutlineCloseCircle onClick={props.closeClicked} />
+            <IoArrowBackCircleOutline onClick={props.closeClicked} />
           </IconContext.Provider>
         </div>
 
         {/* Submission feedback fields */}
-        <div id="eventParticipant__content">
+        <div className="eventParticipant__content">
           <div>
             {props.event.feedback.map((field, i) => {
               return (

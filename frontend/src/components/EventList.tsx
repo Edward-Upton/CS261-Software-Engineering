@@ -73,11 +73,11 @@ const EventItem: React.FC<ItemProps> = (props) => {
         eventActive ? "eventItem__wrapper__selectable" : ""
       }`}
       style={props.styled}
+      onClick={eventActive ? props.onClick : () => {}}
     >
       {/* Event name */}
       <div
         className="eventItem__details"
-        onClick={eventActive ? props.onClick : () => {}}
       >
         <div className="eventItem__name">{props.event.name}</div>
         <div className="eventItem__type">{props.event.eventType}</div>
