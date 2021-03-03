@@ -98,12 +98,13 @@ const Participate: React.FC<Props> = (props) => {
               <AiOutlineNumber />
             </MyTextField>
             <MyButton
-              text={joiningEvent ? "Joining" : "Join Event"}
               onClick={joinEvent}
               styled={{ width: "40%", backgroundColor: "#59c9a5" }}
               disabled={joiningEvent}
               fontSize="1.2rem"
-            ></MyButton>
+            >
+              {joiningEvent ? "Joining" : "Join Event"}
+            </MyButton>
           </div>
 
           {/* List of joined events */}

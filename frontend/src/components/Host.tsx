@@ -106,10 +106,11 @@ const Host: React.FC<Props> = (props) => {
             <>
               {/* Create event button */}
               <MyButton
-                text="Create Event"
                 onClick={() => setCreateOpen(true)}
                 styled={{ backgroundColor: "#59c9a5" }}
-              />
+              >
+                Create Event
+              </MyButton>
 
               {/* Created events list */}
               <EventList
