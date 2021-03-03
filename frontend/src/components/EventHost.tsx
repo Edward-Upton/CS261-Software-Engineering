@@ -14,7 +14,7 @@ import {
 
 import "./EventHost.css";
 
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { Icon } from "@material-ui/core";
 
 interface FieldProps {
@@ -58,8 +58,6 @@ const Field: React.FC<FieldProps> = (props) => {
         <div className="eventHost__field__title">
           {typeToString[props.field.fieldType]}: {props.field.name}
         </div>
-
-        <div className="eventHost__field__titleSep" />
 
         {/* Analysed data from participants, rendered differently depending on
       the type of field */}
@@ -149,21 +147,21 @@ interface Props {
 const EventHost: React.FC<Props> = (props) => {
   if (props.event) {
     return (
-      <div id="eventHost">
-        <div id="eventHost__header">
+      <div className="eventHost">
+        <div className="eventHost__header">
           {/* Event name */}
-          <div id="eventHost__header__title">{props.event.name}</div>
+          <div className="eventHost__header__title">{props.event.name}</div>
 
           {/* Close button */}
           <IconContext.Provider
             value={{ className: "eventHost__header__icon" }}
           >
-            <AiOutlineCloseCircle onClick={props.closeClicked} />
+            <IoArrowBackCircleOutline onClick={props.closeClicked} />
           </IconContext.Provider>
         </div>
 
         {/* Field rendering */}
-        <div id="eventHost__content">
+        <div className="eventHost__content">
           <div>
             {props.event.feedback.map((field, i) => {
               return <Field key={i} field={field} />;
