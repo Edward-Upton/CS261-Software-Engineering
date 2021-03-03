@@ -16,14 +16,11 @@ const InviteCode: React.FC<Props> = (props) => {
   };
 
   return (
-    <IconContext.Provider value={{ className: "inviteCode__icon" }}>
       <div className="inviteCode">
         {/* // Render text field with icon and seperation line */}
-        <AiOutlineNumber />
-        <div className="inviteCode__sepLine" />
         <input
           type="text"
-          placeholder="Event Code..."
+          placeholder="# Enter Invite Code..."
           value={eventCode}
           onChange={onChange}
           className="inviteCode__input"
@@ -41,7 +38,6 @@ const InviteCode: React.FC<Props> = (props) => {
           Join
         </MyButton>
       </div>
-    </IconContext.Provider>
   );
 };
 
