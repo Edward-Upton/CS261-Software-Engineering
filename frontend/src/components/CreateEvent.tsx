@@ -211,10 +211,11 @@ const CreateEvent: React.FC<Props> = (props) => {
               );
             })}
             <MyButton
-              text="Add Field"
               onClick={() => addField("mood")}
               styled={{ height: "1.8rem" }}
-            />
+            >
+              Add Field
+            </MyButton>
           </FieldList>
 
           {/* Invite participants */}
@@ -226,11 +227,9 @@ const CreateEvent: React.FC<Props> = (props) => {
       </div>
 
       {/* Create Event Button */}
-      <MyButton
-        text="Create Event"
-        onClick={createEvent}
-        styled={{ backgroundColor: "#59c9a5" }}
-      />
+      <MyButton onClick={createEvent} styled={{ backgroundColor: "#59c9a5" }}>
+        Create Event
+      </MyButton>
     </div>
   );
 };

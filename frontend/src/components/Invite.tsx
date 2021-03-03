@@ -43,10 +43,11 @@ const Invite: React.FC<Props> = (props) => {
 
         {/* Invite button */}
         <MyButton
-          text="Invite"
           onClick={inviteParticipant}
           styled={{ width: "40%", backgroundColor: "#59c9a5" }}
-        />
+        >
+          Invite
+        </MyButton>
       </div>
 
       {/* List of invited users */}

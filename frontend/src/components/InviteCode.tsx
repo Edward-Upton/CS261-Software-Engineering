@@ -29,7 +29,6 @@ const InviteCode: React.FC<Props> = (props) => {
           className="inviteCode__input"
         ></input>
         <MyButton
-          text="Join"
           fontSize="1rem"
           onClick={() => props.joinEvent(eventCode)}
           styled={{
@@ -38,7 +37,9 @@ const InviteCode: React.FC<Props> = (props) => {
             height: "1.8rem",
             backgroundColor: "#c48227",
           }}
-        />
+        >
+          Join
+        </MyButton>
       </div>
     </IconContext.Provider>
   );
