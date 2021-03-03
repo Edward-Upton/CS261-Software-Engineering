@@ -118,7 +118,9 @@ const Host: React.FC<Props> = (props) => {
               <MyButton
                 onClick={() => setCreateOpen(true)}
                 styled={{ backgroundColor: "#C48227" }}
-              >Create Event</MyButton>
+              >
+                Create Event
+              </MyButton>
             </>
           )}
         </>

@@ -25,7 +25,9 @@ const Header: React.FC<Props> = (props) => {
           }
         }}
         styled={{ backgroundColor: "#C48227", height: "1.4rem", width: "8rem" }}
-      >{`Hello ${props.email?.split("@")[0]}`}</MyButton>
+      >
+        Hello {props.email?.split("@")[0]}
+      </MyButton>
 
       <ModeButton host={props.host} setHost={props.setHost} />
     </div>

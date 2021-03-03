@@ -44,8 +44,14 @@ const EventItem: React.FC<ItemProps> = (props) => {
         <MyButton
           fontSize="0.8rem"
           onClick={copyEventCode}
-          styled={{ width: "5rem", backgroundColor: "#C48227", marginRight: "0.5rem"}}
-        >Copy Invite Code </MyButton>
+          styled={{
+            width: "5rem",
+            backgroundColor: "#C48227",
+            marginRight: "0.5rem",
+          }}
+        >
+          Copy Invite Code
+        </MyButton>
       )}
 
       {/* Event date */}
