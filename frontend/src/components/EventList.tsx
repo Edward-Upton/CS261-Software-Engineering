@@ -1,5 +1,6 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { IEvent } from "../types";
+import ReactTooltip from "react-tooltip";
 
 import "./EventList.css";
 import MyButton from "./MyButton";
@@ -17,6 +18,30 @@ interface ItemProps {
 // will render the name of the event, the copy code link if
 // rendering for host, and the date the event is active.
 const EventItem: React.FC<ItemProps> = (props) => {
+  const [date, setDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
+
+  const [eventActive, setEventActive] = useState<boolean>(false);
+  const [startOnToday, setStartOnToday] = useState<boolean>(false);
+  const [endOnToday, setEndOnToday] = useState<boolean>(false);
+
+  useEffect(() => {
+    let secTimer = setInterval(() => {
+      setDate(new Date());
+      setEventActive(date > startDate && date < endDate ? true : false);
+      setStartOnToday(date.getDate() === startDate.getDate() ? true : false);
+      setEndOnToday(date.getDate() === endDate.getDate() ? true : false);
+    }, 1000);
+
+    return () => clearInterval(secTimer);
+  }, [date, endDate, startDate]);
+
+  useEffect(() => {
+    setStartDate(new Date(props.event.start));
+    setEndDate(new Date(props.event.end));
+  }, [props.event.start, props.event.end]);
+
   // Copies the event code to the user's clipboard.
   const copyEventCode = () => {
     var dummy = document.createElement("input");
@@ -30,11 +55,16 @@ const EventItem: React.FC<ItemProps> = (props) => {
   return (
     <div
       key={props.event._id}
-      className="eventItem__wrapper"
+      className={`eventItem__wrapper ${
+        eventActive ? "eventItem__wrapper__selectable" : ""
+      }`}
       style={props.styled}
     >
       {/* Event name */}
-      <div className="eventItem__details" onClick={props.onClick}>
+      <div
+        className="eventItem__details"
+        onClick={eventActive ? props.onClick : () => {}}
+      >
         <div className="eventItem__name">{props.event.name}</div>
         <div className="eventItem__type">{props.event.eventType}</div>
       </div>
@@ -55,11 +85,32 @@ const EventItem: React.FC<ItemProps> = (props) => {
       )}
 
       {/* Event date */}
-      <div className="eventItem__time">
-        <div>{new Date(props.event.start).toLocaleDateString("en-GB")}</div>
-        <div>to</div>
-        <div>{new Date(props.event.end).toLocaleDateString("en-GB")}</div>
+      <div
+        className="eventItem__activeStatus"
+        data-tip
+        data-for={`dateTip${props.event._id}`}
+      >
+        {eventActive ? "Active" : "Not Active"}
       </div>
+      <ReactTooltip id={`dateTip${props.event._id}`}>
+        <div className="eventItem__time">
+          <div>
+            {startOnToday
+              ? `Today at ${startDate.toLocaleTimeString("en-GB")}`
+              : `${startDate.toLocaleDateString(
+                  "en-GB"
+                )} at ${startDate.toLocaleTimeString("en-GB")}`}
+          </div>
+          <div>to</div>
+          <div>
+            {endOnToday
+              ? `Today at ${endDate.toLocaleTimeString("en-GB")}`
+              : `${endDate.toLocaleDateString(
+                  "en-GB"
+                )} at ${endDate.toLocaleTimeString("en-GB")}`}
+          </div>
+        </div>
+      </ReactTooltip>
     </div>
   );
 };

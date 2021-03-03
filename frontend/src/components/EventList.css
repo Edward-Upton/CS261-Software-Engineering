@@ -31,20 +31,24 @@
   justify-content: space-between;
   align-items: center;
 
-  background-color: #336666;
+  background-color: #435252;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 
   padding: 0.5rem;
-  cursor: pointer;
 }
 
-.eventItem__wrapper:hover {
+.eventItem__wrapper__selectable {
+  background-color: #336666;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.164), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.eventItem__wrapper__selectable:hover {
   filter: brightness(80%);
 }
 
 .eventItem__details {
-  width: 80%;
+  width: 50%;
   font-family: Roboto;
   font-size: 1.2rem;
   font-weight: 400;
@@ -61,6 +65,14 @@
 .eventItem__type {
   font-family: Roboto;
   font-size: 1.1rem;
+  font-weight: 400;
+  color: white;
+}
+
+.eventItem__activeStatus {
+  font-family: Roboto;
+  font-size: 1rem;
+  text-align: right;
   font-weight: 400;
   color: white;
 }
