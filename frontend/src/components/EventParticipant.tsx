@@ -2,15 +2,7 @@ import { useEffect, useState } from "react";
 import DateTime from "react-datetime";
 import { IUser } from "../types";
 import { FieldTypes, IEvent, IField } from "../types";
-
 import { IconContext } from "react-icons";
-import {
-  BiHappyBeaming,
-  BiHappy,
-  BiConfused,
-  BiSad,
-  BiAngry,
-} from "react-icons/bi";
 
 import "./EventParticipant.css";
 
@@ -19,6 +11,7 @@ import MyTextField from "./MyTextField";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import axios from "axios";
 import { Icon } from "@material-ui/core";
+import MoodSubmitting from "./MoodSubmitting";
 
 interface FieldProps {
   field: IField;
@@ -86,68 +79,7 @@ const Field: React.FC<FieldProps> = (props) => {
       {/* Field input */}
       {props.field.fieldType === "mood" && (
         // Mood field type
-        // Emoji selection
-        <div className="eventParticipant__field__moodSelect">
-          <IconContext.Provider
-            value={{
-              className: `eventParticipant__field__moodSelect__emojis ${
-                num === 1
-                  ? "eventParticipant__field__moodSelect__emojis__selected"
-                  : ""
-              }`,
-            }}
-          >
-            <BiAngry onClick={() => (num !== 1 ? setNum(1) : setNum(null))} />
-          </IconContext.Provider>
-          <IconContext.Provider
-            value={{
-              className: `eventParticipant__field__moodSelect__emojis ${
-                num === 2
-                  ? "eventParticipant__field__moodSelect__emojis__selected"
-                  : ""
-              }`,
-            }}
-          >
-            <BiSad onClick={() => (num !== 2 ? setNum(2) : setNum(null))} />
-          </IconContext.Provider>
-          <IconContext.Provider
-            value={{
-              className: `eventParticipant__field__moodSelect__emojis ${
-                num === 3
-                  ? "eventParticipant__field__moodSelect__emojis__selected"
-                  : ""
-              }`,
-            }}
-          >
-            <BiConfused
-              onClick={() => (num !== 3 ? setNum(3) : setNum(null))}
-            />
-          </IconContext.Provider>
-          <IconContext.Provider
-            value={{
-              className: `eventParticipant__field__moodSelect__emojis ${
-                num === 4
-                  ? "eventParticipant__field__moodSelect__emojis__selected"
-                  : ""
-              }`,
-            }}
-          >
-            <BiHappy onClick={() => (num !== 4 ? setNum(4) : setNum(null))} />
-          </IconContext.Provider>
-          <IconContext.Provider
-            value={{
-              className: `eventParticipant__field__moodSelect__emojis ${
-                num === 5
-                  ? "eventParticipant__field__moodSelect__emojis__selected"
-                  : ""
-              }`,
-            }}
-          >
-            <BiHappyBeaming
-              onClick={() => (num !== 5 ? setNum(5) : setNum(null))}
-            />
-          </IconContext.Provider>
-        </div>
+        <MoodSubmitting num={num} setNum={(v) => setNum(v)} />
       )}
       {props.field.fieldType === "text" && (
         // Text field type

@@ -39,12 +39,27 @@ const moodDataViews = [
   { value: "timeSeries", label: "Time Series" },
 ];
 
+const textDataViews = [
+  { value: "wordcloud", label: "Word Cloud" },
+  { value: "keyPhrases", label: "Key Phrases" },
+];
+
+const moodAverageToIcon = [
+  { mood: "Very Negative", range: [0.9, 1.8], icon: <BiAngry /> },
+  { mood: "Negative", range: [1.8, 2.6], icon: <BiSad /> },
+  { mood: "Neutral", range: [2.6, 3.4], icon: <BiConfused /> },
+  { mood: "Positive", range: [3.4, 4.2], icon: <BiHappy /> },
+  { mood: "Very Positive", range: [4.2, 5.0], icon: <BiHappyBeaming /> },
+];
+
 // Component that resembles each feedback field with the
 // analysed data for it.
 const Field: React.FC<FieldProps> = (props) => {
   // Contains words and the count for them for the wordmap.
   const [wordmapWords, setWordmapWords] = useState<WordMapItem[]>([]);
-  const [viewMode, setViewMode] = useState<string | undefined>("average");
+  const [viewMode, setViewMode] = useState<string | undefined>(
+    props.field.fieldType === "mood" ? "average" : "wordcloud"
+  );
 
   // On field change, if the field is of type text convert the adjective
   // frequency type to one that the Wordcloud can use.
@@ -66,88 +81,85 @@ const Field: React.FC<FieldProps> = (props) => {
           {typeToString[props.field.fieldType]}: {props.field.name}
         </div>
 
+        <Select
+          className="eventHost__field__viewModeSelect"
+          options={
+            props.field.fieldType === "mood" ? moodDataViews : textDataViews
+          }
+          defaultValue={
+            props.field.fieldType === "mood"
+              ? moodDataViews[0]
+              : textDataViews[0]
+          }
+          onChange={(v) => setViewMode(v?.value)}
+        />
+
         {/* Analysed data from participants, rendered differently depending on
       the type of field */}
         {props.field.fieldType === "mood" && (
           // Mood fields
           <div className="eventHost__field__mood">
-            <div className="eventHost__field__mood__average">
-              <Select
-                className="eventHost__field__mood__dataSelect"
-                options={moodDataViews}
-                defaultValue={moodDataViews[0]}
-                onChange={(v) => setViewMode(v?.value)}
-              />
-              {viewMode === "average" && (
-                <>
-                  <IconContext.Provider
-                    value={{
-                      className: "eventHost__field__mood__average__emoji",
-                    }}
-                  >
-                    {props.field.data.average <= 1 && (
-                      <>
-                        <BiAngry />
-                        <div>Very Negative</div>
-                      </>
-                    )}
-                    {props.field.data.average <= 2 &&
-                      props.field.data.average > 1 && (
+            {viewMode === "average" && (
+              <div className="eventHost__field__mood__average">
+                <IconContext.Provider
+                  value={{
+                    className: "eventHost__field__mood__average__emoji",
+                  }}
+                >
+                  {moodAverageToIcon.map(({ mood, range, icon }) => {
+                    if (
+                      props.field.data &&
+                      props.field.data?.average > range[0] &&
+                      props.field.data?.average <= range[1]
+                    ) {
+                      return (
                         <>
-                          <BiSad />
-                          <div>Negative</div>
+                          {icon}
+                          <div>{mood}</div>
                         </>
-                      )}
-                    {props.field.data.average <= 3 &&
-                      props.field.data.average > 2 && (
-                        <>
-                          <BiConfused />
-                          <div>Neutral</div>
-                        </>
-                      )}
-                    {props.field.data.average <= 4 &&
-                      props.field.data.average > 3 && (
-                        <>
-                          <BiHappy />
-                          <div>Positive</div>
-                        </>
-                      )}
-                    {props.field.data.average <= 5 &&
-                      props.field.data.average > 4 && (
-                        <>
-                          <BiHappyBeaming />
-                          <div>Very Positive</div>
-                        </>
-                      )}
-                  </IconContext.Provider>
-                </>
-              )}
-              {viewMode === "timeSeries" && (
-                <div className="eventHost__field__mood__timeSeries">
-                </div>
-              )}
-            </div>
+                      );
+                    } else {
+                      return <></>;
+                    }
+                  })}
+                </IconContext.Provider>
+              </div>
+            )}
+            {viewMode === "timeSeries" && (
+              <div className="eventHost__field__mood__timeSeries"></div>
+            )}
           </div>
         )}
         {props.field.fieldType === "text" && (
           // Text fields
           <div className="eventHost__field__text">
-            <div className="eventHost__field__text__wordcloud">
-              <ReactWordcloud
-                words={wordmapWords}
-                options={{
-                  rotations: 1,
-                  fontFamily: "Roboto",
-                  rotationAngles: [0, 0],
-                  fontSizes: [20, 40],
-                }}
-              />
-            </div>
-            <div>
-              {/* {props.field.data?.keyPhrases?.map((item, i) => {
-                return <div key={i}>{item.phrase}</div>;
-              })} */}
-            </div>
+            {viewMode === "wordcloud" && (
+              <div className="eventHost__field__text__wordcloud">
+                <ReactWordcloud
+                  words={wordmapWords}
+                  options={{
+                    rotations: 1,
+                    fontFamily: "Roboto",
+                    rotationAngles: [0, 0],
+                    fontSizes: [20, 40],
+                  }}
+                />
+              </div>
+            )}
+            {viewMode === "keyPhrases" && (
+              <div className="eventHost__field__text__keyPhrase">
+                {props.field.data?.keyPhrases?.map((item, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="eventHost__field__text__keyPhrase__phrase"
+                    >
+                      {item.phrase}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         )}
 

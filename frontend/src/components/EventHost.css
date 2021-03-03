@@ -86,15 +86,12 @@
   padding: 0.2rem;
 }
 
-.eventHost__field__mood {
-  /* height: 8rem; */
-  display: flex;
-  flex-direction: row;
-}
-
-.eventHost__field__mood__dataSelect {
+.eventHost__field__viewModeSelect {
   width: 10rem;
   margin-bottom: 0.5rem;
+}
+
+.eventHost__field__mood {
 }
 
 .eventHost__field__mood__average {
@@ -134,4 +131,18 @@
   height: 15rem;
   /* border: 1px solid #59c9a5; */
   border-radius: 1rem;
+}
+
+.eventHost__field__text__keyPhrase {
+  margin-bottom: 0.5rem;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.eventHost__field__text__keyPhrase__phrase {
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
