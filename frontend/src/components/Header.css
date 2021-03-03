@@ -14,5 +14,9 @@
   font-weight: normal;
   font-size: 1.2rem;
 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   color: #336666;
 }
