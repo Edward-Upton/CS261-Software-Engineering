@@ -18,13 +18,21 @@ const Header: React.FC<Props> = (props) => {
   return (
     <div className="header" style={props.styled}>
       <MyButton
-        fontSize="1.1rem"
+        fontSize="1rem"
         onClick={() => {
           if (window.confirm("Do you want to logout?")) {
             props.logout();
           }
         }}
-        styled={{ backgroundColor: "#C48227", height: "1.4rem", width: "8rem" }}
+        styled={{
+          backgroundColor: "#C48227",
+          height: "2rem",
+          width: "auto",
+          maxWidth: "40%",
+          borderRadius: "1rem",
+          paddingLeft: "0.5rem",
+          paddingRight: "0.5rem",
+        }}
       >
         Hello {props.email?.split("@")[0]}
       </MyButton>
