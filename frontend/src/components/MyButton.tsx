@@ -6,6 +6,7 @@ interface Props {
   styled?: CSSProperties;
   text?: string;
   fontSize?: string;
+  textColour?: string;
   disabled?: boolean;
   onClick: () => void;
 }
@@ -25,7 +26,7 @@ const MyButton: React.FC<Props> = (props) => {
   };
   return (
     <div className="button" onClick={buttonClicked} style={props.styled}>
-      <div className="button__text" style={{ fontSize: props.fontSize }}>
+      <div className="button__text" style={{ fontSize: props.fontSize, color: props.textColour }}>
         {props.text}
       </div>
     </div>

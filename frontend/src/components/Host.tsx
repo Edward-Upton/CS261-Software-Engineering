@@ -104,13 +104,6 @@ const Host: React.FC<Props> = (props) => {
           ) : (
             // Show list of user's events
             <>
-              {/* Create event button */}
-              <MyButton
-                text="Create Event"
-                onClick={() => setCreateOpen(true)}
-                styled={{ backgroundColor: "#59c9a5" }}
-              />
-
               {/* Created events list */}
               <EventList
                 events={events}
@@ -119,6 +112,13 @@ const Host: React.FC<Props> = (props) => {
                   setSelectedEvent(event);
                   setEventOpen(true);
                 }}
+              />
+
+              {/* Create event button */}
+              <MyButton
+                text="Create Event"
+                onClick={() => setCreateOpen(true)}
+                styled={{ backgroundColor: "#C48227" }}
               />
             </>
           )}

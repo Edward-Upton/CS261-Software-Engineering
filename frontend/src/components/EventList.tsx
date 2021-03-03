@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 import { IEvent } from "../types";
 
 import "./EventList.css";
+import MyButton from "./MyButton";
 
 interface ItemProps {
   styled?: CSSProperties;
@@ -27,23 +28,32 @@ const EventItem: React.FC<ItemProps> = (props) => {
   };
 
   return (
-    <div key={props.event._id} className="eventItem" style={props.styled}>
+    <div
+      key={props.event._id}
+      className="eventItem__wrapper"
+      style={props.styled}
+    >
       {/* Event name */}
-      <div className="eventItem__name" onClick={props.onClick}>
-        {props.event.name}
+      <div className="eventItem__details" onClick={props.onClick}>
+        <div className="eventItem__name">{props.event.name}</div>
+        <div className="eventItem__type">{props.event.eventType}</div>
       </div>
 
       {/* If for hosting, copy link button */}
       {props.host && (
-        <div className="eventItem__copyLink" onClick={copyEventCode}>
-          Copy Code
-        </div>
+        <MyButton
+          text="Copy Invite Code"
+          fontSize="0.8rem"
+          onClick={copyEventCode}
+          styled={{ width: "5rem", backgroundColor: "#C48227", marginRight: "0.5rem"}}
+        />
       )}
 
       {/* Event date */}
       <div className="eventItem__time">
-        {new Date(props.event.start).toLocaleDateString("en-GB")} to{" "}
-        {new Date(props.event.end).toLocaleDateString("en-GB")}
+        <div>{new Date(props.event.start).toLocaleDateString("en-GB")}</div>
+        <div>to</div>
+        <div>{new Date(props.event.end).toLocaleDateString("en-GB")}</div>
       </div>
     </div>
   );
@@ -63,7 +73,9 @@ const EventList: React.FC<Props> = (props) => {
   return (
     <div className="eventList">
       <div>
-        <div className="eventList__title">Events Joined</div>
+        <div className="eventList__title">
+          {props.host ? "Events Created" : "Events Joined"}
+        </div>
         {props.events.map((event: IEvent) => (
           <EventItem
             key={event._id}

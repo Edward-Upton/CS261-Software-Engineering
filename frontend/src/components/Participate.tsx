@@ -78,8 +78,6 @@ const Participate: React.FC<Props> = (props) => {
         // If no event has been clicked on, show the list of
         // events joined and the invite code field and joining.
         <>
-          {/* Invite code entering for joining events */}
-          <InviteCode joinEvent={joinEvent} />
 
           {/* List of joined events */}
           <EventList
@@ -89,6 +87,8 @@ const Participate: React.FC<Props> = (props) => {
               setEventOpen(true);
             }}
           />
+          {/* Invite code entering for joining events */}
+          <InviteCode joinEvent={joinEvent} />
         </>
       )}
     </div>

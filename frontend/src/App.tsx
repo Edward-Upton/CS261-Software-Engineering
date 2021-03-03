@@ -47,8 +47,12 @@ const App: React.FC = () => {
           // If user is logged in, render the header showing the user's email and logout
           // button and and the "participate" and "host" tabs.
           <>
-            <Header email={user.email} logout={logout} />
-            <ModeButton host={host} setHost={(v) => setHost(v)} />
+            <Header
+              email={user.email}
+              logout={logout}
+              host={host}
+              setHost={(v) => setHost(v)}
+            />
             {/* Show content for relevant open panel */}
             {host ? <Host user={user} /> : <Participate user={user} />}
           </>
