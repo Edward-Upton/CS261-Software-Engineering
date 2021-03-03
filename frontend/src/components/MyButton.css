@@ -20,6 +20,11 @@ div.button:hover {
   filter: brightness(80%);
 }
 
+div.button__disabled {
+  cursor: initial;
+  filter: brightness(70%);
+}
+
 div.button__text {
   font-family: Roboto;
   font-style: normal;

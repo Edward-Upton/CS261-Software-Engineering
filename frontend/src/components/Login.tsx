@@ -45,7 +45,7 @@ const Login: React.FC<Props> = ({ login }) => {
     <div id="login">
       {/* Email */}
       <MyTextField
-        type="text"
+        type="email"
         placeholder="Email..."
         value={email}
         onChange={(v) => setEmail(v)}

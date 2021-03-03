@@ -30,19 +30,52 @@ interface FieldProps {
 // correspond to the type of field.
 const Field: React.FC<FieldProps> = (props) => {
   // Status message
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>("Submit");
+
+  const [num, setNum] = useState<number | null>(null);
 
   // For textual feedback
   const [text, setText] = useState<string>("");
 
+  const [allowSubmit, setAllowSubmit] = useState<boolean>(false);
+
+  useEffect(() => {
+    const type = props.field.fieldType;
+    if (type === "mood" || type === "rating" || type === "slider") {
+      if (num !== null) {
+        setAllowSubmit(true);
+        setMessage("Submit");
+      } else {
+        setAllowSubmit(false);
+        setMessage("Enter Feedback");
+      }
+    } else {
+      if (text.length > 0) {
+        setAllowSubmit(true);
+        setMessage("Submit");
+      } else {
+        setAllowSubmit(false);
+        setMessage("Enter Feedback");
+      }
+    }
+  }, [text, num, props.field.fieldType]);
+
   // Send the feedback for this field, using the parent's method
-  const sendFeedback = async (value: string | number) => {
+  const sendFeedback = async () => {
     setMessage("Submitting");
+    const value: any =
+      props.field.fieldType === "mood" ||
+      props.field.fieldType === "rating" ||
+      props.field.fieldType === "slider"
+        ? num
+        : text;
     const res = await props.sendFeedback(value);
     if (res) {
       setMessage("Submitted");
+      setNum(null);
+      setText("");
     } else {
-      setMessage("Error when submitting");
+      setMessage("Try Again");
     }
   };
   return (
@@ -50,23 +83,71 @@ const Field: React.FC<FieldProps> = (props) => {
       {/* Field title */}
       <div className="eventParticipant__field__title">{props.field.name}</div>
 
-      <div className="eventParticipant__field__titleSep" />
-
       {/* Field input */}
       {props.field.fieldType === "mood" && (
         // Mood field type
-        <IconContext.Provider
-          value={{ className: "eventParticipant__field__moodSelect__emojis" }}
-        >
-          {/* Emoji selection */}
-          <div className="eventParticipant__field__moodSelect">
-            <BiAngry onClick={() => sendFeedback(1)} />
-            <BiSad onClick={() => sendFeedback(2)} />
-            <BiConfused onClick={() => sendFeedback(3)} />
-            <BiHappy onClick={() => sendFeedback(4)} />
-            <BiHappyBeaming onClick={() => sendFeedback(5)} />
-          </div>
-        </IconContext.Provider>
+        // Emoji selection
+        <div className="eventParticipant__field__moodSelect">
+          <IconContext.Provider
+            value={{
+              className: `eventParticipant__field__moodSelect__emojis ${
+                num === 1
+                  ? "eventParticipant__field__moodSelect__emojis__selected"
+                  : ""
+              }`,
+            }}
+          >
+            <BiAngry onClick={() => (num !== 1 ? setNum(1) : setNum(null))} />
+          </IconContext.Provider>
+          <IconContext.Provider
+            value={{
+              className: `eventParticipant__field__moodSelect__emojis ${
+                num === 2
+                  ? "eventParticipant__field__moodSelect__emojis__selected"
+                  : ""
+              }`,
+            }}
+          >
+            <BiSad onClick={() => (num !== 2 ? setNum(2) : setNum(null))} />
+          </IconContext.Provider>
+          <IconContext.Provider
+            value={{
+              className: `eventParticipant__field__moodSelect__emojis ${
+                num === 3
+                  ? "eventParticipant__field__moodSelect__emojis__selected"
+                  : ""
+              }`,
+            }}
+          >
+            <BiConfused
+              onClick={() => (num !== 3 ? setNum(3) : setNum(null))}
+            />
+          </IconContext.Provider>
+          <IconContext.Provider
+            value={{
+              className: `eventParticipant__field__moodSelect__emojis ${
+                num === 4
+                  ? "eventParticipant__field__moodSelect__emojis__selected"
+                  : ""
+              }`,
+            }}
+          >
+            <BiHappy onClick={() => (num !== 4 ? setNum(4) : setNum(null))} />
+          </IconContext.Provider>
+          <IconContext.Provider
+            value={{
+              className: `eventParticipant__field__moodSelect__emojis ${
+                num === 5
+                  ? "eventParticipant__field__moodSelect__emojis__selected"
+                  : ""
+              }`,
+            }}
+          >
+            <BiHappyBeaming
+              onClick={() => (num !== 5 ? setNum(5) : setNum(null))}
+            />
+          </IconContext.Provider>
+        </div>
       )}
       {props.field.fieldType === "text" && (
         // Text field type
@@ -79,18 +160,26 @@ const Field: React.FC<FieldProps> = (props) => {
             value={text}
             styled={{ height: "8.4rem" }}
           />
-          {/* Submit button */}
-          <MyButton
-            onClick={() => sendFeedback(text)}
-            styled={{ marginTop: "0.5rem" }}
-          >
-            Submit
-          </MyButton>
         </>
       )}
 
-      {/* Submission status message */}
-      <div>{message}</div>
+      {/* Submit button */}
+      <MyButton
+        disabled={!allowSubmit}
+        fontSize="1.2rem"
+        textColour="#336666"
+        onClick={sendFeedback}
+        styled={{
+          marginTop: "0.5rem",
+          width: "auto",
+          paddingLeft: "1rem",
+          paddingRight: "1rem",
+          backgroundColor: "white",
+          borderRadius: "4rem",
+        }}
+      >
+        {message}
+      </MyButton>
     </div>
   );
 };
@@ -132,7 +221,9 @@ const EventParticipant: React.FC<Props> = (props) => {
       <div className="eventParticipant">
         <div className="eventParticipant__header">
           {/* Event name */}
-          <div className="eventParticipant__header__title">{props.event.name}</div>
+          <div className="eventParticipant__header__title">
+            {props.event.name}
+          </div>
 
           {/* Close button */}
           <IconContext.Provider

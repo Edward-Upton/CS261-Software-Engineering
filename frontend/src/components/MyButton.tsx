@@ -17,11 +17,11 @@ interface Props {
 const MyButton: React.FC<Props> = (props) => {
   return (
     <div
-      className="button"
+      className={`button ${props.disabled ? "button__disabled" : ""}`}
       onClick={props.disabled ? undefined : props.onClick}
       style={props.styled}
     >
-      <div className="button__text" style={{ fontSize: props.fontSize }}>
+      <div className="button__text" style={{ fontSize: props.fontSize, color: props.textColour }}>
         {props.children}
       </div>
     </div>
