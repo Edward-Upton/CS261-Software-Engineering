@@ -4,7 +4,7 @@
   min-height: 3rem;
   /* top: calc(50% - 50px/2 - 86.5px); */
 
-  border: 2px solid #59c9a5;
+  border: 2px solid #C48227;
   border-radius: 1.5rem;
 
   display: flex;
@@ -99,5 +99,5 @@
   width: 1px;
   height: 1.5em;
 
-  background: #59c9a5;
+  background: #C48227;
 }

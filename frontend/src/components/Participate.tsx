@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 
 import { IUser } from "../types";
-import { AiOutlineNumber } from "react-icons/ai";
 
-import MyTextField from "./MyTextField";
 import MyButton from "./MyButton";
 import EventList from "./EventList";
 import EventParticipant from "./EventParticipant";
+import InviteCode from "./InviteCode";
 
 import "./Participate.css";
 import { IEvent } from "../types";
@@ -24,12 +23,6 @@ const Participate: React.FC<Props> = (props) => {
   // These are for opening and submitting feedback for an event
   const [eventOpen, setEventOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
-
-  // Used for joining an event with a code.
-  const [codeEntered, setCodeEntered] = useState<string>("");
-
-  // A 'loading' variable to signify when the user is joining an event.
-  const [joiningEvent, setJoiningEvent] = useState<boolean>(false);
 
   // List of all joined events for the user.
   const [joinedEvents, setJoinedEvents] = useState<IEvent[]>([]);
@@ -53,24 +46,23 @@ const Participate: React.FC<Props> = (props) => {
   }, []);
 
   // Join an event using the code entered.
-  const joinEvent = async () => {
-    setJoiningEvent(true);
+  const joinEvent = async (eventCode: string) => {
     try {
       await axios.post("/api/event/join", {
         userId: props.user._id,
-        inviteCode: codeEntered,
+        inviteCode: eventCode,
       });
     } catch (error) {
       console.log(error);
+      return false;
     }
-    setCodeEntered("");
     // Update the list of events
     getEvents();
-    setJoiningEvent(false);
+    return true;
   };
 
   return (
-    <div id="participate">
+    <div className="participate">
       {eventOpen && selectedEvent ? (
         // If an event has been clicked on, show the feedback,
         // submission panel.
@@ -87,25 +79,7 @@ const Participate: React.FC<Props> = (props) => {
         // events joined and the invite code field and joining.
         <>
           {/* Invite code entering for joining events */}
-          <div id="participate__code">
-            <MyTextField
-              type="text"
-              placeholder="Code..."
-              value={codeEntered}
-              onChange={(v) => setCodeEntered(v)}
-              styled={{ width: "50%" }}
-            >
-              <AiOutlineNumber />
-            </MyTextField>
-            <MyButton
-              onClick={joinEvent}
-              styled={{ width: "40%", backgroundColor: "#59c9a5" }}
-              disabled={joiningEvent}
-              fontSize="1.2rem"
-            >
-              {joiningEvent ? "Joining" : "Join Event"}
-            </MyButton>
-          </div>
+          <InviteCode joinEvent={joinEvent} />
 
           {/* List of joined events */}
           <EventList
