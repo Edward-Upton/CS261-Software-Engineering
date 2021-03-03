@@ -79,7 +79,7 @@ const Host: React.FC<Props> = (props) => {
   };
 
   return (
-    <div id="host">
+    <div className="host">
       {eventOpen && selectedEvent ? (
         // Event is selected and feedback viewing open
         <EventHost
@@ -105,6 +105,7 @@ const Host: React.FC<Props> = (props) => {
             // Show list of user's events
             <>
               {/* Created events list */}
+              <div className="eventList__title">Events Created</div>
               <EventList
                 events={events}
                 host={true}

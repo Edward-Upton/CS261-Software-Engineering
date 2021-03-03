@@ -12,6 +12,10 @@ interface ItemProps {
   onClick: () => void;
 }
 
+const getDateTime = (date: Date): string => {
+  return date.toLocaleTimeString("en-GB").replace(/(.*)\D\d+/, "$1");
+};
+
 // Component for each event item for the list. This will
 // render differently depending on whether the list is
 // for participating events and host events. This component
@@ -26,16 +30,21 @@ const EventItem: React.FC<ItemProps> = (props) => {
   const [startOnToday, setStartOnToday] = useState<boolean>(false);
   const [endOnToday, setEndOnToday] = useState<boolean>(false);
 
+  const [justCopiedCode, setJustCopiedCode] = useState<boolean>(false);
+
   useEffect(() => {
+    setDate(new Date());
     let secTimer = setInterval(() => {
       setDate(new Date());
-      setEventActive(date > startDate && date < endDate ? true : false);
-      setStartOnToday(date.getDate() === startDate.getDate() ? true : false);
-      setEndOnToday(date.getDate() === endDate.getDate() ? true : false);
-    }, 1000);
-
+    }, 1000 * 60);
     return () => clearInterval(secTimer);
-  }, [date, endDate, startDate]);
+  }, []);
+
+  useEffect(() => {
+    setEventActive(date > startDate && date < endDate ? true : false);
+    setStartOnToday(date.getDate() === startDate.getDate() ? true : false);
+    setEndOnToday(date.getDate() === endDate.getDate() ? true : false);
+  }, [date, startDate, endDate]);
 
   useEffect(() => {
     setStartDate(new Date(props.event.start));
@@ -50,6 +59,11 @@ const EventItem: React.FC<ItemProps> = (props) => {
     dummy.select();
     document.execCommand("copy");
     document.body.removeChild(dummy);
+
+    setJustCopiedCode(true);
+    setTimeout(() => {
+      setJustCopiedCode(false);
+    }, 2000)
   };
 
   return (
@@ -80,7 +94,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
             marginRight: "0.5rem",
           }}
         >
-          Copy Invite Code
+          {justCopiedCode ? "Copied" : "Copy Invite Code"}
         </MyButton>
       )}
 
@@ -96,18 +110,18 @@ const EventItem: React.FC<ItemProps> = (props) => {
         <div className="eventItem__time">
           <div>
             {startOnToday
-              ? `Today at ${startDate.toLocaleTimeString("en-GB")}`
-              : `${startDate.toLocaleDateString(
-                  "en-GB"
-                )} at ${startDate.toLocaleTimeString("en-GB")}`}
+              ? `Today at ${getDateTime(startDate)}`
+              : `${startDate.toLocaleDateString("en-GB")} at ${getDateTime(
+                  startDate
+                )}`}
           </div>
           <div>to</div>
           <div>
             {endOnToday
-              ? `Today at ${endDate.toLocaleTimeString("en-GB")}`
-              : `${endDate.toLocaleDateString(
-                  "en-GB"
-                )} at ${endDate.toLocaleTimeString("en-GB")}`}
+              ? `Today at ${getDateTime(endDate)}`
+              : `${endDate.toLocaleDateString("en-GB")} at ${getDateTime(
+                  endDate
+                )}`}
           </div>
         </div>
       </ReactTooltip>
@@ -129,9 +143,6 @@ const EventList: React.FC<Props> = (props) => {
   return (
     <div className="eventList">
       <div>
-        <div className="eventList__title">
-          {props.host ? "Events Created" : "Events Joined"}
-        </div>
         {props.events.map((event: IEvent) => (
           <EventItem
             key={event._id}

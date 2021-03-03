@@ -15,13 +15,6 @@
   overflow-y: auto;
 }
 
-.eventList__title {
-  width: 100%;
-  text-align: center;
-  font-size: 1.4rem;
-  color: #465775;
-}
-
 .eventItem__wrapper {
   height: 4rem;
   margin-top: 1rem;
@@ -44,7 +37,8 @@
 }
 
 .eventItem__wrapper__selectable:hover {
-  filter: brightness(80%);
+  box-shadow: none;
+  background-color: #245353;
 }
 
 .eventItem__details {
@@ -60,6 +54,10 @@
   font-size: 1.3rem;
   font-weight: 400;
   color: white;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .eventItem__type {
@@ -67,6 +65,10 @@
   font-size: 1.1rem;
   font-weight: 400;
   color: white;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .eventItem__activeStatus {

@@ -78,8 +78,10 @@ const Participate: React.FC<Props> = (props) => {
         // If no event has been clicked on, show the list of
         // events joined and the invite code field and joining.
         <>
-
           {/* List of joined events */}
+          <div className="eventList__title">
+            Events Joined
+          </div>
           <EventList
             events={joinedEvents}
             onEventClick={(event) => {
