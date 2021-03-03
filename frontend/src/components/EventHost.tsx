@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IUser } from "../types";
 import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
+import Select from "react-select";
 
 import { IconContext } from "react-icons";
 import {
@@ -33,11 +34,17 @@ const typeToString = {
   text: "Text",
 };
 
+const moodDataViews = [
+  { value: "average", label: "Average" },
+  { value: "timeSeries", label: "Time Series" },
+];
+
 // Component that resembles each feedback field with the
 // analysed data for it.
 const Field: React.FC<FieldProps> = (props) => {
   // Contains words and the count for them for the wordmap.
   const [wordmapWords, setWordmapWords] = useState<WordMapItem[]>([]);
+  const [viewMode, setViewMode] = useState<string | undefined>("average");
 
   // On field change, if the field is of type text convert the adjective
   // frequency type to one that the Wordcloud can use.
@@ -65,43 +72,60 @@ const Field: React.FC<FieldProps> = (props) => {
           // Mood fields
           <div className="eventHost__field__mood">
             <div className="eventHost__field__mood__average">
-              <div className="eventHost__field__mood__average__title">
-                Average Response
-              </div>
-              <IconContext.Provider
-                value={{ className: "eventHost__field__mood__average__emoji" }}
-              >
-                {props.field.data.average <= 1 && (
-                  <>
-                    <BiAngry />
-                    <div>Very Negative</div>
-                  </>
-                )}
-                {props.field.data.average <= 2 && props.field.data.average > 1 && (
-                  <>
-                    <BiSad />
-                    <div>Negative</div>
-                  </>
-                )}
-                {props.field.data.average <= 3 && props.field.data.average > 2 && (
-                  <>
-                    <BiConfused />
-                    <div>Neutral</div>
-                  </>
-                )}
-                {props.field.data.average <= 4 && props.field.data.average > 3 && (
-                  <>
-                    <BiHappy />
-                    <div>Positive</div>
-                  </>
-                )}
-                {props.field.data.average <= 5 && props.field.data.average > 4 && (
-                  <>
-                    <BiHappyBeaming />
-                    <div>Very Positive</div>
-                  </>
-                )}
-              </IconContext.Provider>
+              <Select
+                className="eventHost__field__mood__dataSelect"
+                options={moodDataViews}
+                defaultValue={moodDataViews[0]}
+                onChange={(v) => setViewMode(v?.value)}
+              />
+              {viewMode === "average" && (
+                <>
+                  <IconContext.Provider
+                    value={{
+                      className: "eventHost__field__mood__average__emoji",
+                    }}
+                  >
+                    {props.field.data.average <= 1 && (
+                      <>
+                        <BiAngry />
+                        <div>Very Negative</div>
+                      </>
+                    )}
+                    {props.field.data.average <= 2 &&
+                      props.field.data.average > 1 && (
+                        <>
+                          <BiSad />
+                          <div>Negative</div>
+                        </>
+                      )}
+                    {props.field.data.average <= 3 &&
+                      props.field.data.average > 2 && (
+                        <>
+                          <BiConfused />
+                          <div>Neutral</div>
+                        </>
+                      )}
+                    {props.field.data.average <= 4 &&
+                      props.field.data.average > 3 && (
+                        <>
+                          <BiHappy />
+                          <div>Positive</div>
+                        </>
+                      )}
+                    {props.field.data.average <= 5 &&
+                      props.field.data.average > 4 && (
+                        <>
+                          <BiHappyBeaming />
+                          <div>Very Positive</div>
+                        </>
+                      )}
+                  </IconContext.Provider>
+                </>
+              )}
+              {viewMode === "timeSeries" && (
+                <div className="eventHost__field__mood__timeSeries">
+                </div>
+              )}
             </div>
           </div>
         )}

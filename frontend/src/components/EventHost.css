@@ -92,6 +92,11 @@
   flex-direction: row;
 }
 
+.eventHost__field__mood__dataSelect {
+  width: 10rem;
+  margin-bottom: 0.5rem;
+}
+
 .eventHost__field__mood__average {
   display: flex;
   flex-direction: column;
@@ -108,6 +113,13 @@
   height: 4rem;
 
   color: #336666;
+}
+
+.eventHost__field__mood__timeSeries {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .eventHost__field__text {
