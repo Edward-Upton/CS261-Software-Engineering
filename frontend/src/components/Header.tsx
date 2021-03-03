@@ -18,15 +18,16 @@ const Header: React.FC<Props> = (props) => {
   return (
     <div className="header" style={props.styled}>
       <MyButton
-        text={`Hello ${props.email?.split("@")[0]}`}
         fontSize="1.1rem"
         onClick={() => {
           if (window.confirm("Do you want to logout?")) {
-            props.logout()
+            props.logout();
           }
         }}
         styled={{ backgroundColor: "#C48227", height: "1.4rem", width: "8rem" }}
-      />
+      >
+        Hello {props.email?.split("@")[0]}
+      </MyButton>
 
       <ModeButton host={props.host} setHost={props.setHost} />
     </div>
