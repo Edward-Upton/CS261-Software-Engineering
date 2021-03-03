@@ -35,42 +35,22 @@ const Host: React.FC<Props> = (props) => {
 
   // On first render get the events created by the user.
   useEffect(() => {
-    (async () => {
-      const response = await axios.get(`/api/event/hosting/${props.user._id}`);
-      setEvents(response.data.events);
-    })();
-  }, [props.user._id]);
-
-  // On first render, setup a socket with the server to listen to
-  // changes with feedback for events so that they can be views
-  // in "real time".
-  useEffect(() => {
     if (!props.user) return;
-    // Create the socket
+    getEvents();
     const socket = io(SOCKET_URI, { auth: props.user });
-    // On receiving the event update, replace the old event data
-    // with the new data.
     socket.on("eventUpdate", (data: any) => {
-      var tempEvents = [...events];
-      tempEvents.map((event, i) => {
-        if (event._id === data.event._id) {
-          return data.event;
-        } else {
-          return event;
-        }
-      });
-      setEvents(tempEvents);
-      // Also update the event selected for the feedback viewing panel,
-      // this will cause the component to render with the latest data.
-      if (selectedEvent?._id === data.event._id) {
-        setSelectedEvent(data.event);
-      }
+      setEvents(
+        events.map((event: IEvent) => {
+          return event._id === data.event._id ? data.event : event;
+        })
+      );
+      if (selectedEvent?._id === data.event._id) setSelectedEvent(data.event);
     });
     return () => {
-      // When this component is unmounted, disconnect the socket
       socket.disconnect();
     };
-  }, [events, props.user, selectedEvent?._id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.user, selectedEvent]);
 
   // Get all events created by thte user.
   const getEvents = async () => {
