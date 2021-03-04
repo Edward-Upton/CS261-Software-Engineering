@@ -27,6 +27,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
   const [endDate, setEndDate] = useState<Date>(new Date());
 
   const [eventActive, setEventActive] = useState<boolean>(false);
+  const [eventFinished, setEventFinished] = useState<boolean>(false);
   const [startOnToday, setStartOnToday] = useState<boolean>(false);
   const [endOnToday, setEndOnToday] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
 
   useEffect(() => {
     setEventActive(date > startDate && date < endDate ? true : false);
+    setEventFinished(date > endDate ? true : false);
     setStartOnToday(date.getDate() === startDate.getDate() ? true : false);
     setEndOnToday(date.getDate() === endDate.getDate() ? true : false);
   }, [date, startDate, endDate]);
@@ -63,22 +65,22 @@ const EventItem: React.FC<ItemProps> = (props) => {
     setJustCopiedCode(true);
     setTimeout(() => {
       setJustCopiedCode(false);
-    }, 2000)
+    }, 2000);
   };
 
   return (
     <div
       key={props.event._id}
       className={`eventItem__wrapper ${
-        eventActive ? "eventItem__wrapper__selectable" : ""
+        eventActive || (props.host && eventFinished)
+          ? "eventItem__wrapper__selectable"
+          : ""
       }`}
       style={props.styled}
       onClick={eventActive ? props.onClick : () => {}}
     >
       {/* Event name */}
-      <div
-        className="eventItem__details"
-      >
+      <div className="eventItem__details">
         <div className="eventItem__name">{props.event.name}</div>
         <div className="eventItem__type">{props.event.eventType}</div>
       </div>
@@ -104,7 +106,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
         data-tip
         data-for={`dateTip${props.event._id}`}
       >
-        {eventActive ? "Active" : "Not Active"}
+        {eventActive ? "Started" : eventFinished ? "Finished" : "Not Started"}
       </div>
       <ReactTooltip id={`dateTip${props.event._id}`}>
         <div className="eventItem__time">

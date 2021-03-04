@@ -72,10 +72,10 @@
 }
 
 .eventItem__activeStatus {
-  width: 5rem;
+  width: 4rem;
   font-family: Roboto;
   font-size: 1rem;
-  text-align: right;
+  text-align: center;
   font-weight: 400;
   color: white;
 }
