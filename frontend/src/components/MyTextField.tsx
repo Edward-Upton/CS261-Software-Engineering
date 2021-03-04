@@ -60,7 +60,9 @@ const MyTextField: React.FC<Props> = (props) => {
           <>
             {props.type !== "area" && (
               <>
-                {props.label && <div>{props.label}</div>}
+                {props.label && (
+                  <div style={{ whiteSpace: "nowrap" }}>{props.label}</div>
+                )}
                 <input
                   type={props.type}
                   placeholder={props.placeholder}

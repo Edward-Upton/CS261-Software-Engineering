@@ -52,7 +52,9 @@ const CreateEvent: React.FC<Props> = (props) => {
         description:
           "Select the emoji that best represents your current feeling of the session.",
         fieldType: "mood",
-        constraints: {},
+        constraints: {
+          limit: 60,
+        },
       },
     ]);
     setEventParticipants([]);
@@ -239,7 +241,9 @@ const CreateEvent: React.FC<Props> = (props) => {
 
           {/* Invite participants */}
           <div className="createEvent__group">
-            <div className="createEvent__group__title">Invited Participants</div>
+            <div className="createEvent__group__title">
+              Invited Participants
+            </div>
             <Invite
               participants={eventParticipants}
               addParticipant={addParticipant}

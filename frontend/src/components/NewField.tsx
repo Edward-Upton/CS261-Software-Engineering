@@ -34,6 +34,12 @@ const NewFIeld: React.FC<FieldProps> = (props) => {
   const onDescChange = (v: string) => {
     props.updateField(props.index, { ...props.field, description: v });
   };
+  const onLimitChange = (v: number) => {
+    props.updateField(props.index, {
+      ...props.field,
+      constraints: { ...props.field.constraints, limit: v },
+    });
+  };
   return (
     <div className="createFields__field">
       <div className="createFields__field__title">
@@ -75,6 +81,14 @@ const NewFIeld: React.FC<FieldProps> = (props) => {
         label="Description:"
         onChange={(v) => onDescChange(v)}
         value={props.field.description}
+        styled={{ height: "2rem", marginBottom: "0.2rem" }}
+      ></MyTextField>
+      <MyTextField
+        type="number"
+        placeholder="..."
+        label="Allow Submit Every (seconds):"
+        onChange={(v) => onLimitChange(parseInt(v))}
+        value={props.field.constraints.limit}
         styled={{ height: "2rem" }}
       ></MyTextField>
     </div>

@@ -31,27 +31,38 @@ const Field: React.FC<FieldProps> = (props) => {
   const [text, setText] = useState<string>("");
 
   const [allowSubmit, setAllowSubmit] = useState<boolean>(false);
+  const [inLimit, setInLimit] = useState<boolean>(false);
 
   useEffect(() => {
     const type = props.field.fieldType;
-    if (type === "mood" || type === "rating" || type === "slider") {
-      if (num !== null) {
-        setAllowSubmit(true);
-        setMessage("Submit");
+    if (!inLimit) {
+      if (type === "mood" || type === "rating" || type === "slider") {
+        if (num !== null) {
+          setAllowSubmit(true);
+          setMessage("Submit");
+        } else {
+          setAllowSubmit(false);
+          setMessage("Enter Feedback");
+        }
       } else {
-        setAllowSubmit(false);
-        setMessage("Enter Feedback");
+        if (text.length > 0) {
+          setAllowSubmit(true);
+          setMessage("Submit");
+        } else {
+          setAllowSubmit(false);
+          setMessage("Enter Feedback");
+        }
       }
     } else {
-      if (text.length > 0) {
-        setAllowSubmit(true);
-        setMessage("Submit");
+      if (num || text.length > 0 || message === "On Submission Cooldown") {
+        setMessage("On Submission Cooldown");
+        setNum(null);
+        setText("");
       } else {
-        setAllowSubmit(false);
-        setMessage("Enter Feedback");
+        setMessage("Submitted");
       }
     }
-  }, [text, num, props.field.fieldType]);
+  }, [text, num, props.field.fieldType, inLimit, message]);
 
   // Send the feedback for this field, using the parent's method
   const sendFeedback = async () => {
@@ -64,9 +75,13 @@ const Field: React.FC<FieldProps> = (props) => {
         : text;
     const res = await props.sendFeedback(value);
     if (res) {
-      setMessage("Submitted");
       setNum(null);
       setText("");
+      setInLimit(true);
+      setTimeout(() => {
+        setInLimit(false);
+        setMessage("Enter Feedback");
+      }, 1000 * (props.field.constraints.limit ? props.field.constraints.limit : 0));
     } else {
       setMessage("Try Again");
     }
@@ -97,7 +112,7 @@ const Field: React.FC<FieldProps> = (props) => {
 
       {/* Submit button */}
       <MyButton
-        disabled={!allowSubmit}
+        disabled={!allowSubmit || inLimit}
         fontSize="1.2rem"
         textColour="#336666"
         onClick={sendFeedback}
