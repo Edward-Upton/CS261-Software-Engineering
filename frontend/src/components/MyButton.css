@@ -1,36 +1,22 @@
 .button {
-  /* Register Button */
   width: 19rem;
   height: 2.5rem;
-  /* top: calc(50% - 50px/2 + 35.5px); */
-
   background: #465775;
+  outline: none;
+  border: none;
   border-radius: 0.7rem;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: Roboto;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #ffffff;
 }
 
-div.button:hover {
-  cursor: pointer;
+.button:hover {
   filter: brightness(80%);
 }
 
-div.button__disabled {
-  cursor: initial;
-  filter: brightness(70%);
-}
-
-div.button__text {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.5rem;
-  text-align: center;
-
-  color: #ffffff;
+.button.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }

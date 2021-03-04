@@ -3,28 +3,35 @@ import { CSSProperties } from "react";
 import "./MyButton.css";
 
 interface Props {
-  onClick: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  onClick?:
+    | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+    | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
   styled?: CSSProperties;
   fontSize?: string;
   textColour?: string;
   disabled?: boolean;
 }
 
-// Custom button component that is consisent with the
+// Custom button component that is consistent with the
 // design style. Features a rectangle with slightly
 // rounder corners. The colour and text can be changed.
 const MyButton: React.FC<Props> = (props) => {
   return (
-    <div
-      className={`button ${props.disabled ? "button__disabled" : ""}`}
-      onClick={props.disabled ? undefined : props.onClick}
-      style={props.styled}
+    <button
+      onClick={props.onClick}
+      type={props.type}
+      className={`button ${props.disabled && "disabled"}`}
+      style={{
+        ...props.styled,
+        fontSize: props.fontSize,
+        color: props.textColour,
+      }}
+      disabled={props.disabled}
     >
-      <div className="button__text" style={{ fontSize: props.fontSize, color: props.textColour }}>
-        {props.children}
-      </div>
-    </div>
+      {props.children}
+    </button>
   );
 };
 
