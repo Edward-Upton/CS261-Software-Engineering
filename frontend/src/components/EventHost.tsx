@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { IUser } from "../types";
 import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
+import { Line } from "react-chartjs-2";
+import moment from "moment";
 import Select from "react-select";
 
 import { IconContext } from "react-icons";
@@ -16,11 +18,6 @@ import {
 import "./EventHost.css";
 
 import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { Icon } from "@material-ui/core";
-
-interface FieldProps {
-  field: IField;
-}
 
 interface WordMapItem {
   text: string;
@@ -52,6 +49,9 @@ const moodAverageToIcon = [
   { mood: "Very Positive", range: [4.2, 5.0], icon: <BiHappyBeaming /> },
 ];
 
+interface FieldProps {
+  field: IField;
+}
 // Component that resembles each feedback field with the
 // analysed data for it.
 const Field: React.FC<FieldProps> = (props) => {
@@ -60,6 +60,8 @@ const Field: React.FC<FieldProps> = (props) => {
   const [viewMode, setViewMode] = useState<string | undefined>(
     props.field.fieldType === "mood" ? "average" : "wordcloud"
   );
+
+  const [data, setData] = useState<any[]>([]);
 
   // On field change, if the field is of type text convert the adjective
   // frequency type to one that the Wordcloud can use.
@@ -70,6 +72,15 @@ const Field: React.FC<FieldProps> = (props) => {
         tempArray.push({ text: element.word, value: element.freq });
       });
       setWordmapWords(tempArray);
+    } else {
+      if (props.field.data?.timeSeries) {
+        setData(
+          props.field.data.timeSeries.map(({ date, value }) => ({
+            t: moment(date).format(),
+            y: value,
+          }))
+        );
+      }
     }
   }, [props.field]);
 
@@ -126,7 +137,28 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "timeSeries" && (
-              <div className="eventHost__field__mood__timeSeries"></div>
+              <div className="eventHost__field__mood__timeSeries">
+                <Line
+                  data={{
+                    datasets: [
+                      {
+                        label: "Mood",
+                        fill: true,
+                        data: data,
+                      },
+                    ],
+                  }}
+                  height={400}
+                  width={550}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      xAxes: [{ type: "time" }],
+                      yAxes: [{ ticks: { beginAtZero: true } }],
+                    },
+                  }}
+                />
+              </div>
             )}
           </div>
         )}
@@ -199,8 +231,8 @@ const EventHost: React.FC<Props> = (props) => {
         {/* Field rendering */}
         <div className="eventHost__content">
           <div>
-            {props.event.feedback.map((field, i) => {
-              return <Field key={i} field={field} />;
+            {props.event.feedback.map((field) => {
+              return <Field key={field._id} field={field} />;
             })}
           </div>
         </div>
