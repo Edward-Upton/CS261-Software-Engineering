@@ -1,36 +1,35 @@
-import { useState } from "react";
 import "./ModeButton.css";
 
 interface Props {
-  host: boolean;
-  setHost: (v: boolean) => void;
+  tab: boolean;
+  setTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /* 
     Sliding button used specifically to allow switching between participating mode
     and hosting mode. The value is controlled by the parent via props.
 */
-const ModeButton: React.FC<Props> = ({ host, setHost }) => {
+const ModeButton: React.FC<Props> = ({ tab, setTab }) => {
   return (
     <div className="modeBtn__wrapper">
       <div
         className={`modeBtn__highlighter ${
-          host ? "modeBtn__highlighter__right" : "modeBtn__highlighter__left"
+          tab ? "modeBtn__highlighter__right" : "modeBtn__highlighter__left"
         }`}
       />
       <div
         className={`modeBtn__option ${
-          !host ? "modeBtn__option__sel" : "modeBtn__option__notSel"
+          !tab ? "modeBtn__option__sel" : "modeBtn__option__notSel"
         }`}
-        onClick={() => setHost(false)}
+        onClick={() => setTab(false)}
       >
         Participate
       </div>
       <div
         className={`modeBtn__option ${
-          host ? "modeBtn__option__sel" : "modeBtn__option__notSel"
+          tab ? "modeBtn__option__sel" : "modeBtn__option__notSel"
         }`}
-        onClick={() => setHost(true)}
+        onClick={() => setTab(true)}
       >
         Host
       </div>
