@@ -231,8 +231,8 @@ const EventHost: React.FC<Props> = (props) => {
         {/* Field rendering */}
         <div className="eventHost__content">
           <div>
-            {props.event.feedback.map((field) => {
-              return <Field key={field._id} field={field} />;
+            {props.event.feedback.map((field, i) => {
+              return <Field key={i} field={field} />;
             })}
           </div>
         </div>
