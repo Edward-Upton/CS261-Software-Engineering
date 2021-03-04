@@ -22,9 +22,8 @@ interface Props {
 // with the time they will be active and a button to copy
 // the event code for sharing with participants. There is
 // also a button to create a new event.
-const Host: React.FC<Props> = (props) => {
+const Host: React.FC<Props> = ({ user }) => {
   // These are for opening and viewing feedback for an event
-  const [eventOpen, setEventOpen] = useState<boolean>(false);
   const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
 
   // List of all created events for this user.
@@ -35,9 +34,9 @@ const Host: React.FC<Props> = (props) => {
 
   // On first render get the events created by the user.
   useEffect(() => {
-    if (!props.user) return;
+    if (!user) return;
     getEvents();
-    const socket = io(SOCKET_URI, { auth: props.user });
+    const socket = io(SOCKET_URI, { auth: user });
     socket.on("eventUpdate", (data: any) => {
       setEvents(
         events.map((event: IEvent) => {
@@ -50,60 +49,48 @@ const Host: React.FC<Props> = (props) => {
       socket.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.user, selectedEvent]);
+  }, [user, selectedEvent]);
 
-  // Get all events created by thte user.
+  // Get all events created by the user.
   const getEvents = async () => {
-    const response = await axios.get(`/api/event/hosting/${props.user._id}`);
+    const response = await axios.get(`/api/event/hosting/${user._id}`);
     setEvents(response.data.events);
   };
 
   return (
     <div className="host">
-      {eventOpen && selectedEvent ? (
-        // Event is selected and feedback viewing open
+      {selectedEvent ? (
         <EventHost
-          user={props.user}
+          user={user}
           event={selectedEvent}
           closeClicked={() => {
-            setEventOpen(false);
             setSelectedEvent(null);
+          }}
+        />
+      ) : createOpen ? (
+        <CreateEvent
+          user={user}
+          closeClicked={() => {
+            setCreateOpen(false);
+            getEvents();
           }}
         />
       ) : (
         <>
-          {createOpen ? (
-            // Event creation panel is open
-            <CreateEvent
-              user={props.user}
-              closeClicked={() => {
-                setCreateOpen(false);
-                getEvents();
-              }}
-            />
-          ) : (
-            // Show list of user's events
-            <>
-              {/* Created events list */}
-              <div className="eventList__title">Events Created</div>
-              <EventList
-                events={events}
-                host={true}
-                onEventClick={(event) => {
-                  setSelectedEvent(event);
-                  setEventOpen(true);
-                }}
-              />
-
-              {/* Create event button */}
-              <MyButton
-                onClick={() => setCreateOpen(true)}
-                styled={{ backgroundColor: "#C48227", marginTop: "0.8rem" }}
-              >
-                Create Event
-              </MyButton>
-            </>
-          )}
+          <div className="eventList__title">Events Created</div>
+          <EventList
+            events={events}
+            host={true}
+            onEventClick={(event) => {
+              setSelectedEvent(event);
+            }}
+          />
+          <MyButton
+            onClick={() => setCreateOpen(true)}
+            styled={{ backgroundColor: "#C48227", marginTop: "0.8rem" }}
+          >
+            Create Event
+          </MyButton>
         </>
       )}
     </div>
