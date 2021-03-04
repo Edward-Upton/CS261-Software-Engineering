@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 interface Props {
   type: string;
   placeholder: string;
+  label?: string;
   value?: string | number;
   onChange: (value: string) => void;
   styled?: CSSProperties;
@@ -58,13 +59,16 @@ const MyTextField: React.FC<Props> = (props) => {
           // Render text field without icon and without seperation line
           <>
             {props.type !== "area" && (
-              <input
-                type={props.type}
-                placeholder={props.placeholder}
-                value={props.value}
-                onChange={onChange}
-                className="textField__input textField__inputNoIcon"
-              ></input>
+              <>
+                {props.label && <div>{props.label}</div>}
+                <input
+                  type={props.type}
+                  placeholder={props.placeholder}
+                  value={props.value}
+                  onChange={onChange}
+                  className="textField__input textField__inputNoIcon"
+                ></input>
+              </>
             )}
             {props.type === "area" && (
               <textarea

@@ -11,9 +11,8 @@ import MyButton from "./MyButton";
 import MyTextField from "./MyTextField";
 import NewField from "./NewField";
 import Invite from "./Invite";
-import FieldList from "./FieldList";
 
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 import axios from "axios";
 
 interface Props {
@@ -126,79 +125,91 @@ const CreateEvent: React.FC<Props> = (props) => {
   };
 
   return (
-    <div id="createEvent">
-      <div id="createEvent__header">
+    <div className="createEvent">
+      <div className="createEvent__header">
         {/* Create event title */}
-        <div id="createEvent__header__title">Add Event</div>
+        <div className="createEvent__header__title">Create a New Event</div>
 
         {/* Close button */}
         <IconContext.Provider
           value={{ className: "createEvent__header__icon" }}
         >
-          <AiOutlineCloseCircle onClick={props.closeClicked} />
+          <IoArrowBackCircleOutline onClick={props.closeClicked} />
         </IconContext.Provider>
       </div>
 
       {/* Form section for event details */}
-      <div id="createEvent__content">
+      <div className="createEvent__content">
         <div>
-          {/* Event name */}
-          <MyTextField
-            type="text"
-            placeholder="Event Name..."
-            onChange={(v) => setEventName(v)}
-            value={eventName}
-            styled={{ marginBottom: "0.5rem" }}
-          />
+          <div className="createEvent__group">
+            {/* Event name */}
+            <MyTextField
+              type="text"
+              placeholder="..."
+              label="Name:"
+              onChange={(v) => setEventName(v)}
+              value={eventName}
+              styled={{
+                marginBottom: "0.5rem",
+                height: "2.5rem",
+                border: "none",
+              }}
+            />
 
-          {/* Event type */}
-          <MyTextField
-            type="text"
-            placeholder="Event Type..."
-            onChange={(v) => setEventType(v)}
-            value={eventType}
-            styled={{ marginBottom: "0.5rem" }}
-          />
+            {/* Event type */}
+            <MyTextField
+              type="text"
+              placeholder="..."
+              label="Description"
+              onChange={(v) => setEventType(v)}
+              value={eventType}
+              styled={{ border: "none", height: "2.5rem" }}
+            />
+          </div>
 
           {/* Event start and end date and time */}
-          <div id="createEvent__dates" style={{ marginBottom: "0.5rem" }}>
-            {/* Start date and time */}
-            <div className="createEvent__date">
-              <DateTime
-                // defaultValue={new Date().toISOString()}
-                onChange={(value) => {
-                  if (typeof value !== "string") {
-                    setEventStart(value.toDate());
-                  }
-                }}
-                inputProps={{
-                  className: "createEvent__date__input",
-                  placeholder: "End Date...",
-                }}
-              />
-            </div>
+          <div className="createEvent__group">
+            <div className="createEvent__group__title">Event Date</div>
+            <div className="createEvent__dates">
+              {/* Start date and time */}
+              <div className="createEvent__date">
+                <DateTime
+                  // defaultValue={new Date().toISOString()}
+                  onChange={(value) => {
+                    if (typeof value !== "string") {
+                      setEventStart(value.toDate());
+                    }
+                  }}
+                  inputProps={{
+                    className: "createEvent__date__input",
+                    placeholder: "Start Date...",
+                  }}
+                />
+              </div>
 
-            <div id="createEvent__date__to">to</div>
+              <div className="createEvent__date__to">to</div>
 
-            {/* End date and time */}
-            <div className="createEvent__date">
-              <DateTime
-                // defaultValue={new Date().toISOString()}
-                onChange={(value) => {
-                  if (typeof value !== "string") {
-                    setEventEnd(value.toDate());
-                  }
-                }}
-                inputProps={{
-                  className: "createEvent__date__input",
-                  placeholder: "Start Date...",
-                }}
-              />
+              {/* End date and time */}
+              <div className="createEvent__date">
+                <DateTime
+                  // defaultValue={new Date().toISOString()}
+                  onChange={(value) => {
+                    if (typeof value !== "string") {
+                      setEventEnd(value.toDate());
+                    }
+                  }}
+                  inputProps={{
+                    className: "createEvent__date__input",
+                    placeholder: "End Date...",
+                  }}
+                />
+              </div>
             </div>
           </div>
 
           {/* Event fields */}
-          <FieldList title="Feedback Fields">
+          <div className="createEvent__group">
+            <div className="createEvent__group__title">Feedback Fields</div>
             {feedbackFields.map((field, i) => {
               return (
                 <NewField
@@ -211,18 +222,29 @@ const CreateEvent: React.FC<Props> = (props) => {
               );
             })}
             <MyButton
+              fontSize="1.2rem"
+              textColour="#336666"
               onClick={() => addField("mood")}
-              styled={{ height: "1.8rem" }}
+              styled={{
+                width: "auto",
+                paddingLeft: "1rem",
+                paddingRight: "1rem",
+                backgroundColor: "white",
+                borderRadius: "4rem",
+              }}
             >
               Add Field
             </MyButton>
-          </FieldList>
+          </div>
 
           {/* Invite participants */}
-          <Invite
-            participants={eventParticipants}
-            addParticipant={addParticipant}
-          />
+          <div className="createEvent__group">
+            <div className="createEvent__group__title">Invited Participants</div>
+            <Invite
+              participants={eventParticipants}
+              addParticipant={addParticipant}
+            />
+          </div>
         </div>
       </div>
 

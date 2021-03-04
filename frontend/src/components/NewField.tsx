@@ -1,9 +1,16 @@
 import { IconContext } from "react-icons";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FieldTypes, INewField } from "../types";
+import Select from "react-select";
+
 import "./NewField.css";
 
 import MyTextField from "./MyTextField";
+
+const fieldTypes = [
+  { value: "mood", label: "Mood Select" },
+  { value: "text", label: "Text" },
+];
 
 interface FieldProps {
   field: INewField;
@@ -31,24 +38,15 @@ const NewFIeld: React.FC<FieldProps> = (props) => {
     <div className="createFields__field">
       <div className="createFields__field__title">
         {/* Feedback type */}
-        <select
-          className="createFields__field__type"
-          onChange={(v) => onTypeChange(v.target.value as FieldTypes)}
-          value={props.field.fieldType}
-        >
-          <option className="createFields__field__type__option" value="mood">
-            Emoji Mood Select
-          </option>
-          <option className="createFields__field__type__option" value="rating">
-            Rating
-          </option>
-          <option className="createFields__field__type__option" value="slider">
-            Variable Slider
-          </option>
-          <option className="createFields__field__type__option" value="text">
-            Custom Text
-          </option>
-        </select>
+        <div className="createFields__field__type">
+          <div>Input Type:</div>
+          <Select
+            className="createFields__field__type__select"
+            options={fieldTypes}
+            defaultValue={fieldTypes[0]}
+            onChange={(v: any) => onTypeChange(v?.value)}
+          />
+        </div>
 
         {/* Delete button */}
         <IconContext.Provider
@@ -63,19 +61,21 @@ const NewFIeld: React.FC<FieldProps> = (props) => {
       {/* Field name */}
       <MyTextField
         type="text"
-        placeholder="Name..."
+        placeholder="..."
+        label="Title:"
         onChange={(v) => onNameChange(v)}
         value={props.field.name}
-        styled={{ height: "2rem", minHeight: "2rem", marginBottom: "0.2rem" }}
+        styled={{ height: "2rem", marginBottom: "0.2rem" }}
       ></MyTextField>
 
       {/* Field description */}
       <MyTextField
         type="text"
-        placeholder="Description..."
+        placeholder="..."
+        label="Description:"
         onChange={(v) => onDescChange(v)}
         value={props.field.description}
-        styled={{ height: "2rem", minHeight: "2rem" }}
+        styled={{ height: "2rem" }}
       ></MyTextField>
     </div>
   );

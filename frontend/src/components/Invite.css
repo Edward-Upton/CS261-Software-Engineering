@@ -1,37 +1,59 @@
-#invite {
+.invite {
   width: 100%;
-  /* top: calc(50% - 50px/2 - 86.5px); */
-
-  border: 2px solid #59c9a5;
-  border-radius: 1.5rem;
-
-  margin-bottom: 0.5rem;
-
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-bottom: 0.5rem;
-
-  background-color: white;
-}
-
-#invite__title {
-  font-size: 1.2rem;
-  color: #465775;
-}
-
-#invite__invite {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   align-items: center;
 }
 
 .invite__email {
-  margin-top: 0.4rem;
-  font-size: 1.1rem;
+  height: 2.5rem;
+  border-radius: 1.5rem;
+  /* flex-grow: 1; */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.35rem;
+
+  background-color: white;
+  margin-top: 0.5rem;
+}
+
+.invite__email__input {
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  width: calc(100% - 7rem);
+
+  margin-left: 0.4rem;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.2rem;
+
+  display: flex;
+  justify-content: center;
+
+  background: none;
+  border: none;
+
   color: #465775;
+}
+
+.invite__email__input:focus {
+  outline: none;
+}
+
+.invite__email__input::placeholder {
+  outline: none;
+  color: #465775;
+  font-family: Roboto;
+  font-weight: 200;
+}
+
+.invite__userInvited {
+  color: white;
 }

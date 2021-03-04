@@ -29,35 +29,37 @@ const Invite: React.FC<Props> = (props) => {
   };
 
   return (
-    <div id="invite">
-      <div id="invite__title">Invited Participants</div>
-      <div id="invite__invite">
-        {/* Email input */}
-        <MyTextField
-          type="text"
-          placeholder="Email..."
-          onChange={(v) => setInviteEmail(v)}
-          value={inviteEmail}
-          styled={{ width: "50%" }}
-        />
-
-        {/* Invite button */}
-        <MyButton
-          onClick={inviteParticipant}
-          styled={{ width: "40%", backgroundColor: "#59c9a5" }}
-        >
-          Invite
-        </MyButton>
-      </div>
-
+    <div className="invite">
       {/* List of invited users */}
       {props.participants.map(({ id, email }, i) => {
         return (
-          <div key={id} className="invite__email">
+          <div key={id} className="invite__userInvited">
             {email}
           </div>
         );
       })}
+      <div className="invite__email">
+        {/* // Render text field with icon and seperation line */}
+        <input
+          type="email"
+          placeholder="@ Enter User's Email"
+          value={inviteEmail}
+          onChange={(v) => setInviteEmail(v.target.value)}
+          className="invite__email__input"
+        ></input>
+        <MyButton
+          fontSize="1rem"
+          onClick={inviteParticipant}
+          styled={{
+            borderRadius: "1rem",
+            width: "6rem",
+            height: "1.8rem",
+            backgroundColor: "#c48227",
+          }}
+        >
+          Invite
+        </MyButton>
+      </div>
     </div>
   );
 };
