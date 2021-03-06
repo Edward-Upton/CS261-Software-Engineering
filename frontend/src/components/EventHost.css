@@ -87,7 +87,7 @@
 }
 
 .eventHost__field__viewModeSelect {
-  width: 10rem;
+  width: 15rem;
   margin-bottom: 0.5rem;
 }
 
@@ -125,6 +125,29 @@
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+}
+
+.eventHost__field__text__average {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eventHost__field__text__average__title {
+  font-size: 1.1rem;
+}
+
+.eventHost__field__text__average__value {
+  font-size: 1.4rem;
+}
+
+.eventHost__field__text__timeSeries {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .eventHost__field__text__wordcloud {

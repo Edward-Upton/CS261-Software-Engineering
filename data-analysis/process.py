@@ -107,7 +107,6 @@ class Processor:
         # Attempt to find an existing interval with this interval starting time to update the average.
         foundInterval = False
         for interval in timeSeriesData:
-            print(interval["date"])
             if datetime.strptime(interval["date"], '%Y-%m-%dT%H:%M:%S.%fZ') == intervalStartTime:
                 # Found interval with matching start time, therefore update the average.
                 interval["value"] = round(self.runningAvg(value, interval["value"], interval["num"]), 3)

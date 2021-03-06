@@ -15,7 +15,6 @@ def index():
 @app.route('/emoji', methods=['POST'])
 def emoji():
     data = request.json
-    print(data)
     newValue = data["value"]
     field = data["field"]
     startTime = data["startTime"]
@@ -32,9 +31,9 @@ def emoji():
 @app.route('/rating', methods=['POST'])
 def rating():
     data = request.json
-    print(data)
     newValue = data["value"]
     field = data["field"]
+    startTime = data["startTime"]
 
     curUTC = datetime.now(timezone.utc)
     field["data"]["average"] = processor.runningAvg(
@@ -48,9 +47,9 @@ def rating():
 @app.route('/text', methods=['POST'])
 def text():
     data = request.json
-    print(data)
     newValue = data["value"]
     field = data["field"]
+    startTime = data["startTime"]
 
     curUTC = datetime.now(timezone.utc)
 
@@ -59,7 +58,8 @@ def text():
         keyPhrases[i] = {"phrase": keyPhrases[i], "date": curUTC}
     field["data"]["keyPhrases"].extend(keyPhrases)
 
-    adjectives, sentiment = processor.textAdjectives(newValue)
+    adjectives, adjSentiment = processor.textAdjectives(newValue)
+    sentiment = processor.textSentiment(newValue)
     field["data"]["average"] = processor.runningAvg(sentiment, field["data"]["average"], field["data"]["num"]);
     for adjective in adjectives:
         foundWord = False
@@ -71,6 +71,7 @@ def text():
         if not foundWord:
             field["data"]["adjFreq"].append({"word": adjective, "freq": 1})
 
+    field["data"]["timeSeries"] = processor.timeSeries(sentiment, field["data"]["timeSeries"], 30, startTime)
 
     field["data"]["num"] += 1
     return {"field": field}

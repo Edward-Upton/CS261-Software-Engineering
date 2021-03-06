@@ -37,6 +37,8 @@ const moodDataViews = [
 ];
 
 const textDataViews = [
+  { value: "average", label: "Average Sentiment" },
+  { value: "timeSeries", label: "Sentiment Time Series" },
   { value: "wordcloud", label: "Word Cloud" },
   { value: "keyPhrases", label: "Key Phrases" },
 ];
@@ -72,15 +74,14 @@ const Field: React.FC<FieldProps> = (props) => {
         tempArray.push({ text: element.word, value: element.freq });
       });
       setWordmapWords(tempArray);
-    } else {
-      if (props.field.data?.timeSeries) {
-        setData(
-          props.field.data.timeSeries.map(({ date, value }) => ({
-            t: moment(date).format(),
-            y: value,
-          }))
-        );
-      }
+    }
+    if (props.field.data?.timeSeries) {
+      setData(
+        props.field.data.timeSeries.map(({ date, value }) => ({
+          t: moment(date).format(),
+          y: value,
+        }))
+      );
     }
   }, [props.field]);
 
@@ -100,7 +101,7 @@ const Field: React.FC<FieldProps> = (props) => {
           defaultValue={
             props.field.fieldType === "mood"
               ? moodDataViews[0]
-              : textDataViews[0]
+              : textDataViews[2]
           }
           onChange={(v) => setViewMode(v?.value)}
         />
@@ -165,6 +166,40 @@ const Field: React.FC<FieldProps> = (props) => {
         {props.field.fieldType === "text" && (
           // Text fields
           <div className="eventHost__field__text">
+            {viewMode === "average" && (
+              <div className="eventHost__field__text__average">
+                <div className="eventHost__field__text__average__title">
+                  Average Positive Sentiment
+                </div>
+                <div className="eventHost__field__text__average__value">
+                  {Math.round((props.field.data.average + 1) * 50)}%
+                </div>
+              </div>
+            )}
+            {viewMode === "timeSeries" && (
+              <div className="eventHost__field__mood__timeSeries">
+                <Line
+                  data={{
+                    datasets: [
+                      {
+                        label: "Positive Sentiment",
+                        fill: true,
+                        data: data,
+                      },
+                    ],
+                  }}
+                  height={400}
+                  width={550}
+                  options={{
+                    responsive: true,
+                    scales: {
+                      xAxes: [{ type: "time" }],
+                      yAxes: [{ ticks: { beginAtZero: false } }],
+                    },
+                  }}
+                />
+              </div>
+            )}
             {viewMode === "wordcloud" && (
               <div className="eventHost__field__text__wordcloud">
                 <ReactWordcloud
