@@ -79,51 +79,52 @@ class Processor:
         # Don't return more than 5 elements
         return self.r.get_ranked_phrases()[:5]
 
-    def slider(self, value, timeSeriesData, interval, jsStartTime):
-        """ This function calculates the running average for a specific element of the passed array, based on 
-            the interval length and times, used for the slider.
+    def timeSeries(self, value, timeSeriesData, interval, jsStartTime):
+        """ This function calculates and modifies the average of an interval in the time series data 
+            with a new value submitted by the user. This can be used for all fields that have some
+            sort of average as a number.
 
             Parameters:
             value (Float): The value to add to the element.
             timeSeriesData (dict): Dictionary of the average value for each interval with the number of entires.
             interval (Float): Length of interval in seconds.
-            intervalCount (Float): The number of elements in the current interval.
-            start_time (Time, %H:%M:%S): The start time of the event.
+            start_time (Javascript Time): Start time of the event.
 
             Returns:
-            list: List of elements with the correctly modified value.
-            int: Number of elements in current interval.
+            dict: Modified time series data.
         """
 
-        now = datetime.now()
 
         # Get current time
-        current_time = now
-        print(jsStartTime)
-        start_time = datetime.strptime(jsStartTime, '%Y-%m-%dT%H:%M:%S.%fZ')
-        print("Start Time:", start_time)
-        print("Current Time:", current_time)
+        current_time = datetime.now()
 
+        # Get start time of event
+        start_time = datetime.strptime(jsStartTime, '%Y-%m-%dT%H:%M:%S.%fZ')
+
+        # Get the start time of the interval that this piece of data should be included in
         intervalStartTime = self.getIntervalTime(start_time, current_time, interval)
-        print("Start Time of Interval:", intervalStartTime)
+
+        # Attempt to find an existing interval with this interval starting time to update the average.
         foundInterval = False
         for interval in timeSeriesData:
             print(interval["date"])
             if datetime.strptime(interval["date"], '%Y-%m-%dT%H:%M:%S.%fZ') == intervalStartTime:
+                # Found interval with matching start time, therefore update the average.
                 interval["value"] = round(self.runningAvg(value, interval["value"], interval["num"]), 3)
                 interval["num"] += 1
                 foundInterval = True
                 break
         
+        # If no interval was found, add a new one with the initial value being the new value.
         if not foundInterval:
             timeSeriesData.append({ "value": value, "date": intervalStartTime.isoformat(), "num": 1 })
 
-        # Return new values, and the incremented interval count
+        # Return modified time series data
         return timeSeriesData
 
     def getIntervalTime(self, start_time, current_time, interval):
-        """ This function calculates the running average for a specific element of the passed array, based on 
-            the interval length and times, used for the slider.
+        """ This function calculates the interval a certain time should be in using the length of the
+            intervals and the start time. This is returned as the start time of this interval
 
             Parameters:
             start_time (Time): The start time of the event.
@@ -131,7 +132,7 @@ class Processor:
             interval (Float): The length of the interval in seconds.
 
             Returns:
-            float: The index to modify.
+            time: The start time of the interval
         """
 
         # Prevents division by 0
@@ -141,6 +142,6 @@ class Processor:
         # Get time difference
         tdelta = current_time - start_time
 
-        # Calculate interval index
+        # Calculate interval start time
         time = start_time + timedelta(seconds=((tdelta.total_seconds() // interval) * interval))
         return time

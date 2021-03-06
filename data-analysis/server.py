@@ -23,7 +23,7 @@ def emoji():
     curUTC = datetime.now(timezone.utc)
     field["data"]["average"] = processor.runningAvg(
         newValue, field["data"]["average"], field["data"]["num"])
-    field["data"]["timeSeries"] = processor.slider(newValue, field["data"]["timeSeries"], 30, startTime)
+    field["data"]["timeSeries"] = processor.timeSeries(newValue, field["data"]["timeSeries"], 30, startTime)
     field["data"]["num"] += 1
 
     return {"field": field}
