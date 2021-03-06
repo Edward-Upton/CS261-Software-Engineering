@@ -77,7 +77,9 @@ const EventItem: React.FC<ItemProps> = (props) => {
           : ""
       }`}
       style={props.styled}
-      onClick={eventActive ? props.onClick : () => {}}
+      onClick={
+        eventActive || (eventFinished && props.host) ? props.onClick : () => {}
+      }
     >
       {/* Event name */}
       <div className="eventItem__details">

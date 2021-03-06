@@ -66,7 +66,7 @@ const Login: React.FC<Props> = (props) => {
       <div className="login__buttons">
         {/* Login Button */}
         <MyButton
-          onClick={submit}
+          onClick={login}
           styled={{ backgroundColor: "#c48227", width: "45%" }}
         >
           Login

@@ -83,6 +83,7 @@ const Host: React.FC<Props> = ({ user }) => {
             host={true}
             onEventClick={(event) => {
               setSelectedEvent(event);
+              console.log(event);
             }}
           />
           <MyButton
