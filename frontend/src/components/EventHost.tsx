@@ -3,7 +3,7 @@ import { IUser } from "../types";
 import { IEvent, IField } from "../types";
 import ReactWordcloud from "react-wordcloud";
 import { Line } from "react-chartjs-2";
-import moment from "moment";
+import moment, { max } from "moment";
 import Select from "react-select";
 
 import { IconContext } from "react-icons";
@@ -150,9 +150,10 @@ const Field: React.FC<FieldProps> = (props) => {
                     ],
                   }}
                   height={400}
-                  width={550}
+                  width={Math.min(500, (window.innerWidth - 40))}
                   options={{
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                       xAxes: [{ type: "time" }],
                       yAxes: [{ ticks: { beginAtZero: true } }],
@@ -177,7 +178,7 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "timeSeries" && (
-              <div className="eventHost__field__mood__timeSeries">
+              <div className="eventHost__field__text__timeSeries">
                 <Line
                   data={{
                     datasets: [
@@ -189,9 +190,10 @@ const Field: React.FC<FieldProps> = (props) => {
                     ],
                   }}
                   height={400}
-                  width={550}
+                  width={Math.min(500, (window.innerWidth - 40))}
                   options={{
                     responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                       xAxes: [{ type: "time" }],
                       yAxes: [{ ticks: { beginAtZero: false } }],
