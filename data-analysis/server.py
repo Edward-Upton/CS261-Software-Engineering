@@ -18,11 +18,12 @@ def emoji():
     print(data)
     newValue = data["value"]
     field = data["field"]
+    startTime = data["startTime"]
 
     curUTC = datetime.now(timezone.utc)
     field["data"]["average"] = processor.runningAvg(
         newValue, field["data"]["average"], field["data"]["num"])
-    field["data"]["timeSeries"].append({"value": newValue, "date": curUTC})
+    field["data"]["timeSeries"] = processor.slider(newValue, field["data"]["timeSeries"], 30, startTime)
     field["data"]["num"] += 1
 
     return {"field": field}

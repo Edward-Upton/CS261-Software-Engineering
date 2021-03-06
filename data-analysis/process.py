@@ -3,7 +3,7 @@
 
 from textblob import TextBlob
 from rake_nltk import Metric, Rake
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Processor:
 
@@ -76,13 +76,13 @@ class Processor:
         # Don't return more than 5 elements
         return self.r.get_ranked_phrases()[:5]
 
-    def slider(self, value, currVals, interval, intervalCount, start_time):
+    def slider(self, value, timeSeriesData, interval, jsStartTime):
         """ This function calculates the running average for a specific element of the passed array, based on 
             the interval length and times, used for the slider.
 
             Parameters:
             value (Float): The value to add to the element.
-            currVals (list): List of current values for the plot.
+            timeSeriesData (dict): Dictionary of the average value for each interval with the number of entires.
             interval (Float): Length of interval in seconds.
             intervalCount (Float): The number of elements in the current interval.
             start_time (Time, %H:%M:%S): The start time of the event.
@@ -95,25 +95,30 @@ class Processor:
         now = datetime.now()
 
         # Get current time
-        current_time = now.strftime("%H:%M:%S")
+        current_time = now
+        print(jsStartTime)
+        start_time = datetime.strptime(jsStartTime, '%Y-%m-%dT%H:%M:%S.%fZ')
+        print("Start Time:", start_time)
+        print("Current Time:", current_time)
 
-        indexToModify = self.getIntervalIndex(start_time, current_time, interval)
-
-        # If index is higher than the current interval lengths, start a new interval entry and reset the interval count
-        if (indexToModify >= len(currVals)):
-            intervalCount = 0
-
-        # Add entries to currVals until sufficient for the index
-        while (indexToModify >= len(currVals)):
-            currVals.append(0)
-
-        # Update the value
-        currVals[indexToModify] = round(self.runningAvg(value, currVals[indexToModify], intervalCount), 3)
+        intervalStartTime = self.getIntervalTime(start_time, current_time, interval)
+        print("Start Time of Interval:", intervalStartTime)
+        foundInterval = False
+        for interval in timeSeriesData:
+            print(interval["date"])
+            if datetime.strptime(interval["date"], '%Y-%m-%dT%H:%M:%S.%fZ') == intervalStartTime:
+                interval["value"] = round(self.runningAvg(value, interval["value"], interval["num"]), 3)
+                interval["num"] += 1
+                foundInterval = True
+                break
+        
+        if not foundInterval:
+            timeSeriesData.append({ "value": value, "date": intervalStartTime.isoformat(), "num": 1 })
 
         # Return new values, and the incremented interval count
-        return intervalCount + 1, currVals
+        return timeSeriesData
 
-    def getIntervalIndex(self, start_time, current_time, interval):
+    def getIntervalTime(self, start_time, current_time, interval):
         """ This function calculates the running average for a specific element of the passed array, based on 
             the interval length and times, used for the slider.
 
@@ -129,14 +134,10 @@ class Processor:
         # Prevents division by 0
         if (interval == 0):
             return -1
-
-        index = 0
         
         # Get time difference
-        FMT = '%H:%M:%S'
-        tdelta = datetime.strptime(current_time, FMT) - datetime.strptime(start_time, FMT)
+        tdelta = current_time - start_time
 
         # Calculate interval index
-        index = (tdelta.seconds - (tdelta.seconds%interval))/interval
-
-        return int(index)
+        time = start_time + timedelta(seconds=((tdelta.total_seconds() // interval) * interval))
+        return time

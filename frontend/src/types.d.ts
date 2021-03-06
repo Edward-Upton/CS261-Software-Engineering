@@ -30,7 +30,7 @@ export interface IField {
     average: number;
     adjFreq?: { word: string; freq: number }[];
     keyPhrases?: { phrase: string; date: Date }[];
-    timeSeries?: { _id: string; value: number; date: Date }[];
+    timeSeries?: { _id: string; value: number; date: Date; num: number }[];
     num: number;
   };
 }

@@ -25,9 +25,14 @@ export const analyseData = async (
         URI += "/text";
         break;
     }
-    const response = await axios.post(URI, { value, field });
+    const response = await axios.post(URI, {
+      value,
+      field,
+      startTime: event.start,
+    });
     const newField = response.data.field;
     field.data = newField.data;
+    console.log(field.data);
     await event.save();
     updateHosts(event.host.toHexString(), event);
   } catch (error) {
