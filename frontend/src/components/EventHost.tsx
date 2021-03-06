@@ -182,7 +182,7 @@ const Field: React.FC<FieldProps> = (props) => {
                   data={{
                     datasets: [
                       {
-                        label: "Positive Sentiment",
+                        label: "Sentiment: 1 (positive) -> -1 (negative)",
                         fill: true,
                         data: data,
                       },
