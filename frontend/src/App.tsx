@@ -3,7 +3,6 @@ import axios from "axios";
 
 import Login from "./components/Login";
 import Header from "./components/Header";
-import ModeButton from "./components/ModeButton";
 import Participate from "./components/Participate";
 import Host from "./components/Host";
 
@@ -12,55 +11,53 @@ import "./App.css";
 import { IUser } from "./types";
 
 const App: React.FC = () => {
-  // Is the host panel open.
-  const [host, setHost] = useState<boolean>(false);
-
+  // User state
   const [user, setUser] = useState<IUser | null>(null);
 
+  // Tab boolean, true for host, false for participate.
+  const [tab, setTab] = useState<boolean>(false);
+
+  // Login method
   const login = (user: IUser) => {
     setUser(user);
-    // Store the user's login info into cookies.
+    // Store userId in the browser local storage.
     localStorage.setItem("userId", user._id);
   };
 
+  // Logout method
   const logout = () => {
     setUser(null);
-    // Remove the user's login info from cookies.
+    // Store userId in the browser local storage.
     localStorage.removeItem("userId");
   };
 
-  // Run on first render.
   useEffect(() => {
-    // Get the user's info from cookies and store it as a state.
+    // Check if userId in local storage.
     const userId = localStorage.getItem("userId");
+    // Retrieve user from API and login, if failed, logout.
     if (userId)
       (async () => {
-        const response = await axios.get(`/api/user/${userId}`);
-        login(response.data.user);
+        try {
+          const response = await axios.get(`/api/user/${userId}`);
+          login(response.data.user);
+        } catch (error) {
+          logout();
+        }
       })();
   }, []);
 
+  // If user is logged in, show the header and host or participate tabs.
+  // Otherwise, show the login component.
   return (
     <div id="wrapper">
       <div>
         {user ? (
-          // If user is logged in, render the header showing the user's email and logout
-          // button and and the "participate" and "host" tabs.
           <>
-            <Header
-              email={user.email}
-              logout={logout}
-              host={host}
-              setHost={(v) => setHost(v)}
-            />
-            {/* Show content for relevant open panel */}
-            {host ? <Host user={user} /> : <Participate user={user} />}
+            <Header user={user} logout={logout} tab={tab} setTab={setTab} />
+            {tab ? <Host user={user} /> : <Participate user={user} />}
           </>
         ) : (
-          // If user not logged in, render the login screen
-          <>
-            <Login login={login} />
-          </>
+          <Login login={login} />
         )}
       </div>
     </div>

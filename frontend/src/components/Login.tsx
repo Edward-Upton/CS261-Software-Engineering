@@ -1,66 +1,64 @@
 import { useState } from "react";
 import axios from "axios";
+
 import { AiOutlineUser } from "react-icons/ai";
 import { HiOutlineKey } from "react-icons/hi";
 
 import MyTextField from "./MyTextField";
+import MyButton from "./MyButton";
+
+import "./Login.css";
 
 import { IUser } from "../types";
-import "./Login.css";
-import MyButton from "./MyButton";
 
 interface Props {
   login: (user: IUser) => void;
 }
 
-const Login: React.FC<Props> = ({ login }) => {
+const Login: React.FC<Props> = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   // Attempt to login
-  const submit = async (event?: React.FormEvent) => {
-    event?.preventDefault();
+  const login = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
-      // Attempt to login with entered email and password.
+      // Login to API, if successful then login to app.
       const res = await axios.post("/api/user/login", { email, password });
-      login(res.data.user);
+      props.login(res.data.user);
     } catch (error) {
       console.log(error);
     }
   };
 
   // Register a new account
-  const register = async () => {
+  const register = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
       // Attempt to create a new account and then immediately login
       // if registration is successful.
       const res = await axios.post("/api/user/register", { email, password });
-      login(res.data.user);
+      props.login(res.data.user);
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div id="login">
-      {/* Email */}
+    <form id="login">
       <MyTextField
         type="email"
         placeholder="Email..."
         value={email}
         onChange={(v) => setEmail(v)}
-        styled={{}}
       >
         <AiOutlineUser />
       </MyTextField>
-
-      {/* Password */}
       <MyTextField
         type="password"
         placeholder="Password..."
         value={password}
         onChange={(v) => setPassword(v)}
-        styled={{}}
       >
         <HiOutlineKey />
       </MyTextField>
@@ -82,7 +80,7 @@ const Login: React.FC<Props> = ({ login }) => {
           Register
         </MyButton>
       </div>
-    </div>
+    </form>
   );
 };
 
