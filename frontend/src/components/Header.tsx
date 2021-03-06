@@ -3,7 +3,10 @@ import { CSSProperties } from "react";
 import MyButton from "./MyButton";
 import ModeButton from "./ModeButton";
 
+import { BiUserCircle } from "react-icons/bi";
+
 import "./Header.css";
+import { IconContext } from "react-icons/lib";
 
 interface Props {
   styled?: CSSProperties;
@@ -34,7 +37,12 @@ const Header: React.FC<Props> = (props) => {
           paddingRight: "0.5rem",
         }}
       >
-        Hello {props.email?.split("@")[0]}
+        <div className="header__email">
+          <IconContext.Provider value={{ className: "header__userIcon" }}>
+            <BiUserCircle />
+          </IconContext.Provider>
+          {props.email?.split("@")[0]}
+        </div>
       </MyButton>
 
       <ModeButton host={props.host} setHost={props.setHost} />

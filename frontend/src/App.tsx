@@ -58,7 +58,9 @@ const App: React.FC = () => {
           </>
         ) : (
           // If user not logged in, render the login screen
-          <Login login={login} />
+          <>
+            <Login login={login} />
+          </>
         )}
       </div>
     </div>
