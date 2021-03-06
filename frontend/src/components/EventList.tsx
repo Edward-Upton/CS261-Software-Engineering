@@ -88,7 +88,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
       </div>
 
       {/* If for hosting, copy link button */}
-      {props.host && (
+      {props.host && !eventFinished && (
         <MyButton
           fontSize="0.8rem"
           onClick={copyEventCode}
