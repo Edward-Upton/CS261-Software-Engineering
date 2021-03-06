@@ -3,21 +3,25 @@ import unittest
 
 class TestProcessorMethods(unittest.TestCase):
     # Running average tests
-    def test_emoji_decreaseAvg(self):
+    def test_avg_decrease_avg(self):
         processor = Processor()
         self.assertEqual(processor.runningAvg(2, 5, 100), 502/101)
     
-    def test_emoji_increaseAvg(self):
+    def test_avg_increase_avg(self):
         processor = Processor()
         self.assertEqual(processor.runningAvg(5, 1, 500), 505/501)
 
-    def test_emoji_sameAvg(self):
+    def test_avg_same_avg(self):
         processor = Processor()
         self.assertEqual(processor.runningAvg(3, 3, 1000), 3)
 
-    def test_emoji_firstElement(self):
+    def test_avg_first_element(self):
         processor = Processor()
         self.assertEqual(processor.runningAvg(2, 0, 0), 2)
+
+    def test_avg_unsafe_count(self):
+        processor = Processor()
+        self.assertEqual(processor.runningAvg(5, 3, -10), 3)
 
 
     # Sentiment tests
