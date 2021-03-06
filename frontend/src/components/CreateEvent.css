@@ -126,6 +126,10 @@
   border: none;
 
   color: #465775;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .createEvent__date__input:focus {
