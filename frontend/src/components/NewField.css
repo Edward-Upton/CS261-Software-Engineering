@@ -26,6 +26,7 @@
 .createFields__field__type__select {
   margin-left: 0.5rem;
   width: 9rem;
+  font-size: 1rem;
 }
 
 .createFields__field__delete {
