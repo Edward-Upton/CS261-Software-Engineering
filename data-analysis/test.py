@@ -76,7 +76,7 @@ class TestProcessorMethods(unittest.TestCase):
         self.assertTrue("boring workshop" in processor.textKeyPhrases("This was an boring workshop."))
 
 
-    # Index test
+    # Interval time tests
     def test_time_1(self):
         processor = Processor()
         start = datetime(2000, 12, 12, 11, 00, 00)
@@ -94,6 +94,12 @@ class TestProcessorMethods(unittest.TestCase):
         start = datetime(2000, 12, 11, 11, 11, 11)
         current = datetime(2000, 12, 11, 11, 11, 11)
         self.assertEqual(processor.getIntervalTime(start, current, 10), start)
+
+    def test_time_unsafe(self):
+        processor = Processor()
+        start = datetime(2000, 12, 11, 11, 11, 11)
+        current = datetime(2000, 12, 11, 11, 45, 11)
+        self.assertEqual(processor.getIntervalTime(start, current, 0), current)
 
 
 if __name__ == '__main__':
