@@ -1,6 +1,8 @@
 from process import Processor
 import unittest
 
+from datetime import datetime
+
 class TestProcessorMethods(unittest.TestCase):
     # Running average tests
     def test_avg_decrease_avg(self):
@@ -75,21 +77,24 @@ class TestProcessorMethods(unittest.TestCase):
 
 
     # Index test
-    def test_index_ahead(self):
+    def test_time_1(self):
         processor = Processor()
-        self.assertEqual(processor.getIntervalIndex("11:00:00", "11:22:47", 300), 4)
+        start = datetime(2000, 12, 12, 11, 00, 00)
+        current = datetime(2000, 12, 12, 11, 22, 47)
+        self.assertEqual(processor.getIntervalTime(start, current, 30), datetime(2000, 12, 12, 11, 22, 30))
 
-    def test_index_before(self):
+    def test_time_2(self):
         processor = Processor()
-        self.assertEqual(processor.getIntervalIndex("11:00:00", "9:45:00", 600), 136)
+        start = datetime(2000, 12, 11, 11, 11, 00)
+        current = datetime(2000, 12, 12, 11, 00, 47)
+        self.assertEqual(processor.getIntervalTime(start, current, 150), datetime(2000, 12, 12, 10, 58, 30))
 
-    def test_index_same(self):
+    def test_time_same(self):
         processor = Processor()
-        self.assertEqual(processor.getIntervalIndex("11:00:00", "11:00:00", 60), 0)
+        start = datetime(2000, 12, 11, 11, 11, 11)
+        current = datetime(2000, 12, 11, 11, 11, 11)
+        self.assertEqual(processor.getIntervalTime(start, current, 10), start)
 
-    def test_index_unsafe_interval(self):
-        processor = Processor()
-        self.assertEqual(processor.getIntervalIndex("11:00:00", "11:22:47", 0), -1)
 
 if __name__ == '__main__':
     unittest.main()

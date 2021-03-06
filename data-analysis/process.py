@@ -94,7 +94,6 @@ class Processor:
             dict: Modified time series data.
         """
 
-
         # Get current time
         current_time = datetime.now()
 
