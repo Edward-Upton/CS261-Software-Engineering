@@ -135,7 +135,7 @@ class Processor:
 
         # Prevents division by 0
         if (interval == 0):
-            return -1
+            return current_time
         
         # Get time difference
         tdelta = current_time - start_time
