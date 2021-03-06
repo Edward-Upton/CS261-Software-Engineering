@@ -23,6 +23,9 @@ class Processor:
             float:New average value to replace the old average
         """
 
+        if (entryCount < 0):
+            return runningAvg
+
         return ((runningAvg * entryCount) + value)/(entryCount+1)
 
     def textSentiment(self, text):
