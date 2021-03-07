@@ -55,13 +55,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
 
   // Copies the event code to the user's clipboard.
   const copyEventCode = () => {
-    var dummy = document.createElement("input");
-    document.body.appendChild(dummy);
-    dummy.setAttribute("value", props.event.inviteCode);
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-
+    navigator.clipboard.writeText(props.event.inviteCode);
     setJustCopiedCode(true);
     setTimeout(() => {
       setJustCopiedCode(false);
@@ -78,7 +72,11 @@ const EventItem: React.FC<ItemProps> = (props) => {
       }`}
       style={props.styled}
       onClick={
-        eventActive || (eventFinished && props.host) ? props.onClick : () => {}
+        eventActive || (eventFinished && props.host)
+          ? (e) => {
+              if ((e.target as HTMLElement).tagName === "DIV") props.onClick();
+            }
+          : undefined
       }
     >
       {/* Event name */}
