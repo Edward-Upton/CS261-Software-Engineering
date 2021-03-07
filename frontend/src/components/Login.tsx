@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { AiOutlineUser } from "react-icons/ai";
@@ -18,6 +18,11 @@ interface Props {
 const Login: React.FC<Props> = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    setMessage("");
+  }, []);
 
   // Attempt to login
   const login = async (event: React.FormEvent) => {
@@ -28,6 +33,9 @@ const Login: React.FC<Props> = (props) => {
       props.login(res.data.user);
     } catch (error) {
       console.log(error);
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+      }
     }
   };
 
@@ -41,6 +49,9 @@ const Login: React.FC<Props> = (props) => {
       props.login(res.data.user);
     } catch (error) {
       console.log(error);
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+      }
     }
   };
 
@@ -80,6 +91,7 @@ const Login: React.FC<Props> = (props) => {
           Register
         </MyButton>
       </div>
+      <div>{message}</div>
     </form>
   );
 };
