@@ -254,7 +254,6 @@ router.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Missing fields in body." });
     // Retrieve event feedback from request body and process.
     const feedback: IField[] = req.body.feedback.map((field: IField) => {
-      console.log(field);
       switch (field.fieldType) {
         case "text":
           return {
