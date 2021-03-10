@@ -78,7 +78,7 @@ const Login: React.FC<Props> = (props) => {
         {/* Login Button */}
         <MyButton
           onClick={login}
-          styled={{ backgroundColor: "#c48227", width: "45%" }}
+          styled={{ backgroundColor: "#EE862F", width: "45%" }}
         >
           Login
         </MyButton>
