@@ -54,7 +54,7 @@ const Invite: React.FC<Props> = (props) => {
             borderRadius: "1rem",
             width: "6rem",
             height: "1.8rem",
-            backgroundColor: "#c48227",
+            backgroundColor: "#EE862F",
           }}
         >
           Invite

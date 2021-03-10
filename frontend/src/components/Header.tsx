@@ -28,7 +28,7 @@ const Header: React.FC<Props> = (props) => {
           if (window.confirm("Do you want to logout?")) props.logout();
         }}
         styled={{
-          backgroundColor: "#C48227",
+          backgroundColor: "#EE862F",
           height: "2rem",
           width: "auto",
           maxWidth: "40%",

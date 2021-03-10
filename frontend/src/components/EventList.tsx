@@ -92,7 +92,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
           onClick={copyEventCode}
           styled={{
             width: "5rem",
-            backgroundColor: "#C48227",
+            backgroundColor: "#EE862F",
             marginRight: "0.5rem",
           }}
         >
