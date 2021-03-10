@@ -91,3 +91,10 @@
   flex-direction: column;
   align-items: center;
 }
+
+.eventList__noEvents {
+  text-align: center;
+  font-style: italic;
+  font-size: 1.05rem;
+  font-weight: 250;
+}

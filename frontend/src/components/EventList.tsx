@@ -153,6 +153,7 @@ const EventList: React.FC<Props> = (props) => {
             onClick={() => props.onEventClick(event)}
           />
         ))}
+        {(props.events.length === 0) && <div className="eventList__noEvents">No Events To Show...</div>}
       </div>
     </div>
   );
