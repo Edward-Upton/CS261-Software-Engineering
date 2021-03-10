@@ -48,6 +48,8 @@ router.get("/", async (req: Request, res: Response) => {
  * /?populate - returns event with user data populated.
  *
  * Returns 200 OK, with the specified event.
+ * Returns 400 Bad Request, if invalid id.
+ * Returns 404 Not Found, if no event found.
  * Returns 500 Internal Server Error, if server error.
  */
 router.get("/:id", async (req: Request, res: Response) => {
@@ -63,25 +65,15 @@ router.get("/:id", async (req: Request, res: Response) => {
           .populate("participants", "email")
           .populate("host", "email")
       : await Event.findById(id);
+    // If no event found, return 404 Not Found.
+    if (event === null)
+      return res.status(404).json({ message: "No event found." });
     // Return 200 OK and the event.
     return res.status(200).json({ event });
   } catch (error) {
-    // If error, return 500 Internal Server Error and error object.
-    return res.status(500).json({ error });
-  }
-});
-
-// Temporary
-router.delete("/:id", async (req: Request, res: Response) => {
-  try {
-    // Retrieve the id from request parameters.
-    const { id } = req.params;
-    // Retrieve the event from database.
-    const event: IEvent = await Event.findById(id);
-    await event.delete();
-    // Return 200 OK and the event.
-    return res.status(200).json({ event });
-  } catch (error) {
+    // If ObjectId error, an invalid event id was given, return 400 Bad Request.
+    if (error.kind === "ObjectId")
+      return res.status(400).json({ message: "Invalid event id." });
     // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
@@ -96,6 +88,8 @@ router.delete("/:id", async (req: Request, res: Response) => {
  * /?populate - returns events with user data populated.
  *
  * Returns 200 OK, with all the events a user is participating in.
+ * Returns 400 Bad Request, if invalid id.
+ * Returns 404 Not Found, if no user found.
  * Returns 500 Internal Server Error, if server error.
  */
 router.get("/participating/:userId", async (req: Request, res: Response) => {
@@ -106,6 +100,9 @@ router.get("/participating/:userId", async (req: Request, res: Response) => {
     const populate: boolean = "populate" in req.query;
     // Retrieve the user from the database.
     const user: IUser = await User.findById(userId);
+    // If no user found, return 404 Not Found.
+    if (user === null)
+      return res.status(404).json({ message: "No user found." });
     // Retrieve all events the user participates in from the database.
     // Populate the host and participants if desired.
     const events: IEvent[] = populate
@@ -116,6 +113,9 @@ router.get("/participating/:userId", async (req: Request, res: Response) => {
     // Return 200 OK and the array of events and the count.
     return res.status(200).json({ count: events.length, events });
   } catch (error) {
+    // If ObjectId error, an invalid user id was given, return 400 Bad Request.
+    if (error.kind === "ObjectId")
+      return res.status(400).json({ message: "Invalid user id." });
     // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
@@ -131,6 +131,8 @@ router.get("/participating/:userId", async (req: Request, res: Response) => {
  * / - returns events without user data populated.
  *
  * Returns 200 OK, with all the events a user is hosting.
+ * Returns 400 Bad Request, if invalid id.
+ * Returns 404 Not Found, if no user found.
  * Returns 500 Internal Server Error, if server error.
  */
 router.get("/hosting/:userId", async (req: Request, res: Response) => {
@@ -141,6 +143,9 @@ router.get("/hosting/:userId", async (req: Request, res: Response) => {
     const populate: boolean = "populate" in req.query;
     // Retrieve the user from the database.
     const user: IUser = await User.findById(userId);
+    // If no user found, return 404 Not Found.
+    if (user === null)
+      return res.status(404).json({ message: "No user found." });
     // Retrieve all events the user hosts from the database.
     // Populate the host and participants if desired.
     const events: IEvent[] = populate
@@ -151,6 +156,9 @@ router.get("/hosting/:userId", async (req: Request, res: Response) => {
     // Return 200 OK and the array of events and the count.
     return res.status(200).json({ count: events.length, events });
   } catch (error) {
+    // If ObjectId error, an invalid user id was given, return 400 Bad Request.
+    if (error.kind === "ObjectId")
+      return res.status(400).json({ message: "Invalid user id." });
     // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
@@ -166,6 +174,7 @@ router.get("/hosting/:userId", async (req: Request, res: Response) => {
  * / - returns event without user data populated.
  *
  * Returns 201 Created, with the updated event.
+ * Returns 400 Bad Request, if incorrect request body.
  * Returns 500 Internal Server Error, if server error.
  */
 router.post("/join", async (req: Request, res: Response) => {
@@ -181,6 +190,9 @@ router.post("/join", async (req: Request, res: Response) => {
     const populate: boolean = "populate" in req.query;
     // Retrieve the user from the database.
     const user: IUser = await User.findById(userId);
+    // If no user found, return 404 Not Found.
+    if (user === null)
+      return res.status(400).json({ message: "No user found." });
     // Push the user to the list of participants of the event.
     // Use $addToSet to avoid duplicates.
     await Event.updateOne(
@@ -194,9 +206,15 @@ router.post("/join", async (req: Request, res: Response) => {
           .populate("participants", "email")
           .populate("host", "email")
       : await Event.findOne({ inviteCode });
+    // If no event found, return 404 Not Found.
+    if (event === null)
+      return res.status(400).json({ message: "No event found." });
     // Return 201 Created and the updated event.
     return res.status(201).json({ event });
   } catch (error) {
+    // If ObjectId error, an invalid user id was given, return 400 Bad Request.
+    if (error.kind === "ObjectId")
+      return res.status(400).json({ message: "Invalid user id." });
     // If error, return 500 Internal Server Error and error object.
     return res.status(500).json({ error });
   }
@@ -236,7 +254,6 @@ router.post("/", async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Missing fields in body." });
     // Retrieve event feedback from request body and process.
     const feedback: IField[] = req.body.feedback.map((field: IField) => {
-      console.log(field);
       switch (field.fieldType) {
         case "text":
           return {
@@ -284,8 +301,8 @@ router.post("/", async (req: Request, res: Response) => {
  *
  * Accepts JSON body { eventId, userId, fieldId, data }.
  *
- * Returns 201 Created, .
- * Returns 403 Forbidden, if .
+ * Returns 201 Created, if feedback submitted.
+ * Returns 403 Forbidden, if user not a participant or invalid field id.
  * Returns 500 Internal Server Error, if server error.
  */
 router.post("/submit-feedback", async (req: Request, res: Response) => {
