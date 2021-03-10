@@ -8,6 +8,7 @@ import MyTextField from "./MyTextField";
 import MyButton from "./MyButton";
 
 import "./Login.css";
+import { ReactComponent as Logo } from '../logo_nobackground.svg';
 
 import { IUser } from "../types";
 
@@ -56,43 +57,44 @@ const Login: React.FC<Props> = (props) => {
   };
 
   return (
-    <form id="login">
-      <MyTextField
-        type="email"
-        placeholder="Email..."
-        value={email}
-        onChange={(v) => setEmail(v)}
-      >
-        <AiOutlineUser />
-      </MyTextField>
-      <MyTextField
-        type="password"
-        placeholder="Password..."
-        value={password}
-        onChange={(v) => setPassword(v)}
-      >
-        <HiOutlineKey />
-      </MyTextField>
-
-      <div className="login__buttons">
-        {/* Login Button */}
-        <MyButton
-          onClick={login}
-          styled={{ backgroundColor: "#EE862F", width: "45%" }}
+      <form id="login">
+        <Logo style={{width: "10rem", height: "10rem"}} />
+        <MyTextField
+          type="email"
+          placeholder="Email..."
+          value={email}
+          onChange={(v) => setEmail(v)}
         >
-          Login
-        </MyButton>
-
-        {/* Register Button */}
-        <MyButton
-          onClick={register}
-          styled={{ backgroundColor: "#336666", width: "45%" }}
+          <AiOutlineUser />
+        </MyTextField>
+        <MyTextField
+          type="password"
+          placeholder="Password..."
+          value={password}
+          onChange={(v) => setPassword(v)}
         >
-          Register
-        </MyButton>
-      </div>
-      <div>{message}</div>
-    </form>
+          <HiOutlineKey />
+        </MyTextField>
+
+        <div className="login__buttons">
+          {/* Login Button */}
+          <MyButton
+            onClick={login}
+            styled={{ backgroundColor: "#EE862F", width: "45%" }}
+          >
+            Login
+          </MyButton>
+
+          {/* Register Button */}
+          <MyButton
+            onClick={register}
+            styled={{ backgroundColor: "#336666", width: "45%" }}
+          >
+            Register
+          </MyButton>
+        </div>
+        <div>{message}</div>
+      </form>
   );
 };
 
