@@ -38,8 +38,9 @@ const Invite: React.FC<Props> = (props) => {
           </div>
         );
       })}
+
+      {/* Invite User Input with Button */}
       <div className="invite__email">
-        {/* // Render text field with icon and seperation line */}
         <input
           type="email"
           placeholder="@ Enter User's Email"

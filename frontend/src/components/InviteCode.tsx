@@ -9,6 +9,8 @@ interface Props {
   joinEvent: (code: string) => void;
 }
 
+// Component used for participants to enter invite code
+// to join an event. Features text box with button adjacent.
 const InviteCode: React.FC<Props> = (props) => {
   const [eventCode, setEventCode] = useState<string>("");
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +19,7 @@ const InviteCode: React.FC<Props> = (props) => {
 
   return (
       <div className="inviteCode">
-        {/* // Render text field with icon and seperation line */}
+        {/* Code Input */}
         <input
           type="text"
           placeholder="# Enter Invite Code..."
@@ -25,6 +27,8 @@ const InviteCode: React.FC<Props> = (props) => {
           onChange={onChange}
           className="inviteCode__input"
         ></input>
+
+        {/* Join Button */}
         <MyButton
           fontSize="1rem"
           onClick={() => props.joinEvent(eventCode)}

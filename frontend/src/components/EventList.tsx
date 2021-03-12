@@ -26,6 +26,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
 
+  // Event status
   const [eventActive, setEventActive] = useState<boolean>(false);
   const [eventFinished, setEventFinished] = useState<boolean>(false);
   const [startOnToday, setStartOnToday] = useState<boolean>(false);
@@ -33,6 +34,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
 
   const [justCopiedCode, setJustCopiedCode] = useState<boolean>(false);
 
+  // Start a clock that updates every minute
   useEffect(() => {
     setDate(new Date());
     let secTimer = setInterval(() => {
@@ -41,6 +43,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
     return () => clearInterval(secTimer);
   }, []);
 
+  // Update event status on time change
   useEffect(() => {
     setEventActive(date > startDate && date < endDate ? true : false);
     setEventFinished(date > endDate ? true : false);
@@ -100,7 +103,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
         </MyButton>
       )}
 
-      {/* Event date */}
+      {/* Event stats */}
       <div
         className="eventItem__activeStatus"
         data-tip
@@ -108,6 +111,8 @@ const EventItem: React.FC<ItemProps> = (props) => {
       >
         {eventActive ? "Started" : eventFinished ? "Finished" : "Not Started"}
       </div>
+
+      {/* Tooltip for showing date on hover*/}
       <ReactTooltip id={`dateTip${props.event._id}`}>
         <div className="eventItem__time">
           <div>

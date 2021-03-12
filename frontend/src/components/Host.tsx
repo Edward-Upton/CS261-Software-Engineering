@@ -60,6 +60,7 @@ const Host: React.FC<Props> = ({ user }) => {
   return (
     <div className="host">
       {selectedEvent ? (
+        // Show event dasboard if open
         <EventHost
           user={user}
           event={selectedEvent}
@@ -68,6 +69,7 @@ const Host: React.FC<Props> = ({ user }) => {
           }}
         />
       ) : createOpen ? (
+        // Show create open if clicked
         <CreateEvent
           user={user}
           closeClicked={() => {
@@ -76,8 +78,11 @@ const Host: React.FC<Props> = ({ user }) => {
           }}
         />
       ) : (
+        // Otherwise show event list and create event button
         <>
           <div className="eventList__title">Events Created</div>
+
+          {/* Hosted Event List */}
           <EventList
             events={events}
             host={true}
@@ -86,6 +91,8 @@ const Host: React.FC<Props> = ({ user }) => {
               console.log(event);
             }}
           />
+
+          {/* Create Event Button */}
           <MyButton
             onClick={() => setCreateOpen(true)}
             styled={{ backgroundColor: "#EE862F", marginTop: "0.8rem" }}

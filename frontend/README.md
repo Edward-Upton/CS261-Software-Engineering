@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Frontend
+
+This codebase is for the React Frontend for clients to interact with the feedback system. It features a fully custom design using CSS for styling. There are some custom components created to ensure consistency throughout the user interface. Follow the instructions bellow to setup the enviornment.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

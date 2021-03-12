@@ -31,11 +31,13 @@ const typeToString = {
   text: "Text",
 };
 
+// Used for select input for Mood data
 const moodDataViews = [
   { value: "average", label: "Average" },
   { value: "timeSeries", label: "Time Series" },
 ];
 
+// Used for select input for Text data
 const textDataViews = [
   { value: "average", label: "Average Sentiment" },
   { value: "timeSeries", label: "Sentiment Time Series" },
@@ -43,6 +45,7 @@ const textDataViews = [
   { value: "keyPhrases", label: "Key Phrases" },
 ];
 
+// Used for converting the mood value to the name and icon
 const moodAverageToIcon = [
   { mood: "Very Negative", range: [0.9, 1.8], icon: <BiAngry /> },
   { mood: "Negative", range: [1.8, 2.6], icon: <BiSad /> },
@@ -112,6 +115,7 @@ const Field: React.FC<FieldProps> = (props) => {
           // Mood fields
           <div className="eventHost__field__mood">
             {viewMode === "average" && (
+              // Average mood
               <div className="eventHost__field__mood__average">
                 <IconContext.Provider
                   value={{
@@ -138,6 +142,7 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "timeSeries" && (
+              // Time series graph for moood
               <div className="eventHost__field__mood__timeSeries">
                 <Line
                   data={{
@@ -168,6 +173,7 @@ const Field: React.FC<FieldProps> = (props) => {
           // Text fields
           <div className="eventHost__field__text">
             {viewMode === "average" && (
+              // Average sentiment
               <div className="eventHost__field__text__average">
                 <div className="eventHost__field__text__average__title">
                   Average Positive Sentiment
@@ -178,6 +184,7 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "timeSeries" && (
+              // Sentiment time series graph
               <div className="eventHost__field__text__timeSeries">
                 <Line
                   data={{
@@ -203,6 +210,7 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "wordcloud" && (
+              // Word cloud of adjectives
               <div className="eventHost__field__text__wordcloud">
                 <ReactWordcloud
                   words={wordmapWords}
@@ -216,6 +224,7 @@ const Field: React.FC<FieldProps> = (props) => {
               </div>
             )}
             {viewMode === "keyPhrases" && (
+              // List of key phrases
               <div className="eventHost__field__text__keyPhrase">
                 {props.field.data?.keyPhrases?.map((item, i) => {
                   return (

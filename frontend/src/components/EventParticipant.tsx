@@ -33,9 +33,12 @@ const Field: React.FC<FieldProps> = (props) => {
   const [allowSubmit, setAllowSubmit] = useState<boolean>(false);
   const [inLimit, setInLimit] = useState<boolean>(false);
 
+  // This decides whether a user's input should be kept corresponding to
+  // if the input is locked.
   useEffect(() => {
     const type = props.field.fieldType;
     if (!inLimit) {
+      // The field is not in an interval limit
       if (type === "mood" || type === "rating" || type === "slider") {
         if (num !== null) {
           setAllowSubmit(true);
@@ -54,6 +57,7 @@ const Field: React.FC<FieldProps> = (props) => {
         }
       }
     } else {
+      // Field is in an interval limit
       if (num || text.length > 0 || message === "On Submission Cooldown") {
         setMessage("On Submission Cooldown");
         setNum(null);
