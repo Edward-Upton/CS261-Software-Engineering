@@ -22,6 +22,7 @@ interface Props {
 const Header: React.FC<Props> = (props) => {
   return (
     <div className="header" style={props.styled}>
+      {/* Logout Button with Username */}
       <MyButton
         fontSize="1rem"
         onClick={() => {
@@ -44,7 +45,8 @@ const Header: React.FC<Props> = (props) => {
           {props.user.email.split("@")[0]}
         </div>
       </MyButton>
-
+      
+      {/* Mode Switching Button */}
       <ModeButton tab={props.tab} setTab={props.setTab} />
     </div>
   );

@@ -16,6 +16,8 @@ interface Props {
   login: (user: IUser) => void;
 }
 
+// Login screen for when user's are not logged in.
+// Allows registration and login.
 const Login: React.FC<Props> = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -59,6 +61,8 @@ const Login: React.FC<Props> = (props) => {
   return (
       <form id="login">
         <Logo style={{width: "10rem", height: "10rem"}} />
+
+        {/* Email Field */}
         <MyTextField
           type="email"
           placeholder="Email..."
@@ -67,6 +71,8 @@ const Login: React.FC<Props> = (props) => {
         >
           <AiOutlineUser />
         </MyTextField>
+
+        {/* Password Field */}
         <MyTextField
           type="password"
           placeholder="Password..."
@@ -75,7 +81,7 @@ const Login: React.FC<Props> = (props) => {
         >
           <HiOutlineKey />
         </MyTextField>
-
+    
         <div className="login__buttons">
           {/* Login Button */}
           <MyButton

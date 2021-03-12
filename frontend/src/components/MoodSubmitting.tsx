@@ -14,6 +14,9 @@ interface Props {
   setNum: (v: number | null) => void;
 }
 
+// Component for participants mood field to select emoji
+// and submit as a mood response. Features 5 emojis in order
+// of "happiness".
 const MoodSubmitting: React.FC<Props> = ({ num, setNum }) => {
   console.log(num);
   return (
