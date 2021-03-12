@@ -1,6 +1,16 @@
 # Data Analysis
 
-# Setup
+- [Data Analysis](#data-analysis)
+  - [Setup](#setup)
+  - [Functionality](#functionality)
+    - [runningAvg](#runningavg)
+    - [textSentiment](#textsentiment)
+    - [textAdjectives](#textadjectives)
+    - [textKeyPhrases](#textkeyphrases)
+    - [timeSeries](#timeseries)
+    - [getIntervalTime](#getintervaltime)
+
+## Setup
 
 1. Run `pipenv shell` to go into the python virtual environment.
 2. Run `pipenv install` to install all dependencies.
@@ -28,7 +38,7 @@ python -m textblob.download_corpora
 (If you would rather use github)
 git clone https://github.com/sloria/TextBlob.git -->
 
-# Functionality
+## Functionality
 
 ### runningAvg
 
@@ -42,7 +52,6 @@ This function processes an emoji input.
     Returns:
     float:New average value to replace the old average
 
-
 ### textSentiment
 
 This function take a string of text as input, and retrieves the sentiment of the text.
@@ -52,7 +61,6 @@ This function take a string of text as input, and retrieves the sentiment of the
 
     Returns:
     float: Sentiment of the text
-
 
 ### textAdjectives
 
@@ -65,7 +73,6 @@ This function extracts all of the adjectives from the passed text. As well as a 
     list: List of adjectives.
     int: Key indicating statement polarity.
 
-
 ### textKeyPhrases
 
 This function extracts all of the important phrases from the passed text.
@@ -76,12 +83,11 @@ This function extracts all of the important phrases from the passed text.
     Returns:
     list: List of important phrases
 
-
 ### timeSeries
 
-This function calculates and modifies the average of an interval in the time series data 
-    with a new value submitted by the user. This can be used for all fields that have some
-    sort of average as a number.
+This function calculates and modifies the average of an interval in the time series data
+with a new value submitted by the user. This can be used for all fields that have some
+sort of average as a number.
 
     Parameters:
     value (Float): The value to add to the element.
@@ -92,12 +98,10 @@ This function calculates and modifies the average of an interval in the time ser
     Returns:
     dict: Modified time series data.
 
-
-
 ### getIntervalTime
 
 This function calculates the interval a certain time should be in using the length of the
-    intervals and the start time. This is returned as the start time of this interval.
+intervals and the start time. This is returned as the start time of this interval.
 
     Parameters:
     start_time (Time): The start time of the event.
