@@ -1,0 +1,280 @@
+{
+	"info": {
+		"_postman_id": "15d11126-c463-4912-b8d9-c32563286cea",
+		"name": "CS261 - Software Engineering",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/user",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"test2@test.com\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/register",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"sdgsdg@sfgag.com\",\n    \"password\": \"testnew\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Creating Event",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var current_timestamp = new Date();",
+							"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"New Event\",\n    \"eventType\": \"Workshop\",\n    \"start\": \"{{current_timestamp}}\",\n    \"end\": \"{{current_timestamp}}\",\n    \"host\": \"602fd012e5d9643bda45f971\",\n    \"participants\": [\"602fd012e5d9643bda45f971\"],\n    \"feedback\": [\n        {\n            \"name\": \"What is your mood?\",\n            \"description\": \"Click the emoji that represents your mood\",\n            \"fieldType\": \"mood\",\n            \"constraints\": {}\n        },\n        {\n            \"name\": \"How would you describe the content so far?\",\n            \"description\": \"Enter some text\",\n            \"fieldType\": \"text\",\n            \"constraints\": {}\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/event/",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Events",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/event",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Feedback",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventId\": \"6043b11b4abf28928fed110c\",\n    \"userId\": \"602fd012e5d9643bda45f971\",\n    \"fieldId\": \"6043b11b4abf28928fed110d\",\n    \"data\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/event/submit-feedback",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event",
+						"submit-feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Joined Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/event/participating/602fd012e5d9643bda45f971",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event",
+						"participating",
+						"602fd012e5d9643bda45f971"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/user/userId/test@test.com",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"userId",
+						"test@test.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Hosting Events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/event//hosting/602fd012e5d9643bda45f971",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event",
+						"",
+						"hosting",
+						"602fd012e5d9643bda45f971"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Joining Event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"602fd012e5d9643bda45f971\",\n    \"inviteCode\": \"sgsgafg\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/event/join",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"event",
+						"join"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

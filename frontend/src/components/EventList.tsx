@@ -92,7 +92,7 @@ const EventItem: React.FC<ItemProps> = (props) => {
           onClick={copyEventCode}
           styled={{
             width: "5rem",
-            backgroundColor: "#C48227",
+            backgroundColor: "#EE862F",
             marginRight: "0.5rem",
           }}
         >
@@ -153,6 +153,7 @@ const EventList: React.FC<Props> = (props) => {
             onClick={() => props.onEventClick(event)}
           />
         ))}
+        {(props.events.length === 0) && <div className="eventList__noEvents">No Events To Show...</div>}
       </div>
     </div>
   );

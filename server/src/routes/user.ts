@@ -83,6 +83,7 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!result)
       return res.status(401).json({ message: "Password doesn't match" });
     // If the password matches, return 200 OK and the user.
+    user.password = "";
     return res.status(200).json({ user });
   } catch (error) {
     // If error, return 500 Internal Server Error and error object.
@@ -107,12 +108,19 @@ router.post("/register", async (req: Request, res: Response) => {
     // Check body contains required fields, if not return 400 Bad Request.
     if (!email || !password)
       return res.status(400).json({ message: "Requires email and password" });
+    // Check if user already exists
+    const foundUser = User.findOne({ email });
+    if (foundUser._id)
+      return res
+        .status(400)
+        .json({ message: "User already registered, login instead" });
     // Hash the entered password.
     const hash: string = await bcrypt.hash(password, 10);
     // Create a new user with provided email and hash and save to database.
     const user: IUser = new User({ email, password: hash });
     await user.save();
     // Return 201 Created and the user id.
+    user.password = "";
     return res.status(201).send({ user });
   } catch (error) {
     // If error, return 500 Internal Server Error and error object.

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { AiOutlineUser } from "react-icons/ai";
@@ -8,6 +8,7 @@ import MyTextField from "./MyTextField";
 import MyButton from "./MyButton";
 
 import "./Login.css";
+import { ReactComponent as Logo } from '../logo_nobackground.svg';
 
 import { IUser } from "../types";
 
@@ -18,6 +19,11 @@ interface Props {
 const Login: React.FC<Props> = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    setMessage("");
+  }, []);
 
   // Attempt to login
   const login = async (event: React.FormEvent) => {
@@ -28,6 +34,9 @@ const Login: React.FC<Props> = (props) => {
       props.login(res.data.user);
     } catch (error) {
       console.log(error);
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+      }
     }
   };
 
@@ -41,46 +50,51 @@ const Login: React.FC<Props> = (props) => {
       props.login(res.data.user);
     } catch (error) {
       console.log(error);
+      if (error.response.data.message) {
+        setMessage(error.response.data.message);
+      }
     }
   };
 
   return (
-    <form id="login">
-      <MyTextField
-        type="email"
-        placeholder="Email..."
-        value={email}
-        onChange={(v) => setEmail(v)}
-      >
-        <AiOutlineUser />
-      </MyTextField>
-      <MyTextField
-        type="password"
-        placeholder="Password..."
-        value={password}
-        onChange={(v) => setPassword(v)}
-      >
-        <HiOutlineKey />
-      </MyTextField>
-
-      <div className="login__buttons">
-        {/* Login Button */}
-        <MyButton
-          onClick={login}
-          styled={{ backgroundColor: "#c48227", width: "45%" }}
+      <form id="login">
+        <Logo style={{width: "10rem", height: "10rem"}} />
+        <MyTextField
+          type="email"
+          placeholder="Email..."
+          value={email}
+          onChange={(v) => setEmail(v)}
         >
-          Login
-        </MyButton>
-
-        {/* Register Button */}
-        <MyButton
-          onClick={register}
-          styled={{ backgroundColor: "#336666", width: "45%" }}
+          <AiOutlineUser />
+        </MyTextField>
+        <MyTextField
+          type="password"
+          placeholder="Password..."
+          value={password}
+          onChange={(v) => setPassword(v)}
         >
-          Register
-        </MyButton>
-      </div>
-    </form>
+          <HiOutlineKey />
+        </MyTextField>
+
+        <div className="login__buttons">
+          {/* Login Button */}
+          <MyButton
+            onClick={login}
+            styled={{ backgroundColor: "#EE862F", width: "45%" }}
+          >
+            Login
+          </MyButton>
+
+          {/* Register Button */}
+          <MyButton
+            onClick={register}
+            styled={{ backgroundColor: "#336666", width: "45%" }}
+          >
+            Register
+          </MyButton>
+        </div>
+        <div>{message}</div>
+      </form>
   );
 };
 

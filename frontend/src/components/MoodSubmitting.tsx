@@ -15,6 +15,7 @@ interface Props {
 }
 
 const MoodSubmitting: React.FC<Props> = ({ num, setNum }) => {
+  console.log(num);
   return (
     <div className="moodSubmitting__wrapper">
       <IconContext.Provider

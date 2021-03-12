@@ -253,7 +253,7 @@ const CreateEvent: React.FC<Props> = (props) => {
       </div>
 
       {/* Create Event Button */}
-      <MyButton onClick={createEvent} styled={{ backgroundColor: "#C48227" }}>
+      <MyButton onClick={createEvent} styled={{ backgroundColor: "#EE862F" }}>
         Create Event
       </MyButton>
     </div>
