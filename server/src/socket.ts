@@ -13,8 +13,10 @@ export const users: { [id: string]: [Socket, IUser] } = {};
  */
 // export const updateHosts = (host: string, data: IField["data"]): void => {
 export const updateHost = (host: string, event: unknown): void => {
-  const [socket, user] = users[host];
-  socket.emit("eventUpdate", { event });
+  if (host in users) {
+    const [socket, user] = users[host];
+    socket.emit("eventUpdate", { event });
+  } else console.log("Host not found.");
 };
 
 /**
