@@ -46,7 +46,7 @@ Returns a list of all the users
 - Method: `GET`
 - JSON Response:
   - `"count": int` - number of user objects retrieved.
-  - `"users": [object]` - array of user objects.
+  - `"users": [User]` - array of user objects.
 - Example Response:
 
 ```
@@ -55,9 +55,9 @@ Returns a list of all the users
 {
   "count": 3,
   "users": [
-    { ... },
-    { ... },
-    { ... }
+    { "_id": ..., "email": ... },
+    { "_id": ..., "email": ... },
+    { "_id": ..., "email": ... }
   ]
 }
 ```
@@ -71,7 +71,7 @@ Returns a user with the specified id in the url parameters.
 - Parameters:
   - `:id`: The user id to search for.
 - JSON Response:
-  - `"user": object` - user object.
+  - `"user": User` - user object.
 - Example Request:
 
 ```
@@ -85,7 +85,7 @@ GET /api/user/123456789
 
 {
   "user": {
-    "_id": 123456789,
+    "_id": "123456789",
     "email": "user@email.com"
   }
 }
@@ -101,7 +101,7 @@ Login to an account and retrieve their user object.
   - `"email": string` - email of user account.
   - `"password": string` - password of user account.
 - JSON Response:
-  - `"user": object` - user object.
+  - `"user": User` - user object.
 - Example Request:
 
 ```
@@ -135,7 +135,7 @@ Register a new user account.
   - `"email": string` - email of user account.
   - `"password": string` - password of user account.
 - JSON Response:
-  - `"user": object` - user object.
+  - `"user": User` - user object.
 - Example Request:
 
 ```
@@ -194,7 +194,7 @@ Returns an event with the specified id in the url parameters.
 - Parameters:
   - `:id`: The event id to search for.
 - JSON Response:
-  - `"event": object` - event object.
+  - `"event": Event` - event object.
     - `"name": string` - name of event.
     - `"eventType": string` - type of event.
     - `"start": Date` - starting time and data of event.
@@ -231,7 +231,7 @@ Return all the events that a user is participating in.
   - `:userId`: The user id used to search for their participating events.
 - JSON Response:
   - `"count": int` - number of user objects retrieved.
-  - `"events": [object]` - array of event objects.
+  - `"events": [Event]` - array of event objects.
 - Example Request:
 
 ```
@@ -263,7 +263,7 @@ Return all the events that a user is hosting.
   - `:userId`: The user id used to search for events they are hosting.
 - JSON Response:
   - `"count": int` - number of user objects retrieved.
-  - `"events": [object]` - array of event objects.
+  - `"events": [Event]` - array of event objects.
 - Example Request:
 
 ```
@@ -295,7 +295,7 @@ Join an existing event.
   - `"userId": string` - user id of account to join event.
   - `"inviteCode": string` - invite code for the event.
 - JSON Response:
-  - `"event": object` - the updated event object.
+  - `"event": Event` - the updated event object.
 - Example Request:
 
 ```
@@ -333,7 +333,7 @@ Create a new event.
   - `"participants": [string] | [User]` - array of participant users in the event.
   - `"feedback": [Field]` - feedback fields of event.
 - JSON Response:
-  - `"event": object` - the new event object.
+  - `"event": Event` - the new event object.
 - Example Request:
 
 ```
