@@ -1,4 +1,3 @@
-
 # Data Analysis
 
 - [Data Analysis](#data-analysis)
@@ -78,6 +77,8 @@ As well as a key indicating statement sentiment.
     Returns:
     list: List of adjectives.
     int: Key indicating statement polarity.
+#### Example Output
+[['happy', 'cheerful'], 1]
 
 ### textKeyPhrases
 
@@ -89,6 +90,8 @@ rake-ntlk package to do so.
 
     Returns:
     list: List of important phrases
+#### Example Output
+["technical issues", "great lecture"]
 
 ### timeSeries
 
@@ -117,3 +120,4 @@ intervals and the start time. This is returned as the start time of this interva
 
     Returns:
     time: The start time of the interval
+
