@@ -1,3 +1,4 @@
+
 # Data Analysis
 
 - [Data Analysis](#data-analysis)
@@ -42,7 +43,10 @@ git clone https://github.com/sloria/TextBlob.git -->
 
 ### runningAvg
 
-This function processes an emoji input.
+This function takes in the current average, the number of elements considered in said 
+average, and a new element to add to the average. It then calculates the new average 
+including this value and returns it. It is used to provide the running average 
+functionality to the application.
 
     Parameters:
     value (int): The value to be added to the new average
@@ -54,7 +58,8 @@ This function processes an emoji input.
 
 ### textSentiment
 
-This function take a string of text as input, and retrieves the sentiment of the text.
+This function take a string of text as input, and retrieves the sentiment of the text 
+using a textblob instance.
 
     Parameters:
     text (String): The text for which the sentiment will be analysed.
@@ -64,7 +69,8 @@ This function take a string of text as input, and retrieves the sentiment of the
 
 ### textAdjectives
 
-This function extracts all of the adjectives from the passed text. As well as a key indicating statement sentiment.
+This function extracts all of the adjectives from the passed text using a textblob instance. 
+As well as a key indicating statement sentiment.
 
     Parameters:
     text (String): The text for which the adjectives will be extracted.
@@ -75,7 +81,8 @@ This function extracts all of the adjectives from the passed text. As well as a 
 
 ### textKeyPhrases
 
-This function extracts all of the important phrases from the passed text.
+This function extracts all of the important phrases from the passed text, uses the 
+rake-ntlk package to do so.
 
     Parameters:
     text (String): The text for which the key phrases will be extracted.
